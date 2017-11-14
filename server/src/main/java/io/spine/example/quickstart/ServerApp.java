@@ -56,6 +56,8 @@ import static io.spine.server.BoundedContext.newName;
  *
  * <p>Creates an instance of a sample bounded context and exposes it via gRPC services.
  *
+ * <p>Also uses a simple gRPC client to connect to the server-side and illustrate the workflow.
+ *
  * @author Alex Tymchenko
  */
 public class ServerApp {
