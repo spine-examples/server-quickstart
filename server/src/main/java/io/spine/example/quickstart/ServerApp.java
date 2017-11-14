@@ -191,7 +191,7 @@ public class ServerApp {
      *
      * <p>Generated randomly each time for simplicity.
      *
-     * <p>Must be substituted with a real {@code UserId} in production application.
+     * <p>Must be substituted with a real {@code UserId} in a production application.
      */
     private static UserId whoIsCalling() {
         final UserId actorId = UserId.newBuilder()
