@@ -28,14 +28,9 @@ import io.spine.core.BoundedContextName;
 import io.spine.core.Command;
 import io.spine.core.UserId;
 import io.spine.example.quickstart.c.CreateTask;
-import io.spine.example.quickstart.c.TaskCreated;
 import io.spine.example.serverapp.TaskId;
 import io.spine.grpc.StreamObservers;
 import io.spine.server.BoundedContext;
-import io.spine.server.aggregate.Aggregate;
-import io.spine.server.aggregate.AggregateRepository;
-import io.spine.server.aggregate.Apply;
-import io.spine.server.command.Assign;
 import io.spine.server.storage.StorageFactory;
 import io.spine.server.storage.memory.InMemoryStorageFactory;
 import io.spine.string.Stringifiers;
@@ -63,6 +58,9 @@ public class ServerApp {
     private ServerApp() {}
 
     public static void main(String[] args) {
+        /*
+         * Define an in-memory storage factory, which allows the only tenant.
+         */
         final StorageFactory storageFactory =
                 InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
 
@@ -123,39 +121,6 @@ public class ServerApp {
                                      .build();
         return actorId;
     }
-
-    /**
-     * Definition of the {@code Task} aggregate.
-     *
-     * <p>Within this small example it only handles a single command and emits one event.
-     */
-    static final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
-
-        TaskAggregate(TaskId id) {
-            super(id);
-        }
-
-        @SuppressWarnings("unused")     // The method is called by Spine via reflection.
-        @Assign
-        public TaskCreated handle(CreateTask cmd) {
-            final TaskCreated result = TaskCreated.newBuilder()
-                                                  .setTitle(cmd.getTitle())
-                                                  .setId(cmd.getId())
-                                                  .build();
-            return result;
-        }
-
-        @SuppressWarnings("unused")     // The method is called by Spine via reflection.
-        @Apply
-        public void on(TaskCreated event) {
-            getBuilder().setTitle(event.getTitle());
-        }
-    }
-
-    /**
-     * A repository of {@link TaskAggregate} instances
-     */
-    private static final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {}
 
     private enum LogSingleton {
         INSTANCE;
