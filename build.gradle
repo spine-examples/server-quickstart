@@ -96,9 +96,7 @@ subprojects {
 
     dependencies {
         compile group: 'org.slf4j', name: 'slf4j-jdk14', version: slf4jVersion
-        compile ("io.spine:spine-server:${spineVersion}") {
-            exclude group: 'io.grpc', module: 'grpc-protobuf-lite'
-        }
+        compile ("io.spine:spine-server:${spineVersion}")
     }
 
     idea {
