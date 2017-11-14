@@ -111,9 +111,11 @@ public class ServerApp {
     }
 
     /**
-     * Creates a random ID of user, who posts commands.
+     * Obtains an ID of the user, who posts commands.
      *
-     * <p>This information is required by the framework.
+     * <p>Generated randomly each time for simplicity.
+     *
+     * <p>Must be substituted with a real {@code UserId} in production application.
      */
     private static UserId whoIsCalling() {
         final UserId actorId = UserId.newBuilder()
