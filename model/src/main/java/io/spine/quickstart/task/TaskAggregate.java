@@ -19,14 +19,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package io.spine.example.quickstart;
+package io.spine.quickstart.task;
 
-import io.spine.example.quickstart.c.CreateTask;
-import io.spine.example.quickstart.c.TaskCreated;
-import io.spine.example.serverapp.TaskId;
+import io.spine.quickstart.Task;
+import io.spine.quickstart.TaskVBuilder;
+import io.spine.quickstart.c.CreateTask;
+import io.spine.quickstart.c.TaskCreated;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;
+import io.spine.serverapp.TaskId;
 
 /**
  * Definition of the {@code Task} aggregate.

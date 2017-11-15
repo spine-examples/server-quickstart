@@ -1,5 +1,6 @@
 /*
- * Copyright 2017, TeamDev Ltd. All rights reserved.
+ *
+ * Copyright 2016, TeamDev Ltd. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -16,32 +17,13 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-syntax = "proto3";
+/**
+ * This package defines Task aggregate.
+ */
+@ParametersAreNonnullByDefault
+package io.spine.quickstart.task;
 
-package spine.example.serverapp.model;
-
-import "spine/options.proto";
-
-option (type_url_prefix) = "type.spine.example.quickstart";
-option java_package = "io.spine.example.quickstart";
-option java_outer_classname = "TaskProto";
-option java_multiple_files = true;
-option java_generate_equals_and_hash = true;
-
-import "spine/example/quickstart/identifiers.proto";
-
-// Defines a state for `Task` aggregate.
-//
-message Task {
-
-    // An ID of the task.
-    //
-    TaskId id = 1;
-
-
-    // A title of the task.
-    //
-    string title = 2 [(required) = true];
-}
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -20,28 +20,28 @@
 
 syntax = "proto3";
 
-package spine.example.serverapp;
+package spine.quickstart;
 
 import "spine/options.proto";
 
-option (type_url_prefix) = "type.spine.example.quickstart";
-option java_package = "io.spine.example.quickstart.c";
-option java_outer_classname = "CommandsProto";
+option (type_url_prefix) = "type.spine.quickstart";
+option java_package = "io.spine.quickstart";
+option java_outer_classname = "TaskProto";
 option java_multiple_files = true;
 option java_generate_equals_and_hash = true;
 
-import "spine/example/quickstart/identifiers.proto";
+import "spine/quickstart/identifiers.proto";
 
-// A command to create a new task.
+// Defines a state for `Task` aggregate.
 //
-message CreateTask {
+message Task {
 
-    // ID of a task to create.
+    // An ID of the task.
     //
     TaskId id = 1;
 
 
-    // A title for the new task.
+    // A title of the task.
     //
     string title = 2 [(required) = true];
 }

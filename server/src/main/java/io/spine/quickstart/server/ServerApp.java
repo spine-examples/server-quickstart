@@ -19,31 +19,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package io.spine.example.quickstart;
+package io.spine.quickstart.server;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.spine.Identifier;
-import io.spine.client.ActorRequestFactory;
-import io.spine.client.Query;
-import io.spine.client.QueryResponse;
-import io.spine.client.grpc.CommandServiceGrpc;
-import io.spine.client.grpc.CommandServiceGrpc.CommandServiceBlockingStub;
-import io.spine.client.grpc.QueryServiceGrpc;
-import io.spine.client.grpc.QueryServiceGrpc.QueryServiceBlockingStub;
-import io.spine.core.Ack;
 import io.spine.core.BoundedContextName;
-import io.spine.core.Command;
-import io.spine.core.UserId;
-import io.spine.example.quickstart.c.CreateTask;
-import io.spine.example.serverapp.TaskId;
+import io.spine.quickstart.task.TaskRepository;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
 import io.spine.server.QueryService;
 import io.spine.server.storage.StorageFactory;
 import io.spine.server.storage.memory.InMemoryStorageFactory;
 import io.spine.server.transport.GrpcContainer;
-import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -3,7 +3,10 @@ A quickstart template of a server-side application powered by Spine.
 
 ## Prerequisites
 
-* JDK 7.
+* Install JDK 7 or higher.
+* Clone the source code.
+* Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows)
+ in the project root folder.
 
 ## Structure
 
