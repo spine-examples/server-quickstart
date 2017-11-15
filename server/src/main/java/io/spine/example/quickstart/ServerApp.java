@@ -85,16 +85,7 @@ public class ServerApp {
     /**
      * This class must not be instantiated, as it's just a holder for {@code main} method.
      */
-    private ServerApp() {
-    }
-
-    public static void main(String[] args) throws IOException {
-        // Start a gRPC server, exposing the `Tasks` bounded context.
-        startServer();
-
-        // and then connect to it with a simple gRPC client application.
-        runClient();
-    }
+    private ServerApp() {}
 
     /**
      * Creates and starts a gRPC server and serves `Tasks` bounded context.
@@ -103,7 +94,7 @@ public class ServerApp {
      *
      * @throws IOException if gRPC server cannot be started
      */
-    private static void startServer() throws IOException {
+    public static void main(String[] args) throws IOException {
 
         // Define an in-memory storage factory, which allows the only tenant.
 
@@ -113,6 +104,7 @@ public class ServerApp {
         final BoundedContext boundedContext =
                 BoundedContext.newBuilder()
                               .setStorageFactorySupplier(() -> storageFactory)
+                              .setName(BOUNDED_CONTEXT_NAME.getValue())
                               .build();
         final TaskRepository repository = new TaskRepository();
         boundedContext.register(repository);
@@ -137,69 +129,9 @@ public class ServerApp {
                                                      .addService(queryService)
                                                      .build();
         container.start();
-    }
+        log().info("gRPC server started at {}:{}.", HOST, PORT);
 
-    /**
-     * Creates a client for previously started gRPC server and sends a few demo requests.
-     *
-     * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
-     */
-    private static void runClient() {
-
-        // Connect to the server and init the client-side stubs for gRPC services.
-        final ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
-                                                            .usePlaintext(true)
-                                                            .build();
-        final CommandServiceBlockingStub clientCommandService =
-                CommandServiceGrpc.newBlockingStub(channel);
-
-        final QueryServiceBlockingStub queryClientService =
-                QueryServiceGrpc.newBlockingStub(channel);
-
-        // Create and post a command.
-        final ActorRequestFactory requestFactory = ActorRequestFactory.newBuilder()
-                                                                      .setActor(whoIsCalling())
-                                                                      .build();
-        final CreateTask createTask = newCreateTaskMsg("Wash my car");
-        final Command cmd = requestFactory.command()
-                                          .create(createTask);
-
-        final Ack acked = clientCommandService.post(cmd);
-        log().info("A command has been posted: " + Stringifiers.toString(createTask));
-        log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
-
-        // Create and post a query.
-        final Query readAllTasks = requestFactory.query()
-                                                 .all(Task.class);
-
-        log().info("Reading all tasks...");
-        final QueryResponse response = queryClientService.read(readAllTasks);
-        log().info("A response received: {}", Stringifiers.toString(response));
-    }
-
-    private static CreateTask newCreateTaskMsg(String title) {
-        final TaskId newTaskId = TaskId.newBuilder()
-                                       .setValue(Identifier.newUuid())
-                                       .build();
-        final CreateTask message = CreateTask.newBuilder()
-                                             .setId(newTaskId)
-                                             .setTitle(title)
-                                             .build();
-        return message;
-    }
-
-    /**
-     * Obtains an ID of the user, who posts commands.
-     *
-     * <p>Generated randomly each time for simplicity.
-     *
-     * <p>Must be substituted with a real {@code UserId} in a production application.
-     */
-    private static UserId whoIsCalling() {
-        final UserId actorId = UserId.newBuilder()
-                                     .setValue(Identifier.newUuid())
-                                     .build();
-        return actorId;
+        container.awaitTermination();
     }
 
     /**
