@@ -18,7 +18,7 @@ Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLangu
 of the application in Protobuf. See `model/proto` folder.
 
 Describes the business rules for Spine entities, such as Aggregates, in Java. 
-See `io.spine.example.quickstart` package for more details.
+See `io.spine.quickstart.task` package for more details.
 
 
 ### `server` Module
@@ -29,7 +29,9 @@ Plugs the `model` into the infrastructure:
  * exposes the `BoundedContext` instance to the outer world through a set of gRPC services, 
  provided by the framework.
 
-See `io.spine.example.quickstart.ServerApp` for implementation.
+See `io.spine.quickstart.server.ServerApp` for implementation. 
+
+Run `ServerApp.main()` to start the server.
 
 ### `client` Module
 
@@ -37,9 +39,9 @@ Interacts with the gRPC services, exposed by `server` module:
  * sends commands via `CommandService` stub;
  * sends queries via `QueryService` stub.
 
-See `io.spine.example.quickstart.ClientApp` for implementation.
+See `io.spine.quickstart.client.ClientApp` for implementation.
 
-
+Run `ClientApp.main()` to start the client and see it connecting to the server.
  
 ## What's Next
 
