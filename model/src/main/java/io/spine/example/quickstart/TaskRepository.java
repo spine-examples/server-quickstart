@@ -27,8 +27,9 @@ import io.spine.server.aggregate.AggregateRepository;
 /**
  * A repository of {@link TaskAggregate} instances.
  *
- * <p>Doesn't set any custom behavior, which is fine in most of straightforward cases.
+ * <p>Doesn't specify any custom behavior, which is fine in most of straightforward cases.
  *
  * @author Alex Tymchenko
  */
-final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {}
+final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {
+}
