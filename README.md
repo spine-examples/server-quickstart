@@ -1,6 +1,10 @@
 # server-template
 A quickstart template of a server-side application powered by Spine.
 
+## Prerequisites
+
+* JDK 7.
+
 ## Structure
 
 The template consists of two modules.
