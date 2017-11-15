@@ -28,6 +28,15 @@ Plugs the `model` into the infrastructure:
 
 See `io.spine.example.quickstart.ServerApp` for implementation.
 
+### `client` Module
+
+Interacts with the gRPC services, exposed by `server` module: 
+ * sends commands via `CommandService` stub;
+ * sends queries via `QueryService` stub.
+
+See `io.spine.example.quickstart.ClientApp` for implementation.
+
+
  
 ## What's Next
 
