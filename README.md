@@ -52,7 +52,9 @@ objects in Protobuf. Put them into the `model/proto` folder.
  * ...
 
 
-Typically these steps are repeated for each bounded context in the application. 
+Typically these steps are repeated for each bounded context in the application.
+ 
+For more information please visit [the official website](https://spine.io).
 
 
  
