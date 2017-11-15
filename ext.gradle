@@ -16,20 +16,31 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ * This file lists versions of most of the dependencies, used in this sample application.
+ *
+ * As long as module dependencies are periodically updated, the version-update
+ * commits often pollute the VCS log for `build.gradle` file. Often, such commits interfere
+ * with the important changes to the build procedure.
+ *
+ * Having a distinct configuration file like this one allows to trace dependency version changes
+ * and other configuration updates separately.
  */
 
-
-final def SPINE_VERSION = '0.10.4-SNAPSHOT'
-
 project.ext {
-    // Application version
+
+    // Application version.
+    //
     appVersion = "0.0.1-SNAPSHOT"
 
-    // Spine dependencies' versions
-    spineVersion = SPINE_VERSION
+    // Versions of Spine modules.
+    //
+    spineVersion = '0.10.4-SNAPSHOT'
     spineBaseVersion = '0.10.0'
 
-    // Main scope third-party dependencies' versions
+    // Versions of the most definitive third-party libraries.
+    //
     protobufGradlePluginVersion = '0.8.3'
     guavaVersion = '20.0'
     protobufVersion = '3.2.0'
