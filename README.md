@@ -8,9 +8,10 @@ The template consists of two modules.
 ### `model` Module
 
 Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
-of the application in Protobuf.
+of the application in Protobuf. See `model/proto` folder.
 
-Describes the business rules for Spine entities, such as Aggregates, in Java.
+Describes the business rules for Spine entities, such as Aggregates, in Java. 
+See `io.spine.example.quickstart` package for more details.
 
 
 ### `server` Module
@@ -20,8 +21,9 @@ Plugs the `model` into the infrastructure:
  * creates a `BoundedContext` and registers repositories;
  * exposes the `BoundedContext` instance to the outer world through a set of gRPC services, 
  provided by the framework.
- 
- 
+
+See `io.spine.example.quickstart.ServerApp` for implementation.
+
  
 ## What's Next
 
@@ -48,9 +50,10 @@ objects in Protobuf. Put them into the `model/proto` folder.
  [Google Datastore](https://github.com/SpineEventEngine/gae-java) and [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage)
  are provided by Spine.
  * Append the creation of the bounded context with the registration of newly created repositories.
- * Design and implement the security layer.
- * ...
-
+ 
+ Other possible changes include dealing with security (e.g. authentication/authorization), defining
+ deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this sample.
+ 
 
 Typically these steps are repeated for each bounded context in the application.
  
