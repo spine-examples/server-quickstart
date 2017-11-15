@@ -10,9 +10,6 @@
 # Gradle interim configs
 .gradle/
 
-# Maven deployment build directory
-/core-java/target
-
 # Generated source code
 generated/
 
