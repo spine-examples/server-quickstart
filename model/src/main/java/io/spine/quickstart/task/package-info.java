@@ -21,7 +21,7 @@
  */
 
 /**
- * This package defines Task aggregate.
+ * This package defines the Task aggregate.
  */
 @ParametersAreNonnullByDefault
 package io.spine.quickstart.task;
