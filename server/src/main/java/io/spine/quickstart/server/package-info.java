@@ -19,11 +19,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-/**
- * @author Alex Tymchenko
- *
- * This package contains classes and interfaces for the server application sample.
- */
 
 /**
  * This package contains classes and interfaces for the server application sample.
