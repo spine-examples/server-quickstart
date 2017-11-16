@@ -49,6 +49,10 @@ This example is built on top of in-memory data storage, uses `io.spine.` package
 and demonstrates a really simple RPC interaction. To take it closer to the production needs, 
 the following steps are suggested:
 
+### Gradle Configuration Changes:
+
+ * Update `*.gradle` files with the artifact attributes, that correspond to your project.
+
 ### Suggested `model` Changes 
 
  * Define the domain, in which the business task is solved.

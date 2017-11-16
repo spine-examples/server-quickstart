@@ -51,7 +51,7 @@ allprojects {
                             See https://github.com/google/protobuf-gradle-plugin#adding-the-plugin-to-your-project */
     apply plugin: 'idea'
 
-    group = 'io.spine.example'       // Generated output GroupId
+    group = 'io.spine.quickstart'    // The group ID for this sample. 
     version = appVersion             // Version in generated output. This is the version of the code.
 
     repositories {
