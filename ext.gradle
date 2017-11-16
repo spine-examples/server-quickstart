@@ -32,7 +32,7 @@ project.ext {
 
     // Application version.
     //
-    appVersion = "0.0.1-SNAPSHOT"
+    appVersion = '0.0.1-SNAPSHOT'
 
     // Versions of Spine modules.
     //
