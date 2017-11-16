@@ -81,8 +81,9 @@ public class ServerApp {
      */
     public static void main(String[] args) throws IOException {
 
-        // Define an in-memory storage factory, which allows the only tenant.
-
+        /*
+         * Define a storage factory.
+         */
         final StorageFactory storageFactory =
                 InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
 
