@@ -1,5 +1,5 @@
-# server-template
-A quickstart template of a server-side application powered by Spine.
+# Spine-powered Server: Quickstart
+A simple example of server application in Spine to get you started.
 
 ## Prerequisites
 
@@ -10,9 +10,9 @@ A quickstart template of a server-side application powered by Spine.
 
 ## Structure
 
-The template consists of two modules.
+The project consists of two modules.
 
-### `model` Module
+### The `model` Module
 
 Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
 of the application in Protobuf. See `model/proto` folder.
@@ -21,7 +21,7 @@ Describes the business rules for Spine entities, such as Aggregates, in Java.
 See `io.spine.quickstart.task` package for more details.
 
 
-### `server` Module
+### The `server` Module
 
 Plugs the `model` into the infrastructure: 
  * configures the storage;
@@ -33,9 +33,9 @@ See `io.spine.quickstart.server.ServerApp` for implementation.
 
 Run `ServerApp.main()` to start the server.
 
-### `client` Module
+### The `client` Module
 
-Interacts with the gRPC services, exposed by `server` module: 
+Interacts with the gRPC services, exposed by the `server` module: 
  * sends commands via `CommandService` stub;
  * sends queries via `QueryService` stub.
 
