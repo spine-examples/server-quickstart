@@ -51,7 +51,7 @@ allprojects {
                             See https://github.com/google/protobuf-gradle-plugin#adding-the-plugin-to-your-project */
     apply plugin: 'idea'
 
-    group = 'io.spine.quickstart'    // The group ID for this sample. 
+    group = 'io.spine.quickstart'    // The group ID for this sample.
     version = appVersion             // Version in generated output. This is the version of the code.
 
     repositories {
@@ -91,8 +91,8 @@ subprojects {
 
     apply plugin: 'java'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 
     dependencies {
         compile group: 'org.slf4j', name: 'slf4j-jdk14', version: slf4jVersion

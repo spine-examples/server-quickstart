@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static com.google.common.base.Suppliers.ofInstance;
 import static io.spine.server.BoundedContext.newName;
 
 /**
@@ -87,7 +88,7 @@ public class ServerApp {
 
         final BoundedContext boundedContext =
                 BoundedContext.newBuilder()
-                              .setStorageFactorySupplier(() -> storageFactory)
+                              .setStorageFactorySupplier(ofInstance(storageFactory))
                               .setName(BOUNDED_CONTEXT_NAME.getValue())
                               .build();
         final TaskRepository repository = new TaskRepository();
