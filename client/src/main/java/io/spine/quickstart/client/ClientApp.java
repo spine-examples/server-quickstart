@@ -100,10 +100,11 @@ public class ClientApp {
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
 
-        // Events, reflecting the changes caused by a command, travel from the write-side
-        // to the read-side asynchronously.
-        //
-        // Therefore some time should pass for the read-side to reflect the changes made.
+        /*
+         * Events, reflecting the changes caused by a command, travel from the write-side
+         * to the read-side asynchronously.
+         * Therefore some time should pass for the read-side to reflect the changes made.
+         */
         Thread.sleep(100);
 
         // Create and post a query.

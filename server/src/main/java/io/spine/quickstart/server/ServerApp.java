@@ -81,9 +81,7 @@ public class ServerApp {
      */
     public static void main(String[] args) throws IOException {
 
-        /*
-         * Define a storage factory.
-         */
+        // Define a storage factory.
         final StorageFactory storageFactory =
                 InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
 
