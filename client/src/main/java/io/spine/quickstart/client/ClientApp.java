@@ -74,7 +74,7 @@ public class ClientApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         // Connect to the server and init the client-side stubs for gRPC services.
         log().info("Connecting to the server at {}:{}", HOST, PORT);
@@ -99,6 +99,12 @@ public class ClientApp {
         final Ack acked = clientCommandService.post(cmd);
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
+
+        // Events, reflecting the changes caused by a command, travel from the write-side
+        // to the read-side asynchronously.
+        //
+        // Therefore some time should pass for the read-side to reflect the changes made.
+        Thread.sleep(100);
 
         // Create and post a query.
         final Query readAllTasks = requestFactory.query()
