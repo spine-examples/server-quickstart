@@ -31,8 +31,8 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
-import io.spine.quickstart.Task;
 import io.spine.quickstart.CreateTask;
+import io.spine.quickstart.Task;
 import io.spine.serverapp.TaskId;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
@@ -68,36 +68,37 @@ public class ClientApp {
     /**
      * Prevent this class from instantiation.
      */
-    private ClientApp() {}
+    private ClientApp() {
+    }
 
     /**
      * Connects to the gRPC server and interacts with it via exposed gRPC services.
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws InterruptedException {
 
         // Connect to the server and init the client-side stubs for gRPC services.
         log().info("Connecting to the server at {}:{}", HOST, PORT);
 
-        final ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
-                                                            .usePlaintext(true)
-                                                            .build();
-        final CommandServiceGrpc.CommandServiceBlockingStub clientCommandService =
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
+                                                      .usePlaintext()
+                                                      .build();
+        CommandServiceGrpc.CommandServiceBlockingStub clientCommandService =
                 CommandServiceGrpc.newBlockingStub(channel);
 
-        final QueryServiceGrpc.QueryServiceBlockingStub queryClientService =
+        QueryServiceGrpc.QueryServiceBlockingStub queryClientService =
                 QueryServiceGrpc.newBlockingStub(channel);
 
         // Create and post a command.
-        final ActorRequestFactory requestFactory = ActorRequestFactory.newBuilder()
-                                                                      .setActor(whoIsCalling())
-                                                                      .build();
-        final CreateTask createTask = newCreateTaskMsg("Wash my car");
-        final Command cmd = requestFactory.command()
-                                          .create(createTask);
+        ActorRequestFactory requestFactory = ActorRequestFactory.newBuilder()
+                                                                .setActor(whoIsCalling())
+                                                                .build();
+        CreateTask createTask = newCreateTaskMsg("Wash my car");
+        Command cmd = requestFactory.command()
+                                    .create(createTask);
 
-        final Ack acked = clientCommandService.post(cmd);
+        Ack acked = clientCommandService.post(cmd);
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
 
@@ -109,11 +110,11 @@ public class ClientApp {
         Thread.sleep(100);
 
         // Create and post a query.
-        final Query readAllTasks = requestFactory.query()
-                                                 .all(Task.class);
+        Query readAllTasks = requestFactory.query()
+                                           .all(Task.class);
 
         log().info("Reading all tasks...");
-        final QueryResponse response = queryClientService.read(readAllTasks);
+        QueryResponse response = queryClientService.read(readAllTasks);
         log().info("A response received: {}", Stringifiers.toString(response));
     }
 
@@ -124,13 +125,13 @@ public class ClientApp {
      * @return the message for {@code CreateTask} command
      */
     private static CreateTask newCreateTaskMsg(String title) {
-        final TaskId newTaskId = TaskId.newBuilder()
-                                       .setValue(newUuid())
+        TaskId newTaskId = TaskId.newBuilder()
+                                 .setValue(newUuid())
+                                 .build();
+        CreateTask message = CreateTask.newBuilder()
+                                       .setId(newTaskId)
+                                       .setTitle(title)
                                        .build();
-        final CreateTask message = CreateTask.newBuilder()
-                                             .setId(newTaskId)
-                                             .setTitle(title)
-                                             .build();
         return message;
     }
 
@@ -142,9 +143,9 @@ public class ClientApp {
      * <p>Must be substituted with a real {@code UserId} in a production application.
      */
     private static UserId whoIsCalling() {
-        final UserId actorId = UserId.newBuilder()
-                                     .setValue(newUuid())
-                                     .build();
+        UserId actorId = UserId.newBuilder()
+                               .setValue(newUuid())
+                               .build();
         return actorId;
     }
 

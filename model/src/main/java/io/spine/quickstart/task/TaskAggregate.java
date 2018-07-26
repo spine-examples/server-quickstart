@@ -21,10 +21,10 @@
  */
 package io.spine.quickstart.task;
 
-import io.spine.quickstart.Task;
-import io.spine.quickstart.TaskVBuilder;
 import io.spine.quickstart.CreateTask;
+import io.spine.quickstart.Task;
 import io.spine.quickstart.TaskCreated;
+import io.spine.quickstart.TaskVBuilder;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;
@@ -46,10 +46,10 @@ final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
     @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Assign
     public TaskCreated handle(CreateTask cmd) {
-        final TaskCreated result = TaskCreated.newBuilder()
-                                              .setTitle(cmd.getTitle())
-                                              .setId(cmd.getId())
-                                              .build();
+        TaskCreated result = TaskCreated.newBuilder()
+                                        .setTitle(cmd.getTitle())
+                                        .setId(cmd.getId())
+                                        .build();
         return result;
     }
 
