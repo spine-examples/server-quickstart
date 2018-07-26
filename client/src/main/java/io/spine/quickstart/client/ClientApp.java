@@ -31,9 +31,12 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
+import io.spine.core.UserIdVBuilder;
 import io.spine.quickstart.CreateTask;
+import io.spine.quickstart.CreateTaskVBuilder;
 import io.spine.quickstart.Task;
 import io.spine.serverapp.TaskId;
+import io.spine.serverapp.TaskIdVBuilder;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +49,9 @@ import static io.spine.base.Identifier.newUuid;
  * <p>Illustrates a simple flow:
  *
  * <ul>
- *      <li>establishes a connection to the gRPC server;
- *      <li>sends a command to create a task through {@code CommandService};
- *      <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
+ * <li>establishes a connection to the gRPC server;
+ * <li>sends a command to create a task through {@code CommandService};
+ * <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
  * </ul>
  *
  * @author Alex Tymchenko
@@ -125,13 +128,13 @@ public class ClientApp {
      * @return the message for {@code CreateTask} command
      */
     private static CreateTask newCreateTaskMsg(String title) {
-        TaskId newTaskId = TaskId.newBuilder()
-                                 .setValue(newUuid())
-                                 .build();
-        CreateTask message = CreateTask.newBuilder()
-                                       .setId(newTaskId)
-                                       .setTitle(title)
-                                       .build();
+        TaskId newTaskId = TaskIdVBuilder.newBuilder()
+                                         .setValue(newUuid())
+                                         .build();
+        CreateTask message = CreateTaskVBuilder.newBuilder()
+                                               .setId(newTaskId)
+                                               .setTitle(title)
+                                               .build();
         return message;
     }
 
@@ -143,9 +146,9 @@ public class ClientApp {
      * <p>Must be substituted with a real {@code UserId} in a production application.
      */
     private static UserId whoIsCalling() {
-        UserId actorId = UserId.newBuilder()
-                               .setValue(newUuid())
-                               .build();
+        UserId actorId = UserIdVBuilder.newBuilder()
+                                       .setValue(newUuid())
+                                       .build();
         return actorId;
     }
 
