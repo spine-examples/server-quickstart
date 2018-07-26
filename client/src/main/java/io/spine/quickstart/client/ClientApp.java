@@ -23,7 +23,6 @@ package io.spine.quickstart.client;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.spine.Identifier;
 import io.spine.client.ActorRequestFactory;
 import io.spine.client.Query;
 import io.spine.client.QueryResponse;
@@ -33,11 +32,13 @@ import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
 import io.spine.quickstart.Task;
-import io.spine.quickstart.c.CreateTask;
+import io.spine.quickstart.CreateTask;
 import io.spine.serverapp.TaskId;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static io.spine.base.Identifier.newUuid;
 
 /**
  * A template of a client for Spine-powered server.
@@ -124,7 +125,7 @@ public class ClientApp {
      */
     private static CreateTask newCreateTaskMsg(String title) {
         final TaskId newTaskId = TaskId.newBuilder()
-                                       .setValue(Identifier.newUuid())
+                                       .setValue(newUuid())
                                        .build();
         final CreateTask message = CreateTask.newBuilder()
                                              .setId(newTaskId)
@@ -142,7 +143,7 @@ public class ClientApp {
      */
     private static UserId whoIsCalling() {
         final UserId actorId = UserId.newBuilder()
-                                     .setValue(Identifier.newUuid())
+                                     .setValue(newUuid())
                                      .build();
         return actorId;
     }

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import static com.google.common.base.Suppliers.ofInstance;
-import static io.spine.server.BoundedContext.newName;
+import static io.spine.core.BoundedContextNames.newName;
 
 /**
  * A template of a server application, powered by Spine.

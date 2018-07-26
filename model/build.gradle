@@ -1,51 +1,49 @@
-/*
- * Copyright 2018, TeamDev. All rights reserved.
- *
- * Redistribution and use in source and/or binary forms, with or without
- * modification, must retain the above copyright notice and the following
- * disclaimer.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
+// Copyright 2018, TeamDev. All rights reserved.
+//
+// Redistribution and use in source and/or binary forms, with or without
+// modification, must retain the above copyright notice and the following
+// disclaimer.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
 
-
-
-apply plugin: 'java' /* The `java` plugin is required at this level for Gradle Protobuf plugin.
-                            See https://github.com/google/protobuf-gradle-plugin#adding-the-plugin-to-your-project */
-apply plugin: 'com.google.protobuf'
-apply plugin: 'io.spine.tools.spine-model-compiler'
-
-
-sourceSets {
-    main {
-        proto.srcDirs = ["${sourcesRootDir}/main/proto"]
-        java.srcDirs = [generatedJavaDir, generatedSpineDir, "${sourcesRootDir}/main/java"]
-        resources.srcDirs = ["${generatedRootDir}/main/resources"]
-    }
-    test {
-        proto.srcDirs = ["${sourcesRootDir}/test/proto"]
-        java.srcDirs = [generatedTestJavaDir, generatedTestSpineDir, "${sourcesRootDir}/test/java"]
-        resources.srcDirs = ["${generatedRootDir}/test/resources"]
-    }
+configurations {
+    // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
+    runtime.exclude group: "com.google.protobuf", module: "protobuf-lite"
+    testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
 }
 
-apply from: generateDescriptorSetPlugin
+apply plugin: spineProtobufPluginId
+apply from: deps.scripts.testArtifacts
+apply from: deps.scripts.publishProto
 
-protobuf {
-    protoc {
-        // The version of protoc must match protobuf-java.
-        artifact = "com.google.protobuf:protoc:${protobufVersion}"
-    }
+dependencies {
+    implementation deps.build.guava
+    compile group: 'org.slf4j', name: 'slf4j-jdk14', version: deps.versions.slf4j
+    implementation group: 'io.spine', name: 'spine-base', version: spineBaseVersion
+    compile group: 'io.spine', name: 'spine-server', version: spineCoreVersion
 
-    generatedFilesBaseDir = generatedRootDir
+    testImplementation deps.test.junit5Api
+    testImplementation deps.test.hamcrest
+    testImplementation deps.test.mockito
+    testImplementation deps.test.guavaTestlib
+    testImplementation group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
+    testImplementation group: 'io.spine', name: 'spine-testutil-server', version: spineCoreVersion
+
+    testRuntime deps.test.junit5Runner
+}
+
+modelCompiler {
+    generateValidatingBuilders = true
 }
