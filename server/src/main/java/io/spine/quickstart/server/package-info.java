@@ -23,7 +23,10 @@
 /**
  * This package contains classes and interfaces for the server application sample.
  */
+@CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.quickstart.server;
+
+import com.google.errorprone.annotations.CheckReturnValue;
 
 import javax.annotation.ParametersAreNonnullByDefault;
