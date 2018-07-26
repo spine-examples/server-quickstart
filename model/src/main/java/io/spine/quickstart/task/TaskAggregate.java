@@ -45,7 +45,7 @@ final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Assign
-    public TaskCreated handle(CreateTask cmd) {
+    TaskCreated handle(CreateTask cmd) {
         TaskCreated result = TaskCreated.newBuilder()
                                         .setTitle(cmd.getTitle())
                                         .setId(cmd.getId())
@@ -55,7 +55,7 @@ final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Apply
-    public void on(TaskCreated event) {
+    void on(TaskCreated event) {
         getBuilder().setTitle(event.getTitle());
     }
 }
