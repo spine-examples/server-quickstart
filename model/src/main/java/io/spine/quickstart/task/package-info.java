@@ -23,7 +23,10 @@
 /**
  * This package defines the Task aggregate.
  */
+@CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.quickstart.task;
+
+import com.google.errorprone.annotations.CheckReturnValue;
 
 import javax.annotation.ParametersAreNonnullByDefault;

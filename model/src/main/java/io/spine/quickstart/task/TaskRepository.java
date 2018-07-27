@@ -31,4 +31,5 @@ import io.spine.serverapp.TaskId;
  *
  * @author Alex Tymchenko
  */
-public final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {}
+public final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {
+}

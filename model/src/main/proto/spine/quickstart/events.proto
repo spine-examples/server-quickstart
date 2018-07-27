@@ -20,15 +20,14 @@
 
 syntax = "proto3";
 
-package spine.quickstart.c;
+package spine.quickstart;
 
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.quickstart";
-option java_package = "io.spine.quickstart.c";
+option java_package = "io.spine.quickstart";
 option java_outer_classname = "EventsProto";
 option java_multiple_files = true;
-option java_generate_equals_and_hash = true;
 
 import "spine/quickstart/identifiers.proto";
 
