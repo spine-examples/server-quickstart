@@ -32,6 +32,7 @@ import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
 import io.spine.core.UserIdVBuilder;
+import io.spine.logging.Logging;
 import io.spine.quickstart.CreateTask;
 import io.spine.quickstart.CreateTaskVBuilder;
 import io.spine.quickstart.Task;
@@ -49,12 +50,10 @@ import static io.spine.base.Identifier.newUuid;
  * <p>Illustrates a simple flow:
  *
  * <ul>
- * <li>establishes a connection to the gRPC server;
- * <li>sends a command to create a task through {@code CommandService};
- * <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
+ *     <li>establishes a connection to the gRPC server;
+ *     <li>sends a command to create a task through {@code CommandService};
+ *     <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
  * </ul>
- *
- * @author Alex Tymchenko
  */
 public class ClientApp {
 
@@ -152,17 +151,7 @@ public class ClientApp {
         return actorId;
     }
 
-    /**
-     * A singleton logger to use in scope of this application.
-     */
-    private enum LogSingleton {
-        INSTANCE;
-
-        @SuppressWarnings("NonSerializableFieldInSerializableClass")
-        private final Logger value = LoggerFactory.getLogger(ClientApp.class);
-    }
-
     private static Logger log() {
-        return LogSingleton.INSTANCE.value;
+        return Logging.get(ClientApp.class);
     }
 }

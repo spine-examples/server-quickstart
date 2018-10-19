@@ -18,32 +18,9 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-configurations {
-    // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
-    runtime.exclude group: "com.google.protobuf", module: "protobuf-lite"
-    testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
-}
-
 apply plugin: spineProtobufPluginId
-apply from: deps.scripts.testArtifacts
-apply from: deps.scripts.publishProto
 
 dependencies {
-    implementation deps.build.guava
-    compile group: 'org.slf4j', name: 'slf4j-jdk14', version: deps.versions.slf4j
-    implementation group: 'io.spine', name: 'spine-base', version: spineBaseVersion
-    compile group: 'io.spine', name: 'spine-server', version: spineCoreVersion
-
-    testImplementation deps.test.junit5Api
-    testImplementation deps.test.hamcrest
-    testImplementation deps.test.mockito
-    testImplementation deps.test.guavaTestlib
-    testImplementation group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
-    testImplementation group: 'io.spine', name: 'spine-testutil-server', version: spineCoreVersion
-
-    testRuntime deps.test.junit5Runner
-}
-
-modelCompiler {
-    generateValidatingBuilders = true
+    implementation deps.spine.base
+    implementation deps.spine.time
 }

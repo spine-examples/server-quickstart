@@ -19,5 +19,9 @@
  */
 
 dependencies {
+    implementation deps.spine.client
     implementation project(path: ':model')
+
+    testImplementation "io.spine:spine-testlib:$deps.versions.spine.base"
+    testImplementation "io.spine:spine-testutil-client:$deps.versions.spine.core"
 }

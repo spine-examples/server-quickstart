@@ -28,8 +28,6 @@ import io.spine.serverapp.TaskId;
  * A repository of {@link TaskAggregate} instances.
  *
  * <p>Doesn't specify any custom behavior, which is fine in most of straightforward cases.
- *
- * @author Alex Tymchenko
  */
 public final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {
 }
