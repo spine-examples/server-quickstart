@@ -40,7 +40,6 @@ import io.spine.serverapp.TaskId;
 import io.spine.serverapp.TaskIdVBuilder;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static io.spine.base.Identifier.newUuid;
 
