@@ -22,7 +22,7 @@ buildscript {
     // As long as `buildscript` section is always evaluated first,
     // we need to apply explicitly here.
     apply from: "$rootDir/config/gradle/dependencies.gradle"
-    apply from: "$rootDir/ext.gradle"
+    apply from: "$rootDir/version.gradle"
 
     repositories {
         jcenter()
@@ -56,7 +56,7 @@ buildscript {
     })
 }
 
-apply from: 'ext.gradle'
+apply from: 'version.gradle'
 
 ext {
     projectsToPublish = []
@@ -77,7 +77,7 @@ allprojects {
 subprojects {
 
     buildscript {
-        apply from: "$rootDir/ext.gradle"
+        apply from: "$rootDir/version.gradle"
 
         repositories {
             jcenter()
@@ -131,6 +131,8 @@ subprojects {
 
     apply plugin: 'maven-publish'
 
+    apply from: deps.scripts.javacArgs
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -153,10 +155,12 @@ subprojects {
     }
 
     dependencies {
-        implementation deps.build.protobuf
+        errorprone deps.build.errorProneCore
+        errorproneJavac deps.build.errorProneJavac
 
+        implementation deps.build.protobuf
         implementation deps.build.guava
-        compile group: 'org.slf4j', name: 'slf4j-jdk14', version: deps.versions.slf4j
+        implementation deps.build.slf4j
         implementation deps.build.checkerAnnotations
         implementation deps.build.errorProneAnnotations
         implementation deps.build.jsr305Annotations
@@ -180,35 +184,10 @@ subprojects {
         useJUnitPlatform {
             includeEngines 'junit-jupiter'
         }
-
-        /* Uncomment this block if you need to display console output during the Gradle build.
-        testLogging {
-            // Make sure output from standard out or error is shown in Gradle output.
-            showStandardStreams = true
-
-            // Or we use events method:
-            // events 'standard_out', 'standard_error'
-
-            // Or set property events:
-            events = ['standard_out', 'standard_error']
-
-            // Instead of string values we can
-            // use enum values:
-            // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
-            //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
-        }
-        // */
     }
 
     javadoc {
         source = sourceSets.main.allJava
-    }
-
-    tasks.withType(JavaCompile) {
-        // Exclude generated sources from being analyzed by Error Prone.
-        options.compilerArgs += [
-                '-XepExcludedPaths:.*/generated/.*'
-        ]
     }
 
     task sourceJar(type: Jar) {
