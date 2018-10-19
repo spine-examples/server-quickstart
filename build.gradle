@@ -70,7 +70,7 @@ allprojects {
 
     group = 'io.spine.quickstart'
 
-    // Use the same version numbering for the Spine Base library.
+    // Use the same version numbering for the Spine Core library.
     version = versionToPublish
 }
 
@@ -82,7 +82,6 @@ subprojects {
         repositories {
             jcenter()
             google()
-            mavenCentral()
             mavenLocal()
             maven { url = repos.gradlePlugins }
             maven { url = repos.spine }
