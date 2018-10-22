@@ -19,7 +19,15 @@
  */
 
 /*
- * This file describes dependencies of Spine modules.
+ * This file describes the project dependencies.
+ * 
+ * The required dependencies are already added to the expected places.
+ * All the other described dependencies are optional.
+ * 
+ * Modify this file to add/change/remove dependencies of the project.
+ * 
+ * Caution: the versions of the dependencies in this file conform the versions of the respective 
+ * Spine dependencies. Beware of runtime conflicts when changing them.
  *
  * Inspired by dependency management of the Uber's NullAway project:
  *  https://github.com/uber/NullAway/blob/master/gradle/dependencies.gradle
@@ -58,6 +66,7 @@ final def versions = [
         junitPioneer     : "0.2.0",
         truth            : "0.42",
         spine            : [
+                // Versions of Spine modules.
                 core: "0.11.8-SNAPSHOT",
                 base: "0.11.8-SNAPSHOT",
                 time: "0.11.00-SNAPSHOT"
@@ -65,6 +74,8 @@ final def versions = [
 ]
 
 final def spine = [
+        // Spine module dependencies.
+        // These dependencies are required. 
         client        : "io.spine:spine-client:$versions.spine.core",
         server        : "io.spine:spine-server:$versions.spine.core",
         base          : "io.spine:spine-base:$versions.spine.base",
