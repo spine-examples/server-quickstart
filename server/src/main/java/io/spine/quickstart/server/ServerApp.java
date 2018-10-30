@@ -101,7 +101,6 @@ public class ServerApp {
         QueryService queryService = QueryService.newBuilder()
                                                 .add(boundedContext)
                                                 .build();
-
         /*
          * Deploy the services to the gRPC container.
          */
