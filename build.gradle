@@ -18,7 +18,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 buildscript {
-    apply from: "$rootDir/dependencies.gradle"
+    apply from: "$rootDir/quickstart-dependencies.gradle"
+    apply from: "$rootDir/spine-dependencies.gradle"
     apply from: "$rootDir/version.gradle"
 
     repositories {
