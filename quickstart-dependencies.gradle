@@ -21,7 +21,7 @@
 /*
  * This file describes dependencies of the server quickstart project.
  *
- * This file, unlike the spine-dependencies.gradle, is required in order to build the project.
+ * This file, unlike the `spine-dependencies.gradle`, is required in order to build the project.
  */
 
 // Repositories to which we may publish. Normally, only one repository will be used.

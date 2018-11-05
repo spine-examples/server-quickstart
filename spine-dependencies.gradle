@@ -19,7 +19,7 @@
  */
 
 /*
- * This file describes the dependencies that projects that use Spine typically declare.
+ * This file describes the dependencies that Spine-based projects typically declare.
  *
  * This file is not required to build the project, however, there's a good chance that users
  * of Spine may benefit from having the dependencies declared in this file.
