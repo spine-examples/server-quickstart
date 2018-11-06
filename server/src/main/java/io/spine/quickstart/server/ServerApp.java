@@ -22,6 +22,7 @@
 package io.spine.quickstart.server;
 
 import io.spine.core.BoundedContextName;
+import io.spine.logging.Logging;
 import io.spine.quickstart.task.TaskRepository;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
@@ -30,11 +31,9 @@ import io.spine.server.storage.StorageFactory;
 import io.spine.server.storage.memory.InMemoryStorageFactory;
 import io.spine.server.transport.GrpcContainer;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static com.google.common.base.Suppliers.ofInstance;
 import static io.spine.core.BoundedContextNames.newName;
 
 /**
@@ -43,8 +42,6 @@ import static io.spine.core.BoundedContextNames.newName;
  * <p>Creates an instance of a sample bounded context and exposes it via gRPC services.
  *
  * <p>Also uses a simple gRPC client to connect to the server-side and illustrate the workflow.
- *
- * @author Alex Tymchenko
  */
 public class ServerApp {
 
@@ -82,14 +79,13 @@ public class ServerApp {
      * @throws IOException if gRPC server cannot be started
      */
     public static void main(String[] args) throws IOException {
-
         // Define a storage factory.
         StorageFactory storageFactory =
                 InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
 
         BoundedContext boundedContext =
                 BoundedContext.newBuilder()
-                              .setStorageFactorySupplier(ofInstance(storageFactory))
+                              .setStorageFactorySupplier(() -> storageFactory)
                               .setName(BOUNDED_CONTEXT_NAME.getValue())
                               .build();
         TaskRepository repository = new TaskRepository();
@@ -105,7 +101,6 @@ public class ServerApp {
         QueryService queryService = QueryService.newBuilder()
                                                 .add(boundedContext)
                                                 .build();
-
         /*
          * Deploy the services to the gRPC container.
          */
@@ -120,17 +115,7 @@ public class ServerApp {
         container.awaitTermination();
     }
 
-    /**
-     * A singleton logger to use in scope of this application.
-     */
-    private enum LogSingleton {
-        INSTANCE;
-
-        @SuppressWarnings("NonSerializableFieldInSerializableClass")
-        private final Logger value = LoggerFactory.getLogger(ServerApp.class);
-    }
-
     private static Logger log() {
-        return LogSingleton.INSTANCE.value;
+        return Logging.get(ServerApp.class);
     }
 }

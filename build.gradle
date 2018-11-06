@@ -18,16 +18,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 buildscript {
-
-    // As long as `buildscript` section is always evaluated first,
-    // we need to apply explicitly here.
-    apply from: "$rootDir/config/gradle/dependencies.gradle"
-    apply from: "$rootDir/ext.gradle"
+    apply from: "$rootDir/quickstart-dependencies.gradle"
+    apply from: "$rootDir/spine-dependencies.gradle"
+    apply from: "$rootDir/version.gradle"
 
     repositories {
-        jcenter()
         google()
-        mavenCentral()
         mavenLocal()
         maven { url = repos.gradlePlugins }
         maven { url = repos.spine }
@@ -43,64 +39,27 @@ buildscript {
         classpath(deps.build.gradlePlugins.errorProne) {
             exclude group: 'com.google.guava'
         }
-
         classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
     }
-
-    configurations.all({
-        resolutionStrategy {
-            cacheChangingModulesFor(0, 'seconds')
-            force deps.build.guava
-            force deps.test.guavaTestlib
-        }
-    })
-}
-
-apply from: 'ext.gradle'
-
-ext {
-    projectsToPublish = []
 }
 
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'jacoco'
     apply plugin: 'idea'
-    apply plugin: 'project-report'
-
-    group = 'io.spine.quickstart'
-
-    // Use the same version numbering for the Spine Base library.
-    version = versionToPublish
 }
 
 subprojects {
 
     buildscript {
-        apply from: "$rootDir/ext.gradle"
-
         repositories {
             jcenter()
             google()
-            mavenCentral()
             mavenLocal()
             maven { url = repos.gradlePlugins }
             maven { url = repos.spine }
             maven { url = repos.spineSnapshots }
         }
-
-        //noinspection GroovyAssignabilityCheck
-        dependencies {
-            classpath deps.build.guava
-            classpath(deps.build.gradlePlugins.protobuf) {
-                // exclude an old Guava version
-                exclude group: 'com.google.guava'
-            }
-        }
-
-        configurations.all({
-            resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-        })
     }
 
     configurations {
@@ -129,17 +88,21 @@ subprojects {
     apply plugin: 'com.google.protobuf'
     apply plugin: 'net.ltgt.errorprone'
 
-    apply plugin: 'maven-publish'
+    tasks.withType(JavaCompile) {
+
+        // Configure Error Prone:
+        // 1. Exclude generated sources from being analyzed by Error Prone.
+        // 2. Turn the check off until Error Prone can handle `@Nested` JUnit classes.
+        //    See issue: https://github.com/google/error-prone/issues/956
+        //
+        // For more config details see: 
+        //    https://github.com/tbroyer/gradle-errorprone-plugin/tree/v0.6#usage
+
+        options.errorprone.errorproneArgs << "-XepExcludedPaths:.*/generated/.*" << "-Xep:ClassCanBeStatic:OFF"
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    // Set Java home to point to JDK8 in gradle.properties file.
-    //
-    // For Mac OS X, it looks like this:
-    //
-    // # suppress inspection "UnusedProperty"
-    // org.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk/Contents/Home/
 
     repositories {
         jcenter()
@@ -153,16 +116,21 @@ subprojects {
     }
 
     dependencies {
-        implementation deps.build.protobuf
+        errorprone deps.build.errorProneCore
+        errorproneJavac deps.build.errorProneJavac
 
+        implementation deps.build.protobuf
         implementation deps.build.guava
-        compile group: 'org.slf4j', name: 'slf4j-jdk14', version: deps.versions.slf4j
+        implementation deps.build.slf4j
         implementation deps.build.checkerAnnotations
         implementation deps.build.errorProneAnnotations
         implementation deps.build.jsr305Annotations
+        
+        runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
 
         testImplementation deps.test.slf4j
         testImplementation deps.test.guavaTestlib
+        testRuntimeOnly deps.test.junit5Runner
     }
 
     sourceSets {
@@ -180,50 +148,6 @@ subprojects {
         useJUnitPlatform {
             includeEngines 'junit-jupiter'
         }
-
-        /* Uncomment this block if you need to display console output during the Gradle build.
-        testLogging {
-            // Make sure output from standard out or error is shown in Gradle output.
-            showStandardStreams = true
-
-            // Or we use events method:
-            // events 'standard_out', 'standard_error'
-
-            // Or set property events:
-            events = ['standard_out', 'standard_error']
-
-            // Instead of string values we can
-            // use enum values:
-            // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
-            //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
-        }
-        // */
-    }
-
-    javadoc {
-        source = sourceSets.main.allJava
-    }
-
-    tasks.withType(JavaCompile) {
-        // Exclude generated sources from being analyzed by Error Prone.
-        options.compilerArgs += [
-                '-XepExcludedPaths:.*/generated/.*'
-        ]
-    }
-
-    task sourceJar(type: Jar) {
-        from sourceSets.main.allJava
-        classifier "sources"
-    }
-
-    task testOutputJar(type: Jar) {
-        from sourceSets.test.output
-        classifier "test"
-    }
-
-    task javadocJar(type: Jar, dependsOn: 'javadoc') {
-        from "$projectDir/build/docs/javadoc"
-        classifier "javadoc"
     }
 
     // Apply the same IDEA module configuration for each of sub-projects.
@@ -237,33 +161,6 @@ subprojects {
             testSourceDirs += file(generatedTestGrpcDir)
             downloadJavadoc = true
             downloadSources = true
-
-            iml {
-                beforeMerged { final module ->
-                    module.dependencies.clear()
-                }
-                whenMerged { final module ->
-                    module.dependencies*.exported = true
-                }
-            }
         }
     }
 }
-
-// IDEA project configuration.
-idea {
-    project {
-        ipr {
-            beforeMerged { final project ->
-                project.modulePaths.clear()
-            }
-            withXml { final provider ->
-                provider.node.component
-                        .find { it.@name == 'VcsDirectoryMappings' }
-                        .mapping.@vcs = 'Git'
-            }
-        }
-    }
-}
-
-apply from: deps.scripts.jacoco

@@ -35,8 +35,6 @@ import io.spine.serverapp.TaskId;
  * Definition of the {@code Task} aggregate.
  *
  * <p>Within this small example it only handles a single command and emits one event.
- *
- * @author Alex Tymchenko
  */
 final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 

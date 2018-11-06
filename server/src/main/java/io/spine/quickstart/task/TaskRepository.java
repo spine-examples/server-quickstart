@@ -1,4 +1,5 @@
 /*
+ *
  * Copyright 2018, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
@@ -16,12 +17,17 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
+package io.spine.quickstart.task;
 
-final def SPINE_VERSION = '0.10.63-SNAPSHOT'
+import io.spine.server.aggregate.AggregateRepository;
+import io.spine.serverapp.TaskId;
 
-ext {
-    versionToPublish = SPINE_VERSION
-    spineBaseVersion = '0.10.56-SNAPSHOT'
-    spineCoreVersion = SPINE_VERSION
+/**
+ * A repository of {@link TaskAggregate} instances.
+ *
+ * <p>Doesn't specify any custom behavior, which is fine in most of straightforward cases.
+ */
+public final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {
 }
