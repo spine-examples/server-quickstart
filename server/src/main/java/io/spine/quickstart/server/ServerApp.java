@@ -1,6 +1,5 @@
 /*
- *
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -17,7 +16,6 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
  */
 package io.spine.quickstart.server;
 
@@ -76,18 +74,19 @@ public class ServerApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      *
-     * @throws IOException if gRPC server cannot be started
+     * @throws IOException
+     *         if the gRPC server cannot be started
      */
     public static void main(String[] args) throws IOException {
         // Define a storage factory.
         StorageFactory storageFactory =
                 InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
 
-        BoundedContext boundedContext =
-                BoundedContext.newBuilder()
-                              .setStorageFactorySupplier(() -> storageFactory)
-                              .setName(BOUNDED_CONTEXT_NAME.getValue())
-                              .build();
+        BoundedContext boundedContext = BoundedContext
+                .newBuilder()
+                .setStorageFactorySupplier(() -> storageFactory)
+                .setName(BOUNDED_CONTEXT_NAME.getValue())
+                .build();
         TaskRepository repository = new TaskRepository();
         boundedContext.register(repository);
 
@@ -95,20 +94,23 @@ public class ServerApp {
          * Instantiate gRPC services provided by Spine
          * and configure them for the given {@code BoundedContext}.
          */
-        CommandService commandService = CommandService.newBuilder()
-                                                      .add(boundedContext)
-                                                      .build();
-        QueryService queryService = QueryService.newBuilder()
-                                                .add(boundedContext)
-                                                .build();
+        CommandService commandService = CommandService
+                .newBuilder()
+                .add(boundedContext)
+                .build();
+        QueryService queryService = QueryService
+                .newBuilder()
+                .add(boundedContext)
+                .build();
         /*
          * Deploy the services to the gRPC container.
          */
-        GrpcContainer container = GrpcContainer.newBuilder()
-                                               .setPort(PORT)
-                                               .addService(commandService)
-                                               .addService(queryService)
-                                               .build();
+        GrpcContainer container = GrpcContainer
+                .newBuilder()
+                .setPort(PORT)
+                .addService(commandService)
+                .addService(queryService)
+                .build();
         container.start();
         log().info("gRPC server started at {}:{}.", HOST, PORT);
 

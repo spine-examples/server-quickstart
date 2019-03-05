@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -20,7 +20,6 @@
 buildscript {
     apply from: "$rootDir/quickstart-dependencies.gradle"
     apply from: "$rootDir/spine-dependencies.gradle"
-    apply from: "$rootDir/version.gradle"
 
     repositories {
         google()
@@ -39,7 +38,7 @@ buildscript {
         classpath(deps.build.gradlePlugins.errorProne) {
             exclude group: 'com.google.guava'
         }
-        classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
+        classpath "io.spine.tools:spine-model-compiler:$deps.versions.spine.base"
     }
 }
 
@@ -51,15 +50,14 @@ allprojects {
 
 subprojects {
 
-    buildscript {
-        repositories {
-            jcenter()
-            google()
-            mavenLocal()
-            maven { url = repos.gradlePlugins }
-            maven { url = repos.spine }
-            maven { url = repos.spineSnapshots }
-        }
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+        mavenLocal()
+        maven { url = repos.gradlePlugins }
+        maven { url = repos.spine }
+        maven { url = repos.spineSnapshots }
     }
 
     configurations {
@@ -87,6 +85,9 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'com.google.protobuf'
     apply plugin: 'net.ltgt.errorprone'
+    apply plugin: 'pmd'
+
+    apply from: "$rootDir/pmd/pmd.gradle"
 
     tasks.withType(JavaCompile) {
 
@@ -103,17 +104,6 @@ subprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    repositories {
-        jcenter()
-
-        google()
-        mavenCentral()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
-    }
 
     dependencies {
         errorprone deps.build.errorProneCore

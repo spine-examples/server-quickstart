@@ -1,6 +1,5 @@
 /*
- *
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -17,7 +16,6 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
  */
 package io.spine.quickstart.task;
 
@@ -45,16 +43,17 @@ final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
     @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Assign
     TaskCreated handle(CreateTask cmd) {
-        TaskCreated result = TaskCreatedVBuilder.newBuilder()
-                                                .setTitle(cmd.getTitle())
-                                                .setId(cmd.getId())
-                                                .build();
+        TaskCreated result = TaskCreatedVBuilder
+                .newBuilder()
+                .setTitle(cmd.getTitle())
+                .setId(cmd.getId())
+                .build();
         return result;
     }
 
     @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Apply
     void on(TaskCreated event) {
-        getBuilder().setTitle(event.getTitle());
+        builder().setTitle(event.getTitle());
     }
 }

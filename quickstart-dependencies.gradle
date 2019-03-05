@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -24,16 +24,11 @@
  * This file, unlike the `spine-dependencies.gradle`, is required in order to build the project.
  */
 
-// Repositories to which we may publish. Normally, only one repository will be used.
-// See `publish.gradle` for details of the publishing process.
+// The version of Spine framework to use.
+final def SPINE_VERSION = '1.0.0-pre6'
 
-// Specific repositories.
 ext.repos = [
-        // Old Archiva Repositories
-        oldSpine          : "http://maven.teamdev.com/repository/spine",
-        oldSpineSnapshots : "http://maven.teamdev.com/repository/spine-snapshots",
-
-        // New CloudRepo Repositories
+        // Repositories containing Spine artifacts.
         spine             : "https://spine.mycloudrepo.io/public/repositories/releases",
         spineSnapshots    : "https://spine.mycloudrepo.io/public/repositories/snapshots",
 
@@ -47,16 +42,16 @@ final def versions = [
         errorProne       : "2.3.1",
         errorProneJavac  : "9+181-r4173-1", // taken from here: https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.6/build.gradle.kts
         errorPronePlugin : "0.6",
+        pmd              : "6.11.0",
         protobufPlugin   : "0.8.5",
         findBugs         : "3.0.2",
         guava            : "26.0-jre",
         protobuf         : "3.6.1",
         junit5           : "5.3.1",
         spine            : [
-                // Versions of Spine modules.
-                core: "0.11.8-SNAPSHOT",
-                base: "0.11.8-SNAPSHOT",
-                time: "0.11.00-SNAPSHOT"
+                core: SPINE_VERSION,
+                base: SPINE_VERSION,
+                time: SPINE_VERSION
         ]
 ]
 
@@ -89,8 +84,7 @@ final def build = [
 
 //noinspection GroovyAssignabilityCheck
 final def test = [
-        junit5Runner : ["org.junit.jupiter:junit-jupiter-engine:$versions.junit5",
-                        "org.junit.vintage:junit-vintage-engine:$versions.junit5"],
+        junit5Runner : "org.junit.jupiter:junit-jupiter-engine:$versions.junit5",
         slf4j        : "org.slf4j:slf4j-jdk14:$versions.slf4j",
         guavaTestlib : "com.google.guava:guava-testlib:$versions.guava"
 ]
