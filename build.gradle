@@ -50,15 +50,14 @@ allprojects {
 
 subprojects {
 
-    buildscript {
-        repositories {
-            jcenter()
-            google()
-            mavenLocal()
-            maven { url = repos.gradlePlugins }
-            maven { url = repos.spine }
-            maven { url = repos.spineSnapshots }
-        }
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+        mavenLocal()
+        maven { url = repos.gradlePlugins }
+        maven { url = repos.spine }
+        maven { url = repos.spineSnapshots }
     }
 
     configurations {
@@ -105,17 +104,6 @@ subprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    repositories {
-        jcenter()
-
-        google()
-        mavenCentral()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
-    }
 
     dependencies {
         errorprone deps.build.errorProneCore
