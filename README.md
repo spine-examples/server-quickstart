@@ -10,24 +10,23 @@ A simple example of server application in Spine to get you started.
 
 ## Structure
 
-The project consists of two modules.
+The project consists of three modules.
 
 ### The `model` Module
 
 Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
 of the application in Protobuf. See `model/proto` folder.
 
-Describes the business rules for Spine entities, such as Aggregates, in Java. 
-See `io.spine.quickstart.task` package for more details.
-
-
 ### The `server` Module
 
-Plugs the `model` into the infrastructure: 
- * configures the storage;
- * creates a `BoundedContext` and registers repositories;
- * exposes the `BoundedContext` instance to the outer world through a set of gRPC services, 
- provided by the framework.
+1. Describes the business rules for Spine entities, such as Aggregates, in Java. 
+See `io.spine.quickstart.task` package for more details.
+
+2. Plugs the `model` into the infrastructure: 
+     * configures the storage;
+     * creates a `BoundedContext` and registers repositories;
+     * exposes the `BoundedContext` instance to the outer world through a set of gRPC services, 
+     provided by the framework.
 
 See `io.spine.quickstart.server.ServerApp` for implementation. 
 
@@ -69,8 +68,8 @@ objects in Protobuf. Put them into the `model/proto` folder.
 ### Suggested `server` Changes 
 
  * Configure and the storage factory, that corresponds to the target environment. Connectors to 
- [Google Datastore](https://github.com/SpineEventEngine/gae-java) and [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage)
- are provided by Spine.
+ [Google Datastore](https://github.com/SpineEventEngine/gcloud-java) and 
+ [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage) are provided by Spine.
  * Append the creation of the bounded context with the registration of newly created repositories.
  
  Other possible changes include dealing with security (e.g. authentication/authorization), defining
