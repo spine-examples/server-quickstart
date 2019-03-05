@@ -75,7 +75,7 @@ public class ServerApp {
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      *
      * @throws IOException
-     *         if gRPC server cannot be started
+     *         if the gRPC server cannot be started
      */
     public static void main(String[] args) throws IOException {
         // Define a storage factory.
