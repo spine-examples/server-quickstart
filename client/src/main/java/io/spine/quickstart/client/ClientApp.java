@@ -67,7 +67,7 @@ public class ClientApp {
     private static final int PORT = 8484;
 
     /**
-     * Prevent this class from instantiation.
+     * Prevents this class from instantiation.
      */
     private ClientApp() {
     }
@@ -92,9 +92,10 @@ public class ClientApp {
                 QueryServiceGrpc.newBlockingStub(channel);
 
         // Create and post a command.
-        ActorRequestFactory requestFactory = ActorRequestFactory.newBuilder()
-                                                                .setActor(whoIsCalling())
-                                                                .build();
+        ActorRequestFactory requestFactory = ActorRequestFactory
+                .newBuilder()
+                .setActor(whoIsCalling())
+                .build();
         CreateTask createTask = newCreateTaskMsg("Wash my car");
         Command cmd = requestFactory.command()
                                     .create(createTask);
@@ -122,17 +123,20 @@ public class ClientApp {
     /**
      * Creates a message for the {@link CreateTask} command.
      *
-     * @param title value to use for a title in the new tasl
+     * @param title
+     *         the value to use for a title in the new task
      * @return the message for {@code CreateTask} command
      */
     private static CreateTask newCreateTaskMsg(String title) {
-        TaskId newTaskId = TaskIdVBuilder.newBuilder()
-                                         .setValue(newUuid())
-                                         .build();
-        CreateTask message = CreateTaskVBuilder.newBuilder()
-                                               .setId(newTaskId)
-                                               .setTitle(title)
-                                               .build();
+        TaskId newTaskId = TaskIdVBuilder
+                .newBuilder()
+                .setValue(newUuid())
+                .build();
+        CreateTask message = CreateTaskVBuilder
+                .newBuilder()
+                .setId(newTaskId)
+                .setTitle(title)
+                .build();
         return message;
     }
 
@@ -144,9 +148,10 @@ public class ClientApp {
      * <p>Must be substituted with a real {@code UserId} in a production application.
      */
     private static UserId whoIsCalling() {
-        UserId actorId = UserIdVBuilder.newBuilder()
-                                       .setValue(newUuid())
-                                       .build();
+        UserId actorId = UserIdVBuilder
+                .newBuilder()
+                .setValue(newUuid())
+                .build();
         return actorId;
     }
 
