@@ -28,8 +28,7 @@
 final def SPINE_VERSION = '1.0.0-pre6'
 
 ext.repos = [
-        // Repositories to which we may publish. Normally, only one repository will be used.
-        // See `publish.gradle` in `config` for details of the publishing process.
+        // Repositories containing Spine artifacts.
         spine             : "https://spine.mycloudrepo.io/public/repositories/releases",
         spineSnapshots    : "https://spine.mycloudrepo.io/public/repositories/snapshots",
 
