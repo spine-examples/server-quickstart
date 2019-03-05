@@ -60,8 +60,7 @@ final def spine = [
         client        : "io.spine:spine-client:$versions.spine.core",
         server        : "io.spine:spine-server:$versions.spine.core",
         base          : "io.spine:spine-base:$versions.spine.base",
-        time          : "io.spine:spine-time:$versions.spine.time",
-        modelCompiler : "io.spine.tools:spine-model-compiler:$versions.spine.base"
+        time          : "io.spine:spine-time:$versions.spine.time"
 ]
 
 //noinspection GroovyAssignabilityCheck
