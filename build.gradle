@@ -17,47 +17,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 buildscript {
-    apply from: "$rootDir/quickstart-dependencies.gradle"
-    apply from: "$rootDir/spine-dependencies.gradle"
-
     repositories {
-        google()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
+        gradlePluginPortal()
     }
-
-    //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath deps.build.guava
-        classpath(deps.build.gradlePlugins.protobuf) {
+        classpath("net.ltgt.gradle:gradle-errorprone-plugin:0.6") {
             exclude group: 'com.google.guava'
         }
-        classpath(deps.build.gradlePlugins.errorProne) {
-            exclude group: 'com.google.guava'
-        }
-        classpath "io.spine.tools:spine-model-compiler:$deps.versions.spine.base"
+        classpath "io.spine.tools:spine-bootstrap:1.0.0-SNAPSHOT"
     }
 }
 
+
 allprojects {
-    apply plugin: 'maven'
-    apply plugin: 'jacoco'
-    apply plugin: 'idea'
+    apply plugin: 'io.spine.tools.gradle.bootstrap'
 }
 
 subprojects {
-
-    repositories {
-        jcenter()
-        google()
-        mavenCentral()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
+    spine.java {
+        project.defaultRepositories(project)
     }
 
     configurations {
@@ -67,8 +47,6 @@ subprojects {
     }
 
     project.ext {
-        spineProtobufPluginId = 'io.spine.tools.spine-model-compiler'
-
         sourcesRootDir = "$projectDir/src"
         generatedRootDir = "$projectDir/generated"
 
@@ -82,26 +60,12 @@ subprojects {
         generatedTestSpineDir = "$generatedRootDir/test/spine"
     }
 
-    apply plugin: 'java'
-    apply plugin: 'com.google.protobuf'
     apply plugin: 'net.ltgt.errorprone'
     apply plugin: 'pmd'
+    apply plugin: 'idea'
 
     apply from: "$rootDir/pmd/pmd.gradle"
-
-    tasks.withType(JavaCompile) {
-
-        // Configure Error Prone:
-        // 1. Exclude generated sources from being analyzed by Error Prone.
-        // 2. Turn the check off until Error Prone can handle `@Nested` JUnit classes.
-        //    See issue: https://github.com/google/error-prone/issues/956
-        //
-        // For more config details see: 
-        //    https://github.com/tbroyer/gradle-errorprone-plugin/tree/v0.6#usage
-
-        options.errorprone.errorproneArgs << "-XepExcludedPaths:.*/generated/.*" << "-Xep:ClassCanBeStatic:OFF"
-    }
-
+    
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -125,11 +89,9 @@ subprojects {
 
     sourceSets {
         main {
-            java.srcDirs generatedJavaDir, "$sourcesRootDir/main/java", generatedSpineDir
             resources.srcDirs "$sourcesRootDir/main/resources", "$generatedRootDir/main/resources"
         }
         test {
-            java.srcDirs generatedTestJavaDir, "$sourcesRootDir/test/java", generatedTestSpineDir
             resources.srcDirs "$sourcesRootDir/test/resources", "$generatedRootDir/test/resources"
         }
     }

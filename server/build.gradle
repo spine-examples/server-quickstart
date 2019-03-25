@@ -18,10 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+spine.java().server()
+
 dependencies {
-    implementation deps.spine.server
     implementation project(path: ':model')
 
-    testImplementation "io.spine:spine-testlib:$deps.versions.spine.base"
-    testImplementation "io.spine:spine-testutil-server:$deps.versions.spine.core"
+    testImplementation "io.spine:spine-testlib:$spineVersion"
+    testImplementation "io.spine:spine-testutil-server:$spineVersion"
 }
