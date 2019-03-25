@@ -59,9 +59,6 @@ the following steps are suggested:
  speaking in language, ubiquitous for this domain.
  * According to the event storming results, define events, commands, entity states and value 
 objects in Protobuf. Put them into the `model/proto` folder. 
- * Adjust the Protobuf package structure to your taste. However, keeping `foo.bar.c` (stands for
- "**C**ommand"  in CQRS) and `foo.bar.q` (stands for "**Q**uery" in CQRS) sub-packages is known 
- to be convenient for conceptual separation.
  * Design and implement Aggregates, Projections and Process Managers on top of the previously 
  defined language elements. Create repositories for them.
 
