@@ -40,6 +40,7 @@ subprojects {
     apply plugin: 'net.ltgt.errorprone'
     apply from: "$rootDir/script/pmd/pmd.gradle"
     apply from: "$rootDir/script/idea.gradle"
+    apply from: "$rootDir/script/tests.gradle"
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -62,10 +63,10 @@ subprojects {
 
     sourceSets {
         main {
-            resources.srcDirs "$sourcesRootDir/main/resources", "$generatedRootDir/main/resources"
+            resources.srcDirs "$generatedRootDir/main/resources"
         }
         test {
-            resources.srcDirs "$sourcesRootDir/test/resources", "$generatedRootDir/test/resources"
+            resources.srcDirs "$generatedRootDir/test/resources"
         }
     }
 }
