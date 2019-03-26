@@ -86,7 +86,7 @@ public class ServerApp {
         BoundedContext boundedContext = BoundedContext
                 .newBuilder()
                 .setStorageFactorySupplier(() -> storageFactory)
-                .setName(BOUNDED_CONTEXT_NAME.getValue())
+                .setName(BOUNDED_CONTEXT_NAME)
                 .build();
         boundedContext.register(DefaultRepository.of(TaskAggregate.class));
         /*
