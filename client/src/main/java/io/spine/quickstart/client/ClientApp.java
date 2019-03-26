@@ -94,10 +94,9 @@ public class ClientApp {
                 .newBuilder()
                 .setActor(whoIsCalling())
                 .build();
-        CreateTask createTask = newCreateTaskMsg("Wash my car");
+        CreateTask createTask = newCreateTaskCommand("Wash my car");
         Command cmd = requestFactory.command()
                                     .create(createTask);
-
         Ack acked = clientCommandService.post(cmd);
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
@@ -125,7 +124,7 @@ public class ClientApp {
      *         the value to use for a title in the new task
      * @return the message for {@code CreateTask} command
      */
-    private static CreateTask newCreateTaskMsg(String title) {
+    private static CreateTask newCreateTaskCommand(String title) {
         TaskId newTaskId = TaskIdVBuilder
                 .newBuilder()
                 .setValue(newUuid())
