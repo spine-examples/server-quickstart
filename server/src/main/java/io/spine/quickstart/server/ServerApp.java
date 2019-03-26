@@ -71,7 +71,7 @@ public class ServerApp {
     }
 
     /**
-     * Creates and starts a gRPC server and serves `Tasks` bounded context.
+     * Creates and starts a gRPC server and serves {@code Tasks} bounded context.
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      *
