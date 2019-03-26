@@ -21,9 +21,10 @@ package io.spine.quickstart.server;
 
 import io.spine.core.BoundedContextName;
 import io.spine.logging.Logging;
-import io.spine.quickstart.task.TaskRepository;
+import io.spine.quickstart.task.TaskAggregate;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
+import io.spine.server.DefaultRepository;
 import io.spine.server.QueryService;
 import io.spine.server.storage.StorageFactory;
 import io.spine.server.storage.memory.InMemoryStorageFactory;
@@ -87,9 +88,7 @@ public class ServerApp {
                 .setStorageFactorySupplier(() -> storageFactory)
                 .setName(BOUNDED_CONTEXT_NAME.getValue())
                 .build();
-        TaskRepository repository = new TaskRepository();
-        boundedContext.register(repository);
-
+        boundedContext.register(DefaultRepository.of(TaskAggregate.class));
         /*
          * Instantiate gRPC services provided by Spine
          * and configure them for the given {@code BoundedContext}.

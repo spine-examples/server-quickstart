@@ -34,7 +34,7 @@ import io.spine.serverapp.TaskId;
  *
  * <p>Within this small example it only handles a single command and emits one event.
  */
-final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
+public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     TaskAggregate(TaskId id) {
         super(id);
