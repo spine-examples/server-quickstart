@@ -66,17 +66,17 @@ the following steps are suggested:
  * Define the domain, in which the business task is solved.
  * Together with the domain experts, perform event storming in the bounded context of the domain
  speaking in language, ubiquitous for this domain.
- * According to the event storming results, define events, commands, entity states and value
-objects in Protobuf. Put them into the `model/proto` folder. 
+ * According to the event storming results, define events, commands, entity states, and value
+objects in Protobuf. 
  * Design and implement Aggregates, Projections and Process Managers on top of the previously
- defined language elements. Create repositories for them.
+ defined language elements. Create repositories for them or use the `DefaultRepository`.
 
 ### Suggested `server` Changes
 
- * Configure and the storage factory, that corresponds to the target environment. Connectors to
- [Google Datastore](https://github.com/SpineEventEngine/gcloud-java) and 
+ * Configure the storage factory, that corresponds to the target environment. Connectors to
+ [Google Cloud Datastore](https://github.com/SpineEventEngine/gcloud-java) and 
  [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage) are provided by Spine.
- * Append the creation of the bounded context with the registration of newly created repositories.
+ * Register the newly created repositories in the bounded context.
 
 Other possible changes include dealing with security (e.g. authentication/authorization), defining
 deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this
@@ -85,13 +85,8 @@ sample.
 Typically these steps are repeated for each bounded context in the application.
 
 ### Further Reading
-
  * [Core Spine concepts](https://spine.io/docs/guides/concepts.html)
-
  * [Domain model definition](https://spine.io/docs/guides/model-definition.html)
-
  * [Java Web server implementation](https://github.com/SpineEventEngine/web)
-
  * [JavaScript client library](https://www.npmjs.com/package/spine-web)
-
  * [An example project with a bigger model](https://github.com/SpineEventEngine/todo-list)
