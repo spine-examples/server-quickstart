@@ -28,8 +28,8 @@ The `model/src/main/proto` directory contains the Protobuf definitions of the do
 ### The `server` Module
 
 1. Describes the business rules for Spine entities, such as Aggregates, in Java.
-`TaskAggregate` class implements the `Task` aggregate by handling the `CreateTask` command and 
-applying the produced `TaskCreated` event.
+See the `TaskAggregate` which handles the `CreateTask` command and applies the produced
+`TaskCreated` event.
 
 2. Plugs the `model` into the infrastructure: 
    * configures the storage;
@@ -86,12 +86,12 @@ Typically these steps are repeated for each bounded context in the application.
 
 ### Further Reading
 
-[Core Spine concepts](https://spine.io/docs/guides/concepts.html)
+ * [Core Spine concepts](https://spine.io/docs/guides/concepts.html)
 
-[Domain model definition](https://spine.io/docs/guides/model-definition.html)
+ * [Domain model definition](https://spine.io/docs/guides/model-definition.html)
 
-[Java Web server implementation](https://github.com/SpineEventEngine/web)
+ * [Java Web server implementation](https://github.com/SpineEventEngine/web)
 
-[JavaScript client library](https://www.npmjs.com/package/spine-web)
+ * [JavaScript client library](https://www.npmjs.com/package/spine-web)
 
-[An example project with a bigger model](https://github.com/SpineEventEngine/todo-list)
+ * [An example project with a bigger model](https://github.com/SpineEventEngine/todo-list)
