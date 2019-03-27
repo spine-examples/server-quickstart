@@ -5,8 +5,7 @@ A simple example of server application in Spine to get you started.
 
 * Install JDK 8 or higher.
 * Clone the source code.
-* Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows)
- in the project root folder.
+* Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
 
 ## Structure
 
@@ -69,8 +68,9 @@ objects in Protobuf. Put them into the `model/proto` folder.
  [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage) are provided by Spine.
  * Append the creation of the bounded context with the registration of newly created repositories.
  
- Other possible changes include dealing with security (e.g. authentication/authorization), defining
- deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this sample.
+Other possible changes include dealing with security (e.g. authentication/authorization), defining
+deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this
+sample.
  
 
 Typically these steps are repeated for each bounded context in the application.
