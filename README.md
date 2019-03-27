@@ -22,9 +22,9 @@ of the application in Protobuf. See `model/proto` folder.
 See `io.spine.quickstart.task` package for more details.
 
 2. Plugs the `model` into the infrastructure: 
-     * configures the storage;
-     * creates a `BoundedContext` and registers repositories;
-     * exposes the `BoundedContext` instance to the outer world through a set of gRPC services, 
+   * configures the storage;
+   * creates a `BoundedContext` and registers repositories;
+   * exposes the `BoundedContext` instance to the outer world through a set of gRPC services,
      provided by the framework.
 
 See `io.spine.quickstart.server.ServerApp` for implementation. 
