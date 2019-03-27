@@ -91,7 +91,7 @@ public class ServerApp {
         boundedContext.register(DefaultRepository.of(TaskAggregate.class));
         /*
          * Instantiate gRPC services provided by Spine
-         * and configure them for the given {@code BoundedContext}.
+         * and configure them for the given `BoundedContext`.
          */
         CommandService commandService = CommandService
                 .newBuilder()
