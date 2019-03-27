@@ -18,6 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+dependencies {
+    testImplementation deps.test.junit5Api
+    testRuntimeOnly deps.test.junit5Runner
+}
+
 test {
     useJUnitPlatform {
         includeEngines 'junit-jupiter'

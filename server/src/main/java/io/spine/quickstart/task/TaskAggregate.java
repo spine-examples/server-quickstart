@@ -52,6 +52,7 @@ public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     @Apply
     private void on(TaskCreated event) {
-        builder().setTitle(event.getTitle());
+        builder().setId(event.getId())
+                 .setTitle(event.getTitle());
     }
 }
