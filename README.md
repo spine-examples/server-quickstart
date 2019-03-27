@@ -4,7 +4,10 @@ A simple example of server application in Spine to get you started.
 ## Prerequisites
 
 * Install JDK 8 or higher.
-* Clone the source code.
+* Clone the source code: 
+```bash
+git clone git@github.com:SpineEventEngine/server-quickstart.git
+```
 * Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
 
 ## Structure
