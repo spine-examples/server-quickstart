@@ -27,6 +27,8 @@
  *
  * See https://github.com/gradle/gradle/issues/8277.
  */
+apply plugin: 'pmd'
+
 pmd {
     toolVersion = "${deps.versions.pmd}"
     consoleOutput= true
@@ -38,9 +40,9 @@ pmd {
     ruleSets = []
 
     // A set of custom rules.
-    ruleSetFiles = files("$rootDir/pmd/pmd.xml")
+    ruleSetFiles = files("$rootDir/script/pmd/pmd.xml")
 
-    reportsDir = file("build/reports/pmd")
+    reportsDir = file("$projectDir/build/reports/pmd")
 
     // Just analyze the main sources; do not analyze tests.
     sourceSets = [sourceSets.main]
@@ -48,3 +50,16 @@ pmd {
 
 // Workaround for https://github.com/pmd/pmd/issues/1705.
 pmdMain.classpath += sourceSets.main.runtimeClasspath
+
+tasks.withType(JavaCompile) {
+
+    // Configure Error Prone:
+    // 1. Exclude generated sources from being analyzed by Error Prone.
+    // 2. Turn the check off until Error Prone can handle `@Nested` JUnit classes.
+    //    See issue: https://github.com/google/error-prone/issues/956
+    //
+    // For more config details see: 
+    //    https://github.com/tbroyer/gradle-errorprone-plugin/tree/v0.6#usage
+
+    options.errorprone.errorproneArgs << "-XepExcludedPaths:.*/generated/.*" << "-Xep:ClassCanBeStatic:OFF"
+}

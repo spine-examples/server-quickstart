@@ -17,48 +17,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-buildscript {
-    apply from: "$rootDir/quickstart-dependencies.gradle"
-    apply from: "$rootDir/spine-dependencies.gradle"
 
-    repositories {
-        google()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
-    }
-
-    //noinspection GroovyAssignabilityCheck
-    dependencies {
-        classpath deps.build.guava
-        classpath(deps.build.gradlePlugins.protobuf) {
-            exclude group: 'com.google.guava'
-        }
-        classpath(deps.build.gradlePlugins.errorProne) {
-            exclude group: 'com.google.guava'
-        }
-        classpath "io.spine.tools:spine-model-compiler:$deps.versions.spine.base"
-    }
-}
-
-allprojects {
-    apply plugin: 'maven'
-    apply plugin: 'jacoco'
-    apply plugin: 'idea'
+plugins {
+    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-SNAPSHOT' apply false
+    id 'net.ltgt.errorprone' version '0.6' apply false
 }
 
 subprojects {
-
-    repositories {
-        jcenter()
-        google()
-        mavenCentral()
-        mavenLocal()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
+    project.ext {
+        sourcesRootDir = "$projectDir/src"
+        generatedRootDir = "$projectDir/generated"
     }
+
+    apply plugin: 'io.spine.tools.gradle.bootstrap'
+
+    spine {
+        project.defaultRepositories(project)
+
+        enableJava()
+    }
+
+    apply plugin: 'net.ltgt.errorprone'
+    apply from: "$rootDir/script/pmd/pmd.gradle"
+    apply from: "$rootDir/script/idea.gradle"
+    apply from: "$rootDir/script/tests.gradle"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     configurations {
         // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
@@ -66,91 +51,22 @@ subprojects {
         testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
     }
 
-    project.ext {
-        spineProtobufPluginId = 'io.spine.tools.spine-model-compiler'
-
-        sourcesRootDir = "$projectDir/src"
-        generatedRootDir = "$projectDir/generated"
-
-        generatedJavaDir = "$generatedRootDir/main/java"
-        generatedTestJavaDir = "$generatedRootDir/test/java"
-
-        generatedGrpcDir = "$generatedRootDir/main/grpc"
-        generatedTestGrpcDir = "$generatedRootDir/test/grpc"
-
-        generatedSpineDir = "$generatedRootDir/main/spine"
-        generatedTestSpineDir = "$generatedRootDir/test/spine"
-    }
-
-    apply plugin: 'java'
-    apply plugin: 'com.google.protobuf'
-    apply plugin: 'net.ltgt.errorprone'
-    apply plugin: 'pmd'
-
-    apply from: "$rootDir/pmd/pmd.gradle"
-
-    tasks.withType(JavaCompile) {
-
-        // Configure Error Prone:
-        // 1. Exclude generated sources from being analyzed by Error Prone.
-        // 2. Turn the check off until Error Prone can handle `@Nested` JUnit classes.
-        //    See issue: https://github.com/google/error-prone/issues/956
-        //
-        // For more config details see: 
-        //    https://github.com/tbroyer/gradle-errorprone-plugin/tree/v0.6#usage
-
-        options.errorprone.errorproneArgs << "-XepExcludedPaths:.*/generated/.*" << "-Xep:ClassCanBeStatic:OFF"
-    }
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
     dependencies {
         errorprone deps.build.errorProneCore
         errorproneJavac deps.build.errorProneJavac
 
-        implementation deps.build.protobuf
         implementation deps.build.guava
-        implementation deps.build.slf4j
         implementation deps.build.checkerAnnotations
-        implementation deps.build.errorProneAnnotations
-        implementation deps.build.jsr305Annotations
-        
-        runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
 
-        testImplementation deps.test.slf4j
-        testImplementation deps.test.guavaTestlib
-        testRuntimeOnly deps.test.junit5Runner
+        runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
     }
 
     sourceSets {
         main {
-            java.srcDirs generatedJavaDir, "$sourcesRootDir/main/java", generatedSpineDir
-            resources.srcDirs "$sourcesRootDir/main/resources", "$generatedRootDir/main/resources"
+            resources.srcDirs "$generatedRootDir/main/resources"
         }
         test {
-            java.srcDirs generatedTestJavaDir, "$sourcesRootDir/test/java", generatedTestSpineDir
-            resources.srcDirs "$sourcesRootDir/test/resources", "$generatedRootDir/test/resources"
-        }
-    }
-
-    test {
-        useJUnitPlatform {
-            includeEngines 'junit-jupiter'
-        }
-    }
-
-    // Apply the same IDEA module configuration for each of sub-projects.
-    idea {
-        module {
-            generatedSourceDirs += file(generatedJavaDir)
-            generatedSourceDirs += file(generatedSpineDir)
-            generatedSourceDirs += file(generatedGrpcDir)
-            testSourceDirs += file(generatedTestJavaDir)
-            testSourceDirs += file(generatedTestSpineDir)
-            testSourceDirs += file(generatedTestGrpcDir)
-            downloadJavadoc = true
-            downloadSources = true
+            resources.srcDirs "$generatedRootDir/test/resources"
         }
     }
 }

@@ -17,15 +17,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.task;
 
-import io.spine.server.aggregate.AggregateRepository;
-import io.spine.serverapp.TaskId;
+project.ext {
+    generatedJavaDir = "$generatedRootDir/main/java"
+    generatedTestJavaDir = "$generatedRootDir/test/java"
 
-/**
- * A repository of {@link TaskAggregate} instances.
- *
- * <p>Doesn't specify any custom behavior, which is fine in most of straightforward cases.
- */
-public final class TaskRepository extends AggregateRepository<TaskId, TaskAggregate> {
+    generatedGrpcDir = "$generatedRootDir/main/grpc"
+    generatedTestGrpcDir = "$generatedRootDir/test/grpc"
+
+    generatedSpineDir = "$generatedRootDir/main/spine"
+    generatedTestSpineDir = "$generatedRootDir/test/spine"
+}
+
+apply plugin: 'idea'
+
+idea {
+    module {
+        generatedSourceDirs += file(generatedJavaDir)
+        generatedSourceDirs += file(generatedSpineDir)
+        generatedSourceDirs += file(generatedGrpcDir)
+        testSourceDirs += file(generatedTestJavaDir)
+        testSourceDirs += file(generatedTestSpineDir)
+        testSourceDirs += file(generatedTestGrpcDir)
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }

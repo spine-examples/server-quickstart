@@ -18,10 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+spine.enableJava().client()
+
 dependencies {
-    implementation deps.spine.client
     implementation project(path: ':model')
 
-    testImplementation "io.spine:spine-testlib:$deps.versions.spine.base"
-    testImplementation "io.spine:spine-testutil-client:$deps.versions.spine.core"
+    testImplementation "io.spine:spine-testlib:$spineVersion"
+    testImplementation "io.spine:spine-testutil-client:$spineVersion"
 }

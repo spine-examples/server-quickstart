@@ -18,9 +18,3 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-apply plugin: spineProtobufPluginId
-
-dependencies {
-    implementation deps.spine.base
-    implementation deps.spine.time
-}

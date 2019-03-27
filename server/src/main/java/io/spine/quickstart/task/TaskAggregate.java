@@ -34,13 +34,12 @@ import io.spine.serverapp.TaskId;
  *
  * <p>Within this small example it only handles a single command and emits one event.
  */
-final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
+public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     TaskAggregate(TaskId id) {
         super(id);
     }
 
-    @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Assign
     TaskCreated handle(CreateTask cmd) {
         TaskCreated result = TaskCreatedVBuilder
@@ -51,9 +50,8 @@ final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
         return result;
     }
 
-    @SuppressWarnings("unused")     // The method is called by Spine via reflection.
     @Apply
-    void on(TaskCreated event) {
+    private void on(TaskCreated event) {
         builder().setTitle(event.getTitle());
     }
 }
