@@ -14,7 +14,14 @@ The project consists of three modules.
 ### The `model` Module
 
 Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
-of the application in Protobuf. See `model/proto` folder.
+of the application in Protobuf.
+The `model/src/main/proto` directory contains the Protobuf definitions of the domain model:
+ * `Task` is an aggregate state type; as any entity type, it is marked with the `(entity)` option;
+ * `TaskCreated` in `events.proto` is an event of the `Task` aggregate;
+ * `CreateTask` in `commands.proto` is a command handled by the `Task` aggregate;
+ * the model may also contain other message types, e.g. identifiers (see `identifiers.proto`), value
+ types, etc.
+ 
 
 ### The `server` Module
 
@@ -25,7 +32,7 @@ See `io.spine.quickstart.task` package for more details.
    * configures the storage;
    * creates a `BoundedContext` and registers repositories;
    * exposes the `BoundedContext` instance to the outer world through a set of gRPC services,
-     provided by the framework.
+   provided by the framework.
 
 See `io.spine.quickstart.server.ServerApp` for implementation. 
 
