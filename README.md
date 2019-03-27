@@ -84,4 +84,14 @@ sample.
 
 Typically these steps are repeated for each bounded context in the application.
 
-For more information please visit [the official website](https://spine.io).
+### Further Reading
+
+[Core Spine concepts](https://spine.io/docs/guides/concepts.html)
+
+[Domain model definition](https://spine.io/docs/guides/model-definition.html)
+
+[Java Web server implementation](https://github.com/SpineEventEngine/web)
+
+[JavaScript client library](https://www.npmjs.com/package/spine-web)
+
+[An example project with a bigger model](https://github.com/SpineEventEngine/todo-list)
