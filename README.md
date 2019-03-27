@@ -26,7 +26,8 @@ The `model/src/main/proto` directory contains the Protobuf definitions of the do
 ### The `server` Module
 
 1. Describes the business rules for Spine entities, such as Aggregates, in Java.
-See `io.spine.quickstart.task` package for more details.
+`TaskAggregate` class implements the `Task` aggregate by handling the `CreateTask` command and 
+applying the produced `TaskCreated` event.
 
 2. Plugs the `model` into the infrastructure: 
    * configures the storage;
