@@ -24,7 +24,6 @@ The `model/src/main/proto` directory contains the Protobuf definitions of the do
  * `CreateTask` in `commands.proto` is a command handled by the `Task` aggregate;
  * the model may also contain other message types, e.g. identifiers (see `identifiers.proto`), value
  types, etc.
- 
 
 ### The `server` Module
 
@@ -62,7 +61,7 @@ the following steps are suggested:
 
  * Update `*.gradle` files with the artifact attributes, that correspond to your project.
 
-### Suggested `model` Changes 
+### Suggested `model` Changes
 
  * Define the domain, in which the business task is solved.
  * Together with the domain experts, perform event storming in the bounded context of the domain
@@ -72,17 +71,17 @@ objects in Protobuf. Put them into the `model/proto` folder.
  * Design and implement Aggregates, Projections and Process Managers on top of the previously
  defined language elements. Create repositories for them.
 
-### Suggested `server` Changes 
+### Suggested `server` Changes
 
  * Configure and the storage factory, that corresponds to the target environment. Connectors to
  [Google Datastore](https://github.com/SpineEventEngine/gcloud-java) and 
  [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage) are provided by Spine.
  * Append the creation of the bounded context with the registration of newly created repositories.
- 
+
 Other possible changes include dealing with security (e.g. authentication/authorization), defining
 deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this
 sample.
 
 Typically these steps are repeated for each bounded context in the application.
- 
+
 For more information please visit [the official website](https://spine.io).
