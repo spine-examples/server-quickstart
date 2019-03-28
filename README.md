@@ -16,7 +16,7 @@ The project consists of three modules.
 
 ### The `model` Module
 
-Defines the [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
+Defines the [Ubiquitous Language](https://martinfowler.com/bliki/UbiquitousLanguage.html) 
 of the application in Protobuf.
 The `model/src/main/proto` directory contains the Protobuf definitions of the domain model:
  * `Task` is an aggregate state type; as any entity type, it is marked with the `(entity)` option;
@@ -57,32 +57,80 @@ This example is built on top of in-memory data storage, uses `io.spine.` package
 and demonstrates a really simple RPC interaction. To take it closer to the production needs,
 the following steps are suggested:
 
-### Gradle Configuration Changes:
+ * Experiment with the model—create a new command type:
+```proto
+message AssignDueDate {
+    
+    TaskId task_id = 1;
+    
+    google.protobuf.Timestamp due_date = 2 [(when).in = FUTURE];
+}
+```
+and a new event type:
+```proto
+message DueDateAssigned {
+    
+    TaskId task_id = 1;
+    
+    google.protobuf.Timestamp due_date = 2;   
+}
+```
+ * Adjust the aggregate state:
+```proto
+// Defines a state for `Task` aggregate.
+//
+message Task {
+    option (entity).kind = AGGREGATE;
 
- * Update `*.gradle` files with the artifact attributes, that correspond to your project.
+    // An ID of the task.
+    TaskId id = 1;
 
-### Suggested `model` Changes
 
- * Define the domain, in which the business task is solved.
- * Together with the domain experts, perform event storming in the bounded context of the domain
- speaking in language, ubiquitous for this domain.
- * According to the event storming results, define events, commands, entity states, and value
-objects in Protobuf. 
- * Design and implement Aggregates, Projections and Process Managers on top of the previously
- defined language elements. Create repositories for them or use the `DefaultRepository`.
+    // A title of the task.
+    string title = 2 [(required) = true];
+    
+    // The date and time by which this task should be completed.
+    google.protobuf.Timestamp due_date = 3; // New field
+}
+```
+Make sure to run a Gradle build (e.g. `./gradlew clean assemble`) after the changes to the Protobuf
+definitions.
+ * Handle the `AssignDueDate` command in the `TaskAggregate`:
+```java
+@Assign
+DueDateAssigned handle(AssignDueDate command) {
+    return DueDateAssigned.vBuilder()
+                          .setTaskId(command.getTaskId())
+                          .setDueDate(command.getDueDate())
+                          .build();
+}
+```
+ * Apply the emitted event:
+```java
+@Apply
+private void on(DueDateAssigned event) {
+    builder().setDueDate(event.getDueDate());
+}
+```
+ * In `ClientApp`, append the `main` method with another command posting:
+```java
+// -- ClientApp.main -- 
+// ...
 
-### Suggested `server` Changes
-
- * Configure the storage factory, that corresponds to the target environment. Connectors to
- [Google Cloud Datastore](https://github.com/SpineEventEngine/gcloud-java) and 
- [JDBC-enabled storages](https://github.com/SpineEventEngine/jdbc-storage) are provided by Spine.
- * Register the newly created repositories in the bounded context.
-
-Other possible changes include dealing with security (e.g. authentication/authorization), defining
-deployment scheme, scaling approach etc. These and other advanced topics aren't covered by this
-sample.
-
-Typically these steps are repeated for each bounded context in the application.
+AssignDueDate dueDateCommand = AssignDueDate
+    .vBuilder()
+    .setTaskId(taskId)
+    .setDueDate(Timestamps.parse("2038-01-19T03:14:07+00:00"))
+    .build();
+commandService.post(requestFactory.command()
+                                  .create(dueDateCommand));
+```
+and check the updated state:
+```java
+QueryResponse updatedStateResponse = queryService.read(readAllTasks);
+log().info("The second response received: {}", Stringifiers.toString(response));
+```
+ * Restart the server. Run the client and make sure that the due date is set to the task. 
 
 ### Further Reading
  * [Core Spine concepts](https://spine.io/docs/guides/concepts.html)
