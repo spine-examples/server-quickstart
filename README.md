@@ -55,6 +55,8 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
 
  * Experiment with the model—create a new command type:
 ```proto
+// -- commands.proto --
+
 message AssignDueDate {
     
     TaskId task_id = 1;
@@ -64,6 +66,8 @@ message AssignDueDate {
 ```
 and a new event type:
 ```proto
+// -- events.proto --
+
 message DueDateAssigned {
     
     TaskId task_id = 1;
@@ -71,11 +75,9 @@ message DueDateAssigned {
     google.protobuf.Timestamp due_date = 2;   
 }
 ```
-Remember to import the `Timestamp` type: `import "google/protobuf/timestamp.proto";`.
+Remember to import `Timestamp` via `import "google/protobuf/timestamp.proto";`.
  * Adjust the aggregate state:
 ```proto
-// Defines a state for `Task` aggregate.
-//
 message Task {
     option (entity).kind = AGGREGATE;
 
@@ -87,17 +89,16 @@ message Task {
     string title = 2 [(required) = true];
     
     // The date and time by which this task should be completed.
-    google.protobuf.Timestamp due_date = 3; // New field
+    google.protobuf.Timestamp due_date = 3; // <-- New field
 }
 ```
-Make sure to run a Gradle build (e.g. `./gradlew clean assemble`) after the changes to the Protobuf
-definitions.
+Make sure to run a Gradle build after the changes to the Protobuf definitions.
  * Handle the `AssignDueDate` command in the `TaskAggregate`:
 ```java
 @Assign
 DueDateAssigned handle(AssignDueDate command) {
     return DueDateAssignedVBuilder
-            .vBuilder()
+            .newBuilder()
             .setTaskId(command.getTaskId())
             .setDueDate(command.getDueDate())
             .build();
@@ -110,9 +111,9 @@ private void on(DueDateAssigned event) {
     builder().setDueDate(event.getDueDate());
 }
 ```
- * In `ClientApp`, append the `main` method with another command posting:
+ * In `ClientApp`, append the `main()` method. Post another command:
 ```java
-// -- ClientApp.main -- 
+// -- ClientApp.main() -- 
 // ...
 
 AssignDueDate dueDateCommand = AssignDueDateVBuilder
@@ -123,7 +124,7 @@ AssignDueDate dueDateCommand = AssignDueDateVBuilder
 commandService.post(requestFactory.command()
                                   .create(dueDateCommand));
 ```
-and check the updated state:
+and log the updated state:
 ```java
 QueryResponse updatedStateResponse = queryService.read(readAllTasks);
 log().info("The second response received: {}", Stringifiers.toString(updatedStateResponse));
