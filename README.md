@@ -50,13 +50,11 @@ Interacts with the gRPC services, exposed by the `server` module:
 See `io.spine.quickstart.client.ClientApp` for implementation.
 
 Run `ClientApp.main()` to start the client and see it connecting to the server.
- 
+
 ## What's Next
 
- * Experiment with the model—create a new command type:
+ * Experiment with the model. Create a new command type in `commands.proto`
 ```proto
-// -- commands.proto --
-
 message AssignDueDate {
     
     TaskId task_id = 1;
@@ -64,18 +62,18 @@ message AssignDueDate {
     google.protobuf.Timestamp due_date = 2 [(when).in = FUTURE];
 }
 ```
-and a new event type:
+Remember to import `LocalDate` via `import "spine/time/time.proto";`.
+ * Create a new event type in `events.proto`:
 ```proto
 // -- events.proto --
 
 message DueDateAssigned {
-    
+
     TaskId task_id = 1;
     
     google.protobuf.Timestamp due_date = 2;   
 }
 ```
-Remember to import `Timestamp` via `import "google/protobuf/timestamp.proto";`.
  * Adjust the aggregate state:
 ```proto
 message Task {
@@ -87,12 +85,19 @@ message Task {
 
     // A title of the task.
     string title = 2 [(required) = true];
-    
+
     // The date and time by which this task should be completed.
     google.protobuf.Timestamp due_date = 3; // <-- New field
 }
 ```
-Make sure to run a Gradle build after the changing the Protobuf definitions.
+Make sure to run a Gradle build after the changing the Protobuf definitions: 
+```bash
+./gradlew clean build
+```` 
+or for Windows:
+```
+gradlew.bat clean build
+```
  * Handle the `AssignDueDate` command in the `TaskAggregate`:
 ```java
 @Assign
@@ -111,11 +116,8 @@ private void on(DueDateAssigned event) {
     builder().setDueDate(event.getDueDate());
 }
 ```
- * In `ClientApp`, append the `main()` method. Post another command:
+ * In `ClientApp`, extend the `main()` method. Post another command:
 ```java
-// -- ClientApp.main() -- 
-// ...
-
 AssignDueDate dueDateCommand = AssignDueDateVBuilder
         .newBuilder()
         .setTaskId(taskId)
