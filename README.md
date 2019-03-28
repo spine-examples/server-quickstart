@@ -3,12 +3,12 @@ A simple example of server application in Spine to get you started.
 
 ## Prerequisites
 
-* Install JDK 8 or higher.
-* Clone the source code: 
+ * Install JDK 8 or higher.
+ * Clone the source code: 
 ```bash
 git clone git@github.com:SpineEventEngine/server-quickstart.git
 ```
-* Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
+ * Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
 
 ## Structure
 
@@ -20,8 +20,8 @@ Defines the [Ubiquitous Language](https://martinfowler.com/bliki/UbiquitousLangu
 of the application in Protobuf.
 The `model/src/main/proto` directory contains the Protobuf definitions of the domain model:
  * `Task` is an aggregate state type; as any entity type, it is marked with the `(entity)` option;
- * `TaskCreated` in `events.proto` is an event of the `Task` aggregate;
- * `CreateTask` in `commands.proto` is a command handled by the `Task` aggregate;
+ * `TaskCreated` in `events.proto` is an event of the `TaskAggregate`;
+ * `CreateTask` in `commands.proto` is a command handled by the `TaskAggregate`;
  * the model may also contain other message types, e.g. identifiers (see `identifiers.proto`), value
  types, etc.
 
