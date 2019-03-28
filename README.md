@@ -59,7 +59,7 @@ message AssignDueDate {
     
     TaskId task_id = 1;
     
-    spine.time.LocalDate due_date = 2;
+    spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true];
 }
 ```
 Remember to import `LocalDate` via `import "spine/time/time.proto";`. This type is provided by
@@ -71,7 +71,7 @@ message DueDateAssigned {
 
     TaskId task_id = 1;
 
-    spine.time.LocalDate due_date = 2;
+    spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true];
 }
 ```
  * Adjust the aggregate state:
@@ -87,7 +87,7 @@ message Task {
     string title = 2 [(required) = true];
 
     // The date and time by which this task should be completed.
-    spine.time.LocalDate due_date = 3; // <-- New field
+    spine.time.LocalDate due_date = 3 [(valid) = true, (required) = false, (when).in = FUTURE];
 }
 ```
 Make sure to run a Gradle build after the changing the Protobuf definitions: 
