@@ -83,10 +83,10 @@ public class ClientApp {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
                                                       .usePlaintext()
                                                       .build();
-        CommandServiceGrpc.CommandServiceBlockingStub clientCommandService =
+        CommandServiceGrpc.CommandServiceBlockingStub commandService =
                 CommandServiceGrpc.newBlockingStub(channel);
 
-        QueryServiceGrpc.QueryServiceBlockingStub queryClientService =
+        QueryServiceGrpc.QueryServiceBlockingStub queryService =
                 QueryServiceGrpc.newBlockingStub(channel);
 
         // Create and post a command.
@@ -97,7 +97,7 @@ public class ClientApp {
         CreateTask createTask = newCreateTaskCommand("Wash my car");
         Command cmd = requestFactory.command()
                                     .create(createTask);
-        Ack acked = clientCommandService.post(cmd);
+        Ack acked = commandService.post(cmd);
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
 
@@ -113,7 +113,7 @@ public class ClientApp {
                                            .all(Task.class);
 
         log().info("Reading all tasks...");
-        QueryResponse response = queryClientService.read(readAllTasks);
+        QueryResponse response = queryService.read(readAllTasks);
         log().info("A response received: {}", Stringifiers.toString(response));
     }
 
