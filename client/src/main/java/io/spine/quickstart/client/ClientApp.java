@@ -100,7 +100,7 @@ public class ClientApp {
                 .newBuilder()
                 .setValue(newUuid())
                 .build();
-        CreateTask createTask = newCreateTaskCommand(taskId, "Wash my car");
+        CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
         Command cmd = requestFactory.command()
                                     .create(createTask);
         Ack acked = commandService.post(cmd);
