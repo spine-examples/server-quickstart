@@ -77,7 +77,7 @@ public class ClientApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) throws InterruptedException, ParseException {
+    public static void main(String[] args) throws InterruptedException {
 
         // Connect to the server and init the client-side stubs for gRPC services.
         log().info("Connecting to the server at {}:{}", HOST, PORT);

@@ -82,7 +82,6 @@ message Task {
     // An ID of the task.
     TaskId id = 1;
 
-
     // A title of the task.
     string title = 2 [(required) = true];
 
