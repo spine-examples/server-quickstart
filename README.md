@@ -56,9 +56,7 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
  * Experiment with the model. Create a new command type in `commands.proto`
 ```proto
 message AssignDueDate {
-    
     TaskId task_id = 1;
-    
     spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true, (when).in = FUTURE];
 }
 ```
@@ -68,9 +66,7 @@ additional steps to use it in your domain.
  * Create a new event type in `events.proto`:
 ```proto
 message DueDateAssigned {
-
     TaskId task_id = 1;
-
     spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true];
 }
 ```
