@@ -92,7 +92,7 @@ message Task {
     google.protobuf.Timestamp due_date = 3; // <-- New field
 }
 ```
-Make sure to run a Gradle build after the changes to the Protobuf definitions.
+Make sure to run a Gradle build after the changing the Protobuf definitions.
  * Handle the `AssignDueDate` command in the `TaskAggregate`:
 ```java
 @Assign
@@ -131,7 +131,7 @@ log().info("The second response received: {}", Stringifiers.toString(updatedStat
 ```
  * Restart the server. Run the client and make sure that the due date is set to the task. 
 
-### Further Reading
+## Further Reading
  * [Core Spine concepts](https://spine.io/docs/guides/concepts.html)
  * [Domain model definition](https://spine.io/docs/guides/model-definition.html)
  * [Java Web server implementation](https://github.com/SpineEventEngine/web)
