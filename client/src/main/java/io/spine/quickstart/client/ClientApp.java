@@ -19,6 +19,7 @@
  */
 package io.spine.quickstart.client;
 
+import com.google.common.collect.ImmutableSet;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.spine.client.ActorRequestFactory;
@@ -38,8 +39,6 @@ import io.spine.serverapp.TaskId;
 import io.spine.serverapp.TaskIdVBuilder;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
-
-import java.text.ParseException;
 
 import static io.spine.base.Identifier.newUuid;
 
@@ -114,12 +113,11 @@ public class ClientApp {
          */
         Thread.sleep(100);
 
-        // Create and post a query.
-        Query readAllTasks = requestFactory.query()
-                                           .all(Task.class);
-
-        log().info("Reading all tasks...");
-        QueryResponse response = queryService.read(readAllTasks);
+        // Create and execute a query.
+        Query taskQuery = requestFactory.query()
+                                        .byIds(Task.class, ImmutableSet.of(taskId));
+        log().info("Reading the task...");
+        QueryResponse response = queryService.read(taskQuery);
         log().info("A response received: {}", Stringifiers.toString(response));
     }
 
