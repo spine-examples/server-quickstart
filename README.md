@@ -53,10 +53,6 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
  
 ## What's Next
 
-This example is built on top of in-memory data storage, uses `io.spine.` package 
-and demonstrates a really simple RPC interaction. To take it closer to the production needs,
-the following steps are suggested:
-
  * Experiment with the model—create a new command type:
 ```proto
 message AssignDueDate {
@@ -75,6 +71,7 @@ message DueDateAssigned {
     google.protobuf.Timestamp due_date = 2;   
 }
 ```
+Remember to import the `Timestamp` type: `import "google/protobuf/timestamp.proto";`.
  * Adjust the aggregate state:
 ```proto
 // Defines a state for `Task` aggregate.
@@ -99,10 +96,11 @@ definitions.
 ```java
 @Assign
 DueDateAssigned handle(AssignDueDate command) {
-    return DueDateAssigned.vBuilder()
-                          .setTaskId(command.getTaskId())
-                          .setDueDate(command.getDueDate())
-                          .build();
+    return DueDateAssignedVBuilder
+            .vBuilder()
+            .setTaskId(command.getTaskId())
+            .setDueDate(command.getDueDate())
+            .build();
 }
 ```
  * Apply the emitted event:
@@ -117,18 +115,18 @@ private void on(DueDateAssigned event) {
 // -- ClientApp.main -- 
 // ...
 
-AssignDueDate dueDateCommand = AssignDueDate
-    .vBuilder()
-    .setTaskId(taskId)
-    .setDueDate(Timestamps.parse("2038-01-19T03:14:07+00:00"))
-    .build();
+AssignDueDate dueDateCommand = AssignDueDateVBuilder
+        .newBuilder()
+        .setTaskId(taskId)
+        .setDueDate(Timestamps.parse("2038-01-19T03:14:07+00:00"))
+        .build();
 commandService.post(requestFactory.command()
                                   .create(dueDateCommand));
 ```
 and check the updated state:
 ```java
 QueryResponse updatedStateResponse = queryService.read(readAllTasks);
-log().info("The second response received: {}", Stringifiers.toString(response));
+log().info("The second response received: {}", Stringifiers.toString(updatedStateResponse));
 ```
  * Restart the server. Run the client and make sure that the due date is set to the task. 
 
