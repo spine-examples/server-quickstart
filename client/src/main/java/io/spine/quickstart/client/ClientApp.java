@@ -39,6 +39,8 @@ import io.spine.serverapp.TaskIdVBuilder;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 
+import java.text.ParseException;
+
 import static io.spine.base.Identifier.newUuid;
 
 /**
@@ -75,7 +77,7 @@ public class ClientApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ParseException {
 
         // Connect to the server and init the client-side stubs for gRPC services.
         log().info("Connecting to the server at {}:{}", HOST, PORT);
@@ -94,7 +96,11 @@ public class ClientApp {
                 .newBuilder()
                 .setActor(whoIsCalling())
                 .build();
-        CreateTask createTask = newCreateTaskCommand("Wash my car");
+        TaskId taskId = TaskIdVBuilder
+                .newBuilder()
+                .setValue(newUuid())
+                .build();
+        CreateTask createTask = newCreateTaskCommand(taskId, "Wash my car");
         Command cmd = requestFactory.command()
                                     .create(createTask);
         Ack acked = commandService.post(cmd);
@@ -120,18 +126,16 @@ public class ClientApp {
     /**
      * Creates a message for the {@link CreateTask} command.
      *
+     * @param taskId
+     *         the ID of the new task
      * @param title
      *         the value to use for a title in the new task
      * @return the message for {@code CreateTask} command
      */
-    private static CreateTask newCreateTaskCommand(String title) {
-        TaskId newTaskId = TaskIdVBuilder
-                .newBuilder()
-                .setValue(newUuid())
-                .build();
+    private static CreateTask newCreateTaskCommand(TaskId taskId, String title) {
         CreateTask message = CreateTaskVBuilder
                 .newBuilder()
-                .setId(newTaskId)
+                .setId(taskId)
                 .setTitle(title)
                 .build();
         return message;
