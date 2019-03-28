@@ -39,7 +39,6 @@ message CreateTask {
     //
     TaskId id = 1;
 
-
     // A title for the new task.
     //
     string title = 2 [(required) = true];

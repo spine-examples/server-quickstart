@@ -19,6 +19,7 @@
  */
 package io.spine.quickstart.client;
 
+import com.google.common.collect.ImmutableSet;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.spine.client.ActorRequestFactory;
@@ -83,10 +84,10 @@ public class ClientApp {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
                                                       .usePlaintext()
                                                       .build();
-        CommandServiceGrpc.CommandServiceBlockingStub clientCommandService =
+        CommandServiceGrpc.CommandServiceBlockingStub commandService =
                 CommandServiceGrpc.newBlockingStub(channel);
 
-        QueryServiceGrpc.QueryServiceBlockingStub queryClientService =
+        QueryServiceGrpc.QueryServiceBlockingStub queryService =
                 QueryServiceGrpc.newBlockingStub(channel);
 
         // Create and post a command.
@@ -94,10 +95,14 @@ public class ClientApp {
                 .newBuilder()
                 .setActor(whoIsCalling())
                 .build();
-        CreateTask createTask = newCreateTaskCommand("Wash my car");
+        TaskId taskId = TaskIdVBuilder
+                .newBuilder()
+                .setValue(newUuid())
+                .build();
+        CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
         Command cmd = requestFactory.command()
                                     .create(createTask);
-        Ack acked = clientCommandService.post(cmd);
+        Ack acked = commandService.post(cmd);
         log().info("A command has been posted: " + Stringifiers.toString(createTask));
         log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
 
@@ -108,30 +113,27 @@ public class ClientApp {
          */
         Thread.sleep(100);
 
-        // Create and post a query.
-        Query readAllTasks = requestFactory.query()
-                                           .all(Task.class);
-
-        log().info("Reading all tasks...");
-        QueryResponse response = queryClientService.read(readAllTasks);
+        // Create and execute a query.
+        Query taskQuery = requestFactory.query()
+                                        .byIds(Task.class, ImmutableSet.of(taskId));
+        log().info("Reading the task...");
+        QueryResponse response = queryService.read(taskQuery);
         log().info("A response received: {}", Stringifiers.toString(response));
     }
 
     /**
      * Creates a message for the {@link CreateTask} command.
      *
+     * @param taskId
+     *         the ID of the new task
      * @param title
      *         the value to use for a title in the new task
      * @return the message for {@code CreateTask} command
      */
-    private static CreateTask newCreateTaskCommand(String title) {
-        TaskId newTaskId = TaskIdVBuilder
-                .newBuilder()
-                .setValue(newUuid())
-                .build();
+    private static CreateTask newCreateTaskCommand(TaskId taskId, String title) {
         CreateTask message = CreateTaskVBuilder
                 .newBuilder()
-                .setId(newTaskId)
+                .setId(taskId)
                 .setTitle(title)
                 .build();
         return message;
