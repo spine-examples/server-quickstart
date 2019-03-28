@@ -59,7 +59,7 @@ message AssignDueDate {
     
     TaskId task_id = 1;
     
-    google.protobuf.Timestamp due_date = 2 [(when).in = FUTURE];
+    spine.time.LocalDate due_date = 2;
 }
 ```
 Remember to import `LocalDate` via `import "spine/time/time.proto";`.
@@ -70,8 +70,8 @@ Remember to import `LocalDate` via `import "spine/time/time.proto";`.
 message DueDateAssigned {
 
     TaskId task_id = 1;
-    
-    google.protobuf.Timestamp due_date = 2;   
+
+    spine.time.LocalDate due_date = 2;
 }
 ```
  * Adjust the aggregate state:
@@ -87,7 +87,7 @@ message Task {
     string title = 2 [(required) = true];
 
     // The date and time by which this task should be completed.
-    google.protobuf.Timestamp due_date = 3; // <-- New field
+    spine.time.LocalDate due_date = 3; // <-- New field
 }
 ```
 Make sure to run a Gradle build after the changing the Protobuf definitions: 
@@ -121,7 +121,7 @@ private void on(DueDateAssigned event) {
 AssignDueDate dueDateCommand = AssignDueDateVBuilder
         .newBuilder()
         .setTaskId(taskId)
-        .setDueDate(Timestamps.parse("2038-01-19T03:14:07+00:00"))
+        .setDueDate(LocalDates.of(2038, JANUARY, 19))
         .build();
 commandService.post(requestFactory.command()
                                   .create(dueDateCommand));
