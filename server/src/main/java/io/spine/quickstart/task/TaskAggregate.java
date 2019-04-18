@@ -22,7 +22,6 @@ package io.spine.quickstart.task;
 import io.spine.quickstart.CreateTask;
 import io.spine.quickstart.Task;
 import io.spine.quickstart.TaskCreated;
-import io.spine.quickstart.TaskCreatedVBuilder;
 import io.spine.quickstart.TaskVBuilder;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
@@ -42,8 +41,8 @@ public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
 
     @Assign
     TaskCreated handle(CreateTask cmd) {
-        TaskCreated result = TaskCreatedVBuilder
-                .newBuilder()
+        TaskCreated result = TaskCreated
+                .vBuilder()
                 .setTitle(cmd.getTitle())
                 .setId(cmd.getId())
                 .build();

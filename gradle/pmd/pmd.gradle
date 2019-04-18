@@ -40,7 +40,7 @@ pmd {
     ruleSets = []
 
     // A set of custom rules.
-    ruleSetFiles = files("$rootDir/script/pmd/pmd.xml")
+    ruleSetFiles = files("$rootDir/gradle/pmd/pmd.xml")
 
     reportsDir = file("$projectDir/build/reports/pmd")
 
