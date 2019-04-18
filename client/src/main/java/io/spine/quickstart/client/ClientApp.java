@@ -30,13 +30,10 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
-import io.spine.core.UserIdVBuilder;
 import io.spine.logging.Logging;
 import io.spine.quickstart.CreateTask;
-import io.spine.quickstart.CreateTaskVBuilder;
 import io.spine.quickstart.Task;
 import io.spine.serverapp.TaskId;
-import io.spine.serverapp.TaskIdVBuilder;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 
@@ -95,8 +92,8 @@ public class ClientApp {
                 .newBuilder()
                 .setActor(whoIsCalling())
                 .build();
-        TaskId taskId = TaskIdVBuilder
-                .newBuilder()
+        TaskId taskId = TaskId
+                .vBuilder()
                 .setValue(newUuid())
                 .build();
         CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
@@ -131,8 +128,8 @@ public class ClientApp {
      * @return the message for {@code CreateTask} command
      */
     private static CreateTask newCreateTaskCommand(TaskId taskId, String title) {
-        CreateTask message = CreateTaskVBuilder
-                .newBuilder()
+        CreateTask message = CreateTask
+                .vBuilder()
                 .setId(taskId)
                 .setTitle(title)
                 .build();
@@ -147,8 +144,8 @@ public class ClientApp {
      * <p>Must be substituted with a real {@code UserId} in a production application.
      */
     private static UserId whoIsCalling() {
-        UserId actorId = UserIdVBuilder
-                .newBuilder()
+        UserId actorId = UserId
+                .vBuilder()
                 .setValue(newUuid())
                 .build();
         return actorId;
