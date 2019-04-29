@@ -35,7 +35,7 @@ import "spine/quickstart/identifiers.proto";
 // Defines a state for `Task` aggregate.
 //
 message Task {
-    option (entity).kind = AGGREGATE;
+    option (entity) = {kind: AGGREGATE visibility: QUERY};
 
     // An ID of the task.
     //
