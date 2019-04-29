@@ -22,11 +22,11 @@ package io.spine.quickstart.task;
 import io.spine.quickstart.CreateTask;
 import io.spine.quickstart.Task;
 import io.spine.quickstart.TaskCreated;
+import io.spine.quickstart.TaskId;
 import io.spine.quickstart.TaskVBuilder;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;
-import io.spine.serverapp.TaskId;
 
 /**
  * Definition of the {@code Task} aggregate.
