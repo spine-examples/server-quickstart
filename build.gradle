@@ -30,26 +30,24 @@ subprojects {
     }
 
     apply plugin: 'io.spine.tools.gradle.bootstrap'
+    
+    pluginManager.withPlugin('java') {
+        apply plugin: 'net.ltgt.errorprone'
+        apply from: "$rootDir/gradle/pmd/pmd.gradle"
+        apply from: "$rootDir/gradle/idea.gradle"
+        apply from: "$rootDir/gradle/tests.gradle"
 
-    spine {
-        enableJava()
-    }
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
 
-    apply plugin: 'net.ltgt.errorprone'
-    apply from: "$rootDir/gradle/pmd/pmd.gradle"
-    apply from: "$rootDir/gradle/idea.gradle"
-    apply from: "$rootDir/gradle/tests.gradle"
+        dependencies {
+            errorprone deps.build.errorProneCore
+            errorproneJavac deps.build.errorProneJavac
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+            implementation deps.build.guava
+            implementation deps.build.checkerAnnotations
 
-    dependencies {
-        errorprone deps.build.errorProneCore
-        errorproneJavac deps.build.errorProneJavac
-
-        implementation deps.build.guava
-        implementation deps.build.checkerAnnotations
-
-        runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
+            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
+        }
     }
 }

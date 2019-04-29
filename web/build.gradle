@@ -18,7 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-include 'model'
-include 'server'
-include 'client'
-include 'web'
+spine.enableJavaScript()
+
+dependencies {
+    protobuf project(path: ':model')
+}
+
+compileJava.enabled = false
+testCompileJava.enabled = false
