@@ -25,4 +25,4 @@ dependencies {
 }
 
 compileJava.enabled = false
-testCompileJava.enabled = false
+compileTestJava.enabled = false
