@@ -28,5 +28,5 @@ compileJava.enabled = false
 compileTestJava.enabled = false
 
 configurations.protobuf {
-    transitive = false 
+    transitive = false
 }
