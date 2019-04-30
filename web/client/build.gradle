@@ -30,3 +30,16 @@ compileTestJava.enabled = false
 configurations.protobuf {
     transitive = false
 }
+
+protobuf {
+    generatedFilesBaseDir = projectDir
+    generateProtoTasks {
+        all().each { final task ->
+            task.builtins {
+                js {
+                    outputSubDir = "proto"
+                }
+            }
+        }
+    }
+}
