@@ -8,7 +8,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "rxjs": "^6.3.3",
-    "spine-web": "^0.15.3"
+    "rxjs": "^6.5.0",
+    "spine-web": "^0.16.0"
   }
 }
