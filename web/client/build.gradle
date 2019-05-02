@@ -32,14 +32,13 @@ configurations.protobuf {
 }
 
 protobuf {
-    generatedFilesBaseDir = projectDir
+    generatedFilesBaseDir = "$projectDir/generated"
     generateProtoTasks {
         all().each { final task ->
-            task.builtins {
-                js {
-                    outputSubDir = "proto"
-                }
-            }
+            task.generateDescriptorSet = true
+            final String descriptorName = "${project.group}_${project.name}_${project.version}.desc"
+            task.descriptorSetOptions.path = 
+                    "${projectDir}/build/descriptors/${task.sourceSet.name}/${descriptorName}"
         }
     }
 }
