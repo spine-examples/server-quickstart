@@ -20,16 +20,16 @@
 
 package io.spine.quickstart.web;
 
-import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
+import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
 
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/subscription/cancel")
-public final class QuickSubscriptionCancelServlet extends SubscriptionCancelServlet {
+@WebServlet("/subscription/keep-up")
+public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
 
     private static final long serialVersionUID = 0L;
 
-    QuickSubscriptionCancelServlet() {
+    TasksSubscriptionKeepUpServlet() {
         super(ServletBridges.subscription());
     }
 }

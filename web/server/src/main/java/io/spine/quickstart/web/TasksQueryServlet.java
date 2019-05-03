@@ -20,16 +20,16 @@
 
 package io.spine.quickstart.web;
 
-import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
+import io.spine.web.query.QueryServlet;
 
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/subscription/keep-up")
-public final class QuickSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
+@WebServlet("/query")
+public final class TasksQueryServlet extends QueryServlet {
 
     private static final long serialVersionUID = 0L;
 
-    QuickSubscriptionKeepUpServlet() {
-        super(ServletBridges.subscription());
+    TasksQueryServlet() {
+        super(ServletBridges.query());
     }
 }

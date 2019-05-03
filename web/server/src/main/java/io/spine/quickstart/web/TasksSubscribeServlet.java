@@ -25,11 +25,11 @@ import io.spine.web.subscription.servlet.SubscribeServlet;
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/subscription/create")
-public final class QuickSubscribeServlet extends SubscribeServlet {
+public final class TasksSubscribeServlet extends SubscribeServlet {
 
     private static final long serialVersionUID = 0L;
 
-    QuickSubscribeServlet() {
+    TasksSubscribeServlet() {
         super(ServletBridges.subscription());
     }
 }
