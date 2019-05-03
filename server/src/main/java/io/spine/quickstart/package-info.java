@@ -18,9 +18,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+@BoundedContext(NAME)
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.quickstart;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
-}
+import com.google.errorprone.annotations.CheckReturnValue;
+import io.spine.server.annotation.BoundedContext;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import static io.spine.quickstart.TasksContext.NAME;

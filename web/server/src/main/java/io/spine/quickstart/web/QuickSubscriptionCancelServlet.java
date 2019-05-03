@@ -18,9 +18,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+package io.spine.quickstart.web;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/subscription/cancel")
+public final class QuickSubscriptionCancelServlet extends SubscriptionCancelServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    QuickSubscriptionCancelServlet() {
+        super(ServletBridges.subscription());
+    }
 }

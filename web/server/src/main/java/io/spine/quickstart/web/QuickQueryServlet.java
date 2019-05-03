@@ -18,9 +18,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+package io.spine.quickstart.web;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+import io.spine.web.query.QueryServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/query")
+public final class QuickQueryServlet extends QueryServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    QuickQueryServlet() {
+        super(ServletBridges.query());
+    }
 }

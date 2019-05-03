@@ -18,9 +18,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+package io.spine.quickstart.web;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+import io.spine.quickstart.TasksContext;
+import io.spine.web.command.CommandServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/command")
+public final class QuickCommandServlet extends CommandServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    QuickCommandServlet() {
+        super(TasksContext.commandService());
+    }
 }

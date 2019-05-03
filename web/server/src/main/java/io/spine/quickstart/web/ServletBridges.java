@@ -18,9 +18,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+package io.spine.quickstart.web;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+import io.spine.quickstart.TasksContext;
+import io.spine.web.firebase.query.FirebaseQueryBridge;
+import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
+import io.spine.web.query.QueryBridge;
+import io.spine.web.subscription.SubscriptionBridge;
+
+final class ServletBridges {
+
+    /**
+     * Prevents the utility class instantiation.
+     */
+    private ServletBridges() {
+    }
+
+    static SubscriptionBridge subscription() {
+        return FirebaseSubscriptionBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setQueryService(TasksContext.queryService())
+                .build();
+    }
+
+    static QueryBridge query() {
+        return FirebaseQueryBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setQueryService(TasksContext.queryService())
+                .build();
+    }
 }

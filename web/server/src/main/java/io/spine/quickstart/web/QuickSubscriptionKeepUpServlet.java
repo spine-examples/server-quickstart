@@ -18,9 +18,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-spine.enableJava()
+package io.spine.quickstart.web;
 
-dependencies {
-    implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/subscription/keep-up")
+public final class QuickSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    QuickSubscriptionKeepUpServlet() {
+        super(ServletBridges.subscription());
+    }
 }
