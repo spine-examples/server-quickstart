@@ -29,7 +29,7 @@ public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServ
 
     private static final long serialVersionUID = 0L;
 
-    TasksSubscriptionKeepUpServlet() {
+    public TasksSubscriptionKeepUpServlet() {
         super(ServletBridges.subscription());
     }
 }

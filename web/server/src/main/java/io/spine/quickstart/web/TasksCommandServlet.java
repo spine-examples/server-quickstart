@@ -30,7 +30,7 @@ public final class TasksCommandServlet extends CommandServlet {
 
     private static final long serialVersionUID = 0L;
 
-    TasksCommandServlet() {
+    public TasksCommandServlet() {
         super(TasksContext.commandService());
     }
 }

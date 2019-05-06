@@ -29,7 +29,7 @@ public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServ
 
     private static final long serialVersionUID = 0L;
 
-    TasksSubscriptionCancelServlet() {
+    public TasksSubscriptionCancelServlet() {
         super(ServletBridges.subscription());
     }
 }

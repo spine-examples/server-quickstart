@@ -29,7 +29,7 @@ public final class TasksQueryServlet extends QueryServlet {
 
     private static final long serialVersionUID = 0L;
 
-    TasksQueryServlet() {
+    public TasksQueryServlet() {
         super(ServletBridges.query());
     }
 }
