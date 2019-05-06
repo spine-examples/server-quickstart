@@ -18,6 +18,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Defines the Spine Quickstart application.
+ *
+ * <p>The application contains a single bounded context called {@code Tasks}. This package is
+ * the root for the {@code Tasks} definitions.
+ */
+
 @BoundedContext(NAME)
 @CheckReturnValue
 @ParametersAreNonnullByDefault

@@ -26,6 +26,9 @@ import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
 import io.spine.web.query.QueryBridge;
 import io.spine.web.subscription.SubscriptionBridge;
 
+/**
+ * A factory of the bridges between the servlet API and the {@code Tasks} context.
+ */
 final class ServletBridges {
 
     /**

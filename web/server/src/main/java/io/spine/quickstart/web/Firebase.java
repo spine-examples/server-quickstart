@@ -28,6 +28,11 @@ import io.spine.web.firebase.DatabaseUrl;
 import io.spine.web.firebase.FirebaseClient;
 import io.spine.web.firebase.rest.RestClient;
 
+/**
+ * A factory of Firebase Realtime Database clients.
+ *
+ * <p>Connects to a database emulator started at port {@code 5000}.
+ */
 final class Firebase {
 
     private static final Url EMULATOR_URL = Url

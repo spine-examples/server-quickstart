@@ -30,9 +30,16 @@ import io.spine.server.storage.memory.InMemoryStorageFactory;
 
 import static io.spine.core.BoundedContextNames.newName;
 
+/**
+ * A factory of {@code Tasks} bounded context services.
+ */
 public final class TasksContext {
 
+    /**
+     * The name of the context.
+     */
     public static final String NAME = "Tasks";
+
     private static final boolean MULTITENANT = false;
 
     private static final BoundedContext context = createContext();
@@ -52,10 +59,6 @@ public final class TasksContext {
     private TasksContext() {
     }
 
-    public static BoundedContext instance() {
-        return context;
-    }
-
     private static BoundedContext createContext() {
         StorageFactory storage = InMemoryStorageFactory.newInstance(newName(NAME), MULTITENANT);
         BoundedContext context = BoundedContext
@@ -67,10 +70,16 @@ public final class TasksContext {
         return context;
     }
 
+    /**
+     * Obtains a {@code QueryService} with the {@code Tasks} context.
+     */
     public static QueryService queryService() {
         return queryService;
     }
 
+    /**
+     * Obtains a {@code CommandService} with the {@code Tasks} context.
+     */
     public static CommandService commandService() {
         return commandService;
     }
