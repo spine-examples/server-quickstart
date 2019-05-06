@@ -32,7 +32,7 @@ final class Firebase {
 
     private static final Url EMULATOR_URL = Url
             .newBuilder()
-            .setSpec("localhost:5000")
+            .setSpec("http://localhost:5000")
             .build();
 
     private static final FirebaseClient client = createClient();
