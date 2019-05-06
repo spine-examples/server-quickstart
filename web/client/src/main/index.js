@@ -64,11 +64,11 @@ class TaskController {
 
     renderTasksIn(viewContainer) {
         const targetType = Type.forClass(Task);
-        console.log("Subscribing to updates of " + targetType);
+        console.log("Subscribing to updates of " + targetType.url().value());
         this._client.subscribeToEntities({
             ofType: targetType
         }).then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
-            itemAdded.asObservable().subscribe(
+            itemAdded.subscribe(
                 item => TaskController._renderNewTask(viewContainer, item)
             );
         });
