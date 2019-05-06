@@ -29,4 +29,8 @@ dependencies {
     implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
 }
 
-gretty.contextPath = '/'
+gretty {
+    contextPath = '/'
+    loggingLevel = 'ALL'
+    fastReload = false
+}
