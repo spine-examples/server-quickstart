@@ -8,12 +8,13 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@firebase/testing": "^0.9.0",
+    "firebase": "^5.11.1",
     "rxjs": "^6.5.0",
     "spine-web": "^0.16.0",
     "uuid": "latest"
   },
   "devDependencies": {
+    "firebase-server": "^1.0.1",
     "webpack-cli": "^3.3.1"
   }
 }

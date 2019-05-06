@@ -28,21 +28,14 @@ import {TaskId} from "../../generated/main/js/spine/quickstart/identifiers_pb"
 
 import * as spineTypes from 'spine-web/proto/index';
 import * as types from '../../generated/main/js/index';
-// For the Firebase emulator.
-import * as firebase from '@firebase/testing';
 
-const HOST = 'localhost:8080';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
-// Initialize the Firebase Realtime Database emulator.
-const FIREBASE_DATABASE_NAME = 'spine-quickstart';
-const FIREBASE = firebase.initializeTestApp({
-    databaseName: FIREBASE_DATABASE_NAME
+const HOST = 'http://localhost:8080';
+const FIREBASE = firebase.initializeApp({
+    databaseURL: 'ws://localhost:5000'
 });
-firebase.loadDatabaseRules({
-    databaseName: FIREBASE_DATABASE_NAME,
-    rules: "{'rules': {'.read': true, '.write': true}}"
-});
-
 const NO_OP = () => {};
 
 class TaskController {
@@ -90,10 +83,10 @@ const controller = new TaskController();
 
 function sendCommand(document) {
     const titleTextArea = document.getElementById('title-text');
-    const title = titleTextArea.innerText;
+    const title = titleTextArea.value;
     if (title.length > 0) {
         controller.createTask(title);
-        titleTextArea.innerText = "";
+        titleTextArea.value = "";
     }
 }
 
