@@ -20,7 +20,7 @@
 
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="index.css">
-<body>
+<body onload="subscribeToUpdates(document)">
 <script type="text/javascript" src="../bundle.js"></script>
 <label>
     <textarea id="title-text" placeholder="Type your task title"></textarea>
@@ -28,7 +28,7 @@
 <button onclick="sendCommand(document)">
     Create
 </button>
-<div id="task-container" onload="subscribeToUpdates(document)">
+<div id="task-container">
 </div>
 </body>
 </html>

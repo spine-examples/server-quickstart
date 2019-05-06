@@ -34,9 +34,9 @@ import 'firebase/database';
 
 const HOST = 'http://localhost:8080';
 const FIREBASE = firebase.initializeApp({
-    databaseURL: 'ws://localhost:5000'
+    databaseURL: 'ws://localhost:5000/',
+    authDomain: 'ws://localhost:5000/'
 });
-const NO_OP = () => {};
 
 class TaskController {
 
@@ -56,12 +56,17 @@ class TaskController {
         const cmd = new CreateTask();
         cmd.setId(id);
         cmd.setTitle(title);
-        this._client.sendCommand(cmd, NO_OP, NO_OP, NO_OP);
+        this._client.sendCommand(cmd,
+                                 () => console.log("Command sent."),
+                                 (err) => console.log("Command errored: " + err),
+                                 (rej) => console.log("Command rejected: " + rej));
     }
 
     renderTasksIn(viewContainer) {
+        const targetType = Type.forClass(Task);
+        console.log("Subscribing to updates of " + targetType);
         this._client.subscribeToEntities({
-            ofType: Type.forClass(Task)
+            ofType: targetType
         }).then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
             itemAdded.asObservable().subscribe(
                 item => TaskController._renderNewTask(viewContainer, item)
