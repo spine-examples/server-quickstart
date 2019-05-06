@@ -22,7 +22,7 @@ package io.spine.quickstart.web;
 
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.apache.ApacheHttpTransport;
 import io.spine.net.Url;
 import io.spine.web.firebase.DatabaseUrl;
 import io.spine.web.firebase.FirebaseClient;
@@ -32,7 +32,7 @@ final class Firebase {
 
     private static final Url EMULATOR_URL = Url
             .newBuilder()
-            .setSpec("http://localhost:5000")
+            .setSpec("http://127.0.0.1:5000/")
             .build();
 
     private static final FirebaseClient client = createClient();
@@ -52,7 +52,7 @@ final class Firebase {
                 .newBuilder()
                 .setUrl(EMULATOR_URL)
                 .build();
-        HttpTransport transport = new NetHttpTransport();
+        HttpTransport transport = new ApacheHttpTransport();
         HttpRequestFactory requestFactory = transport.createRequestFactory();
         return RestClient.create(url, requestFactory);
     }
