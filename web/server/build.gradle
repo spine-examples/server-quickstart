@@ -18,9 +18,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+plugins {
+    id "org.gretty" version "2.3.1"
+}
+
 spine.enableJava()
 
 dependencies {
     implementation project(path: ':server')
     implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
 }
+
+gretty.contextPath = '/'
