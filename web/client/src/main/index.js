@@ -38,6 +38,11 @@ const FIREBASE = firebase.initializeApp({
     authDomain: 'ws://localhost:5000/'
 });
 
+/**
+ * Backend for the tasks page.
+ *
+ * Performs queries to the application backend via the Spine web library.
+ */
 class TaskController {
 
     constructor() {
@@ -50,6 +55,11 @@ class TaskController {
         });
     }
 
+    /**
+     * Sends a command to create a new task with the given title.
+     *
+     * @param title the title of the new task
+     */
     createTask(title) {
         const id = new TaskId();
         id.setValue(uuid.v4());
@@ -57,11 +67,20 @@ class TaskController {
         cmd.setId(id);
         cmd.setTitle(title);
         this._client.sendCommand(cmd,
-                                 () => console.log("Command sent."),
-                                 (err) => console.log("Command errored: " + err),
-                                 (rej) => console.log("Command rejected: " + rej));
+            () => console.log("Command sent."),
+            (err) => console.log("Command errored: " + err),
+            (rej) => console.log("Command rejected: " + rej));
     }
 
+    /**
+     * Subscribes to all the tasks present in the system and renders those tasks into the given
+     * container.
+     *
+     * The existing tasks are displayed at once the method is called. When the new tasks appear in
+     * the system, they are rendered appended to the container.
+     *
+     * @param viewContainer the contained element to display tasks in
+     */
     renderTasksIn(viewContainer) {
         const targetType = Type.forClass(Task);
         console.log("Subscribing to updates of " + targetType.url().value());
@@ -86,6 +105,15 @@ class TaskController {
 
 const controller = new TaskController();
 
+/**
+ * Posts the command to create a new task.
+ *
+ * This function is supposed to be a handler of a click event. It expects a `<textarea>` tag with
+ * the ID `title-text` to be present somewhere in the given document. The value of this tag is used
+ * as the title of the new task.
+ *
+ * @param document index page
+ */
 function sendCommand(document) {
     const titleTextArea = document.getElementById('title-text');
     const title = titleTextArea.value;
@@ -95,6 +123,15 @@ function sendCommand(document) {
     }
 }
 
+/**
+ * Creates a subscription for all the tasks in the system.
+ *
+ * This function is supposed to be a handler of a load event. It expects a `<div>` tag with
+ * the ID `task-container` to be present somewhere in the given document. This tag is then used to
+ * render the tasks into.
+ *
+ * @param document index page
+ */
 function subscribeToUpdates(document) {
     const container = document.getElementById('task-container');
     controller.renderTasksIn(container);
