@@ -24,6 +24,15 @@ import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
 
 import javax.servlet.annotation.WebServlet;
 
+/**
+ * {@code Tasks} context {@code /subscription/cancel} servlet.
+ *
+ * <p>This is a part of the system's subscription web API. Handles the subscription cancelling
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionCancelServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
 @WebServlet("/subscription/cancel")
 public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
 

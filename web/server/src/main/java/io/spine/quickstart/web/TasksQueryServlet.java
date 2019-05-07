@@ -24,6 +24,15 @@ import io.spine.web.query.QueryServlet;
 
 import javax.servlet.annotation.WebServlet;
 
+/**
+ * {@code Tasks} context query servlet.
+ *
+ * <p>Handles the queries {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.web.firebase.query.FirebaseQueryBridge}.
+ *
+ * @see QueryServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
 @WebServlet("/query")
 public final class TasksQueryServlet extends QueryServlet {
 

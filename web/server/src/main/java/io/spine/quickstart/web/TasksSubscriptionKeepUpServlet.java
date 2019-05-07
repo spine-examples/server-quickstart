@@ -24,6 +24,16 @@ import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
 
 import javax.servlet.annotation.WebServlet;
 
+/**
+ * {@code Tasks} context {@code /subscription/keep-up} servlet.
+ *
+ * <p>This is a part of the system's subscription web API. Handles the subscription keep-up
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionKeepUpServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
+
 @WebServlet("/subscription/keep-up")
 public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
 

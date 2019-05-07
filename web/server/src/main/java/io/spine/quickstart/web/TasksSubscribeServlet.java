@@ -24,6 +24,15 @@ import io.spine.web.subscription.servlet.SubscribeServlet;
 
 import javax.servlet.annotation.WebServlet;
 
+/**
+ * {@code Tasks} context {@code /subscribe} servlet.
+ *
+ * <p>This is a part of the system's subscription web API. Handles the subscriptions created by
+ * the client via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscribeServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
 @WebServlet("/subscription/create")
 public final class TasksSubscribeServlet extends SubscribeServlet {
 

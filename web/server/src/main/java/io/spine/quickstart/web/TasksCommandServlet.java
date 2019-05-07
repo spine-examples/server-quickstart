@@ -25,6 +25,15 @@ import io.spine.web.command.CommandServlet;
 
 import javax.servlet.annotation.WebServlet;
 
+/**
+ * {@code Tasks} context command servlet.
+ *
+ * <p>Handles the commands {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.server.CommandService}.
+ *
+ * @see CommandServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
 @WebServlet("/command")
 public final class TasksCommandServlet extends CommandServlet {
 

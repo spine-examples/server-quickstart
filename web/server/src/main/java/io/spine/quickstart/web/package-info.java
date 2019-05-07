@@ -18,6 +18,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * This package declares the web API of the {@code Tasks} context.
+ *
+ * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
+ * context.
+ */
+
 @CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.quickstart.web;
