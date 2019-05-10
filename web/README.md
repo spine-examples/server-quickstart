@@ -42,3 +42,9 @@ After the app is started, the page subscribes to the updates of `Task`s. Type a 
 the test input and press the `Create` button. The command is sent to the server. The server writes
 the updated entity state to the Firebase and the client receives the update and displays the new
 task on the screen.
+
+#### Server Networking Errors
+
+Sometimes, the server prints errors caused by invalid HTTP responses from the Firebase emulator.
+This is an issue with the emulator itself, not with the client. Such errors are not reproducible on
+real-life instances of Firebase.
