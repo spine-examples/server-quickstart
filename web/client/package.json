@@ -10,7 +10,7 @@
   "dependencies": {
     "firebase": "^5.11.1",
     "rxjs": "^6.5.0",
-    "spine-web": "^0.16.1",
+    "spine-web": "^0.16.2",
     "uuid": "latest"
   },
   "devDependencies": {
