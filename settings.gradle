@@ -21,3 +21,6 @@
 include 'model'
 include 'server'
 include 'client'
+include 'web'
+include 'web:client'
+include 'web:server'

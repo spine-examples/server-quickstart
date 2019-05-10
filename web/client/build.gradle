@@ -18,37 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-pre7' apply false
-    id 'net.ltgt.errorprone' version '0.6' apply false
+spine.enableJavaScript()
+
+dependencies {
+    protobuf project(path: ':model')
 }
 
-subprojects {
-    project.ext {
-        sourcesRootDir = "$projectDir/src"
-        generatedRootDir = "$projectDir/generated"
-    }
+compileJava.enabled = false
+compileTestJava.enabled = false
 
-    apply plugin: 'io.spine.tools.gradle.bootstrap'
-    
-    pluginManager.withPlugin('java') {
-        apply plugin: 'net.ltgt.errorprone'
-        apply from: "$rootDir/gradle/pmd/pmd.gradle"
-        apply from: "$rootDir/gradle/tests.gradle"
+configurations.protobuf {
+    transitive = false
+}
 
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-        dependencies {
-            errorprone deps.build.errorProneCore
-            errorproneJavac deps.build.errorProneJavac
-
-            implementation deps.build.guava
-            implementation deps.build.checkerAnnotations
-
-            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
+protobuf {
+    generatedFilesBaseDir = "$projectDir/generated"
+    generateProtoTasks {
+        all().each { final task ->
+            task.generateDescriptorSet = true
+            final String descriptorName = "${project.group}_${project.name}_${project.version}.desc"
+            task.descriptorSetOptions.path = 
+                    "${projectDir}/build/descriptors/${task.sourceSet.name}/${descriptorName}"
         }
     }
-    
-    apply from: "$rootDir/gradle/idea.gradle"
 }

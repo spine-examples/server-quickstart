@@ -18,37 +18,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-pre7' apply false
-    id 'net.ltgt.errorprone' version '0.6' apply false
-}
+package io.spine.quickstart.web;
 
-subprojects {
-    project.ext {
-        sourcesRootDir = "$projectDir/src"
-        generatedRootDir = "$projectDir/generated"
+import io.spine.quickstart.TasksContext;
+import io.spine.web.command.CommandServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+/**
+ * {@code Tasks} context command servlet.
+ *
+ * <p>Handles the commands {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.server.CommandService}.
+ *
+ * @see CommandServlet
+ * @see io.spine.quickstart.web.ServletBridges
+ */
+@WebServlet("/command")
+public final class TasksCommandServlet extends CommandServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    public TasksCommandServlet() {
+        super(TasksContext.commandService());
     }
-
-    apply plugin: 'io.spine.tools.gradle.bootstrap'
-    
-    pluginManager.withPlugin('java') {
-        apply plugin: 'net.ltgt.errorprone'
-        apply from: "$rootDir/gradle/pmd/pmd.gradle"
-        apply from: "$rootDir/gradle/tests.gradle"
-
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-        dependencies {
-            errorprone deps.build.errorProneCore
-            errorproneJavac deps.build.errorProneJavac
-
-            implementation deps.build.guava
-            implementation deps.build.checkerAnnotations
-
-            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
-        }
-    }
-    
-    apply from: "$rootDir/gradle/idea.gradle"
 }

@@ -33,7 +33,7 @@ import io.spine.core.UserId;
 import io.spine.logging.Logging;
 import io.spine.quickstart.CreateTask;
 import io.spine.quickstart.Task;
-import io.spine.serverapp.TaskId;
+import io.spine.quickstart.TaskId;
 import io.spine.string.Stringifiers;
 import org.slf4j.Logger;
 

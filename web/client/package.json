@@ -1,0 +1,20 @@
+{
+  "name": "quick-client",
+  "version": "1.0.0-pre7",
+  "description": "Web client of the Quickstart project",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spine-examples/server-quickstart"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "firebase": "^5.11.1",
+    "rxjs": "^6.5.0",
+    "spine-web": "^0.16.2",
+    "uuid": "latest"
+  },
+  "devDependencies": {
+    "firebase-server": "^1.0.1",
+    "webpack-cli": "^3.3.1"
+  }
+}

@@ -18,37 +18,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-pre7' apply false
-    id 'net.ltgt.errorprone' version '0.6' apply false
-}
+package io.spine.quickstart.web;
 
-subprojects {
-    project.ext {
-        sourcesRootDir = "$projectDir/src"
-        generatedRootDir = "$projectDir/generated"
+import io.spine.quickstart.TasksContext;
+import io.spine.web.firebase.query.FirebaseQueryBridge;
+import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
+import io.spine.web.query.QueryBridge;
+import io.spine.web.subscription.SubscriptionBridge;
+
+/**
+ * A factory of the bridges between the servlet API and the {@code Tasks} context.
+ */
+final class ServletBridges {
+
+    /**
+     * Prevents the utility class instantiation.
+     */
+    private ServletBridges() {
     }
 
-    apply plugin: 'io.spine.tools.gradle.bootstrap'
-    
-    pluginManager.withPlugin('java') {
-        apply plugin: 'net.ltgt.errorprone'
-        apply from: "$rootDir/gradle/pmd/pmd.gradle"
-        apply from: "$rootDir/gradle/tests.gradle"
-
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-        dependencies {
-            errorprone deps.build.errorProneCore
-            errorproneJavac deps.build.errorProneJavac
-
-            implementation deps.build.guava
-            implementation deps.build.checkerAnnotations
-
-            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
-        }
+    static SubscriptionBridge subscription() {
+        return FirebaseSubscriptionBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setQueryService(TasksContext.queryService())
+                .build();
     }
-    
-    apply from: "$rootDir/gradle/idea.gradle"
+
+    static QueryBridge query() {
+        return FirebaseQueryBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setQueryService(TasksContext.queryService())
+                .build();
+    }
 }

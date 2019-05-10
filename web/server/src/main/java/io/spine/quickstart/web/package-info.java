@@ -18,37 +18,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-pre7' apply false
-    id 'net.ltgt.errorprone' version '0.6' apply false
-}
+/**
+ * This package declares the web API of the {@code Tasks} context.
+ *
+ * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
+ * context.
+ */
 
-subprojects {
-    project.ext {
-        sourcesRootDir = "$projectDir/src"
-        generatedRootDir = "$projectDir/generated"
-    }
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.quickstart.web;
 
-    apply plugin: 'io.spine.tools.gradle.bootstrap'
-    
-    pluginManager.withPlugin('java') {
-        apply plugin: 'net.ltgt.errorprone'
-        apply from: "$rootDir/gradle/pmd/pmd.gradle"
-        apply from: "$rootDir/gradle/tests.gradle"
+import com.google.errorprone.annotations.CheckReturnValue;
 
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-        dependencies {
-            errorprone deps.build.errorProneCore
-            errorproneJavac deps.build.errorProneJavac
-
-            implementation deps.build.guava
-            implementation deps.build.checkerAnnotations
-
-            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
-        }
-    }
-    
-    apply from: "$rootDir/gradle/idea.gradle"
-}
+import javax.annotation.ParametersAreNonnullByDefault;

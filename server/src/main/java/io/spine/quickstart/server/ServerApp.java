@@ -19,21 +19,14 @@
  */
 package io.spine.quickstart.server;
 
-import io.spine.core.BoundedContextName;
 import io.spine.logging.Logging;
-import io.spine.quickstart.task.TaskAggregate;
-import io.spine.server.BoundedContext;
+import io.spine.quickstart.TasksContext;
 import io.spine.server.CommandService;
-import io.spine.server.DefaultRepository;
 import io.spine.server.QueryService;
-import io.spine.server.storage.StorageFactory;
-import io.spine.server.storage.memory.InMemoryStorageFactory;
 import io.spine.server.transport.GrpcContainer;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-
-import static io.spine.core.BoundedContextNames.newName;
 
 /**
  * A template of a server application, powered by Spine.
@@ -43,16 +36,6 @@ import static io.spine.core.BoundedContextNames.newName;
  * <p>Also uses a simple gRPC client to connect to the server-side and illustrate the workflow.
  */
 public class ServerApp {
-
-    /**
-     * A name of the bounded context.
-     */
-    private static final BoundedContextName BOUNDED_CONTEXT_NAME = newName("Tasks");
-
-    /**
-     * A flag determining whether the server application allows multiple tenants.
-     */
-    private static final boolean MULTITENANT = false;
 
     /**
      * A host to use for gRPC server.
@@ -79,31 +62,9 @@ public class ServerApp {
      *         if the gRPC server cannot be started
      */
     public static void main(String[] args) throws IOException {
-        // Define a storage factory.
-        StorageFactory storageFactory =
-                InMemoryStorageFactory.newInstance(BOUNDED_CONTEXT_NAME, MULTITENANT);
+        CommandService commandService = TasksContext.commandService();
+        QueryService queryService = TasksContext.queryService();
 
-        BoundedContext boundedContext = BoundedContext
-                .newBuilder()
-                .setStorageFactorySupplier(() -> storageFactory)
-                .setName(BOUNDED_CONTEXT_NAME)
-                .build();
-        boundedContext.register(DefaultRepository.of(TaskAggregate.class));
-        /*
-         * Instantiate gRPC services provided by Spine
-         * and configure them for the given `BoundedContext`.
-         */
-        CommandService commandService = CommandService
-                .newBuilder()
-                .add(boundedContext)
-                .build();
-        QueryService queryService = QueryService
-                .newBuilder()
-                .add(boundedContext)
-                .build();
-        /*
-         * Deploy the services to the gRPC container.
-         */
         GrpcContainer container = GrpcContainer
                 .newBuilder()
                 .setPort(PORT)
