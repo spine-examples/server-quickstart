@@ -20,8 +20,13 @@ build/
 out/
 
 # Spine temporary artifact storage
-*/.spine/
+**/.spine/*
 model/*/.spine/
+
+# Web-specific files
+web/client/node_modules
+web/client/bundle.js
+web/client/package-lock.json
 
 # Login details to Maven repository.
 # Each workstation should have developer's login defined in this file.
