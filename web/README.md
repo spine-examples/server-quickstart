@@ -31,8 +31,8 @@ the details.
 
 In order to contemplate the web modules in action, follow these steps:
  1. In the `web/client`:
-    - assemble the JavaScript via `npm install`;
-    - build a single JavaScript artifact via `webpack`.
+    - install the module dependencies via `npm install`;
+    - assemble a single JavaScript artifact via `npm run webpack`.
  2. In the root directory, launch the server with `./gradlew :web:runServer`.
  3. Open the [main page](./client/app/index.html) in the browser.
  
