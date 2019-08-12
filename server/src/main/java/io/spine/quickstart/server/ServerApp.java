@@ -19,14 +19,14 @@
  */
 package io.spine.quickstart.server;
 
-import io.spine.logging.Logging;
+import com.google.common.flogger.FluentLogger;
 import io.spine.quickstart.TasksContext;
 import io.spine.server.CommandService;
 import io.spine.server.QueryService;
 import io.spine.server.transport.GrpcContainer;
-import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * A template of a server application, powered by Spine.
@@ -36,6 +36,8 @@ import java.io.IOException;
  * <p>Also uses a simple gRPC client to connect to the server-side and illustrate the workflow.
  */
 public class ServerApp {
+
+    private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
     /**
      * A host to use for gRPC server.
@@ -72,12 +74,8 @@ public class ServerApp {
                 .addService(queryService)
                 .build();
         container.start();
-        log().info("gRPC server started at {}:{}.", HOST, PORT);
+        log.at(Level.INFO).log("gRPC server started at {}:{}.", HOST, PORT);
 
         container.awaitTermination();
-    }
-
-    private static Logger log() {
-        return Logging.get(ServerApp.class);
     }
 }

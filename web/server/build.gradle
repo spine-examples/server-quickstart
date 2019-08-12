@@ -26,7 +26,10 @@ spine.enableJava()
 
 dependencies {
     implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:$spineVersion"
+    implementation "io.spine.gcloud:spine-firebase-web:$deps.versions.spine"
+
+    implementation "io.spine:spine-client:$deps.versions.spine"
+    implementation "io.spine:spine-server:$deps.versions.spine"
 }
 
 gretty {

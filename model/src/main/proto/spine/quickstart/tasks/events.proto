@@ -20,29 +20,26 @@
 
 syntax = "proto3";
 
-package spine.quickstart;
+package spine.quickstart.tasks;
 
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.io";
-option java_package = "io.spine.quickstart";
-option java_outer_classname = "TaskProto";
+option java_package = "io.spine.quickstart.tasks";
+option java_outer_classname = "EventsProto";
 option java_multiple_files = true;
-option java_generate_equals_and_hash = true;
 
-import "spine/quickstart/identifiers.proto";
+import "spine/quickstart/tasks/identifiers.proto";
 
-// Defines a state for `Task` aggregate.
+// An event telling about a successful creation of a task.
 //
-message Task {
-    option (entity) = {kind: AGGREGATE visibility: QUERY};
+message TaskCreated {
 
-    // An ID of the task.
+    // An ID of the created task.
     //
     TaskId id = 1;
 
-
-    // A title of the task.
+    // A title of the created task.
     //
     string title = 2 [(required) = true];
 }

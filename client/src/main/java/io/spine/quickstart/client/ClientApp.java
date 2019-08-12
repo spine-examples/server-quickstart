@@ -20,6 +20,7 @@
 package io.spine.quickstart.client;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.spine.client.ActorRequestFactory;
@@ -30,12 +31,12 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
-import io.spine.logging.Logging;
-import io.spine.quickstart.CreateTask;
-import io.spine.quickstart.Task;
-import io.spine.quickstart.TaskId;
+import io.spine.quickstart.tasks.CreateTask;
+import io.spine.quickstart.tasks.Task;
+import io.spine.quickstart.tasks.TaskId;
 import io.spine.string.Stringifiers;
-import org.slf4j.Logger;
+
+import java.util.logging.Level;
 
 import static io.spine.base.Identifier.newUuid;
 
@@ -51,6 +52,8 @@ import static io.spine.base.Identifier.newUuid;
  * </ul>
  */
 public class ClientApp {
+
+    private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
     /**
      * A host of the gRPC server to connect.
@@ -76,7 +79,7 @@ public class ClientApp {
     public static void main(String[] args) throws InterruptedException {
 
         // Connect to the server and init the client-side stubs for gRPC services.
-        log().info("Connecting to the server at {}:{}", HOST, PORT);
+        info("Connecting to the server at {}:{}", HOST, PORT);
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
                                                       .usePlaintext()
@@ -93,15 +96,15 @@ public class ClientApp {
                 .setActor(whoIsCalling())
                 .build();
         TaskId taskId = TaskId
-                .vBuilder()
+                .newBuilder()
                 .setValue(newUuid())
-                .build();
+                .vBuild();
         CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
         Command cmd = requestFactory.command()
                                     .create(createTask);
         Ack acked = commandService.post(cmd);
-        log().info("A command has been posted: " + Stringifiers.toString(createTask));
-        log().info("(command acknowledgement: {})", Stringifiers.toString(acked));
+        info("A command has been posted: " + Stringifiers.toString(createTask));
+        info("(command acknowledgement: {})", Stringifiers.toString(acked));
 
         /*
          * Events, reflecting the changes caused by a command, travel from the write-side
@@ -113,9 +116,13 @@ public class ClientApp {
         // Create and execute a query.
         Query taskQuery = requestFactory.query()
                                         .byIds(Task.class, ImmutableSet.of(taskId));
-        log().info("Reading the task...");
+        info("Reading the task...");
         QueryResponse response = queryService.read(taskQuery);
-        log().info("A response received: {}", Stringifiers.toString(response));
+        info("A response received: {}", Stringifiers.toString(response));
+    }
+
+    private static void info(String msg, Object ...args) {
+        log.at(Level.INFO).log(msg, args);
     }
 
     /**
@@ -129,10 +136,10 @@ public class ClientApp {
      */
     private static CreateTask newCreateTaskCommand(TaskId taskId, String title) {
         CreateTask message = CreateTask
-                .vBuilder()
+                .newBuilder()
                 .setId(taskId)
                 .setTitle(title)
-                .build();
+                .vBuild();
         return message;
     }
 
@@ -145,13 +152,9 @@ public class ClientApp {
      */
     private static UserId whoIsCalling() {
         UserId actorId = UserId
-                .vBuilder()
+                .newBuilder()
                 .setValue(newUuid())
-                .build();
+                .vBuild();
         return actorId;
-    }
-
-    private static Logger log() {
-        return Logging.get(ClientApp.class);
     }
 }

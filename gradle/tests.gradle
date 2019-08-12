@@ -19,8 +19,11 @@
  */
 
 dependencies {
-    testImplementation deps.test.junit5Api
-    testRuntimeOnly deps.test.junit5Runner
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$deps.versions.junit5"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$deps.versions.junit5"
+    testImplementation "org.apiguardian:apiguardian-api:1.0.0"
+    
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$deps.versions.junit5"
 }
 
 test {

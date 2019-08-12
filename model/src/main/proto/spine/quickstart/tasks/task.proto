@@ -20,21 +20,29 @@
 
 syntax = "proto3";
 
-package spine.quickstart;
+package spine.quickstart.tasks;
 
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.io";
-option java_package = "io.spine.quickstart";
-option java_outer_classname = "IdentifiersProto";
+option java_package = "io.spine.quickstart.tasks";
+option java_outer_classname = "TaskProto";
 option java_multiple_files = true;
 option java_generate_equals_and_hash = true;
 
-// An ID of a task.
-//
-message TaskId {
+import "spine/quickstart/tasks/identifiers.proto";
 
-    // String representation of UUID.
+// Defines a state for `Task` aggregate.
+//
+message Task {
+    option (entity) = {kind: AGGREGATE visibility: FULL};
+
+    // An ID of the task.
     //
-    string value = 1;
+    TaskId id = 1;
+
+
+    // A title of the task.
+    //
+    string title = 2 [(required) = true];
 }

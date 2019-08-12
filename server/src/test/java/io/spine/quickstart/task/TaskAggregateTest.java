@@ -20,11 +20,10 @@
 
 package io.spine.quickstart.task;
 
-import io.spine.quickstart.CreateTask;
-import io.spine.quickstart.CreateTaskVBuilder;
-import io.spine.quickstart.Task;
-import io.spine.quickstart.TaskCreated;
-import io.spine.quickstart.TaskId;
+import io.spine.quickstart.tasks.CreateTask;
+import io.spine.quickstart.tasks.Task;
+import io.spine.quickstart.tasks.TaskCreated;
+import io.spine.quickstart.tasks.TaskId;
 import io.spine.server.DefaultRepository;
 import io.spine.testing.server.blackbox.BlackBoxBoundedContext;
 import org.junit.jupiter.api.DisplayName;
@@ -44,16 +43,16 @@ class TaskAggregateTest {
                 .setValue(newUuid())
                 .build();
         String taskTitle = "Learn Domain Driven Design.";
-        CreateTask command = CreateTaskVBuilder
+        CreateTask command = CreateTask
                 .newBuilder()
                 .setId(taskId)
                 .setTitle(taskTitle)
-                .build();
+                .vBuild();
         Task expectedState = Task
                 .newBuilder()
                 .setId(taskId)
                 .setTitle(taskTitle)
-                .build();
+                .vBuild();
         BlackBoxBoundedContext
                 .singleTenant()
                 .with(DefaultRepository.of(TaskAggregate.class))

@@ -41,7 +41,7 @@ final class ServletBridges {
         return FirebaseSubscriptionBridge
                 .newBuilder()
                 .setFirebaseClient(Firebase.client())
-                .setQueryService(TasksContext.queryService())
+                .setSubscriptionService(TasksContext.subscriptionService())
                 .build();
     }
 

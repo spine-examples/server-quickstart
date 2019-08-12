@@ -23,10 +23,19 @@ package io.spine.quickstart.web;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.auth.oauth2.AccessToken;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.FirebaseDatabase;
 import io.spine.net.Url;
-import io.spine.web.firebase.DatabaseUrl;
 import io.spine.web.firebase.FirebaseClient;
-import io.spine.web.firebase.rest.RestClient;
+import io.spine.web.firebase.rest.RemoteDatabaseClient;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * A factory of Firebase Realtime Database clients.
@@ -38,7 +47,7 @@ final class Firebase {
     private static final Url EMULATOR_URL = Url
             .newBuilder()
             .setSpec("http://127.0.0.1:5000/")
-            .build();
+            .vBuild();
 
     private static final FirebaseClient client = createClient();
 
@@ -53,12 +62,26 @@ final class Firebase {
     }
 
     private static FirebaseClient createClient() {
-        DatabaseUrl url = DatabaseUrl
-                .newBuilder()
-                .setUrl(EMULATOR_URL)
-                .build();
         HttpTransport transport = new ApacheHttpTransport();
         HttpRequestFactory requestFactory = transport.createRequestFactory();
-        return RestClient.create(url, requestFactory);
+
+        //TODO:2019-08-12:alex.tymchenko: try to avoid this trick.
+        Date expirationDate = Date.from(Instant.now()
+                                               .plus(Duration.of(1, ChronoUnit.DAYS)));
+        AccessToken token = new AccessToken("some-token",
+                                            expirationDate);
+        GoogleCredentials credentials =
+                GoogleCredentials.newBuilder()
+                                 .setAccessToken(token)
+                                 .build();
+        FirebaseOptions options =
+                FirebaseOptions.builder()
+                               .setCredentials(credentials)
+                               .setDatabaseUrl(EMULATOR_URL.getSpec())
+                               .build();
+        FirebaseApp app = FirebaseApp.initializeApp(options);
+        FirebaseDatabase database = FirebaseDatabase.getInstance(app);
+        RemoteDatabaseClient client = RemoteDatabaseClient.create(database, requestFactory);
+        return client;
     }
 }

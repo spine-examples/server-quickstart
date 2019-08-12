@@ -20,15 +20,15 @@
 
 package io.spine.quickstart;
 
+import io.spine.quickstart.server.InMemoryStorage;
 import io.spine.quickstart.task.TaskAggregate;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
 import io.spine.server.DefaultRepository;
 import io.spine.server.QueryService;
-import io.spine.server.storage.StorageFactory;
-import io.spine.server.storage.memory.InMemoryStorageFactory;
-
-import static io.spine.core.BoundedContextNames.newName;
+import io.spine.server.ServerEnvironment;
+import io.spine.server.SubscriptionService;
+import io.spine.server.transport.memory.InMemoryTransportFactory;
 
 /**
  * A factory of {@code Tasks} bounded context services.
@@ -40,8 +40,6 @@ public final class TasksContext {
      */
     public static final String NAME = "Tasks";
 
-    private static final boolean MULTITENANT = false;
-
     private static final BoundedContext context = createContext();
 
     private static final QueryService queryService = QueryService
@@ -49,6 +47,10 @@ public final class TasksContext {
             .add(context)
             .build();
     private static final CommandService commandService = CommandService
+            .newBuilder()
+            .add(context)
+            .build();
+    private static final SubscriptionService subscriptionService = SubscriptionService
             .newBuilder()
             .add(context)
             .build();
@@ -60,11 +62,12 @@ public final class TasksContext {
     }
 
     private static BoundedContext createContext() {
-        StorageFactory storage = InMemoryStorageFactory.newInstance(newName(NAME), MULTITENANT);
+        ServerEnvironment serverEnvironment = ServerEnvironment.instance();
+        serverEnvironment.configureStorage(new InMemoryStorage());
+        serverEnvironment.configureTransport(InMemoryTransportFactory.newInstance());
+
         BoundedContext context = BoundedContext
-                .newBuilder()
-                .setName(NAME)
-                .setStorageFactorySupplier(() -> storage)
+                .singleTenant(NAME)
                 .add(DefaultRepository.of(TaskAggregate.class))
                 .build();
         return context;
@@ -82,5 +85,12 @@ public final class TasksContext {
      */
     public static CommandService commandService() {
         return commandService;
+    }
+
+    /**
+     * Obtains a {@code SubscriptionService} with the {@code Tasks} context.
+     */
+    public static SubscriptionService subscriptionService() {
+        return subscriptionService;
     }
 }
