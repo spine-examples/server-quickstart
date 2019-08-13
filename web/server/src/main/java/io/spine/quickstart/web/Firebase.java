@@ -20,9 +20,11 @@
 
 package io.spine.quickstart.web;
 
+import com.google.api.client.http.HttpBackOffIOExceptionHandler;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.util.ExponentialBackOff;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -41,6 +43,15 @@ import java.util.Date;
  * A factory of Firebase Realtime Database clients.
  *
  * <p>Connects to a database emulator started at port {@code 5000}.
+ *
+ * <p>Supplies fake credentials to Firebase RDB, as the {@code firebase-server} emulator used
+ * does not support authentication anyway.
+ *
+ * <p>Notice that the emulator used is an
+ * <a href="https://github.com/urish/firebase-server">unofficial</a> one. It is simple in its
+ * installation and provides REST API, sufficient for a quick start application.
+ *
+ * <p>In production projects, a real Firebase RDB instance should be configured.
  */
 final class Firebase {
 
@@ -62,26 +73,48 @@ final class Firebase {
     }
 
     private static FirebaseClient createClient() {
-        HttpTransport transport = new ApacheHttpTransport();
-        HttpRequestFactory requestFactory = transport.createRequestFactory();
+        FirebaseDatabase database = emulatorDatabase();
+        HttpRequestFactory requestFactory = transportWithBackoff();
+        RemoteDatabaseClient client = RemoteDatabaseClient.create(database, requestFactory);
+        return client;
+    }
 
-        //TODO:2019-08-12:alex.tymchenko: try to avoid this trick.
-        Date expirationDate = Date.from(Instant.now()
-                                               .plus(Duration.of(1, ChronoUnit.DAYS)));
-        AccessToken token = new AccessToken("some-token",
-                                            expirationDate);
-        GoogleCredentials credentials =
-                GoogleCredentials.newBuilder()
-                                 .setAccessToken(token)
-                                 .build();
+    /**
+     * Initializes the {@code FirebaseDatabase} instance by establishing a connection to
+     * the Firebase RDB emulator.
+     */
+    private static FirebaseDatabase emulatorDatabase() {
+        AccessToken token = tokenForEmulator();
+        GoogleCredentials credentials = GoogleCredentials.newBuilder()
+                                                         .setAccessToken(token)
+                                                         .build();
         FirebaseOptions options =
                 FirebaseOptions.builder()
                                .setCredentials(credentials)
                                .setDatabaseUrl(EMULATOR_URL.getSpec())
                                .build();
         FirebaseApp app = FirebaseApp.initializeApp(options);
-        FirebaseDatabase database = FirebaseDatabase.getInstance(app);
-        RemoteDatabaseClient client = RemoteDatabaseClient.create(database, requestFactory);
-        return client;
+        return FirebaseDatabase.getInstance(app);
+    }
+
+    /**
+     * Creates an HTTP request factory which by default uses {@linkplain ExponentialBackOff
+     * exponential back-off} strategy upon an {@code IOException}.
+     */
+    private static HttpRequestFactory transportWithBackoff() {
+        HttpTransport transport = new ApacheHttpTransport();
+        return transport.createRequestFactory(
+                request -> request.setIOExceptionHandler(
+                        new HttpBackOffIOExceptionHandler(new ExponentialBackOff())));
+    }
+
+    /**
+     * Creates a fake {@code AccessToken} suitable for the Firebase RDB emulator.
+     */
+    private static AccessToken tokenForEmulator() {
+        Date expirationDate = Date.from(Instant.now()
+                                               .plus(Duration.of(1, ChronoUnit.DAYS)));
+        return new AccessToken("emulator-does-not-support-authentication",
+                               expirationDate);
     }
 }
