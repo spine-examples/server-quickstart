@@ -36,6 +36,6 @@ final def versions = [
 
 ext {
     deps = [
-            "versions" : versions
+            "versions"   : versions
     ]
 }
