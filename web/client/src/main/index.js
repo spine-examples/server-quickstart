@@ -97,8 +97,8 @@ class TaskController {
     }
 
     static _render(task) {
-        return "<a id='" + task.getId().getValue() + "'><div class='task'>" +
-            task.getTitle() + "</div></a>";
+        return "<a id='" + task.getId().getValue() + "'><li class='task'>" +
+            task.getTitle() + "</li></a>";
     }
 }
 
