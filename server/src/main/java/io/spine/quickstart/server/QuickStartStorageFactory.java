@@ -31,36 +31,44 @@ import io.spine.server.storage.RecordStorage;
 import io.spine.server.storage.StorageFactory;
 import io.spine.server.storage.memory.InMemoryStorageFactory;
 
-//TODO:2019-08-12:alex.tymchenko: This is a workaround, as in-memory cannot be used in `production`.
-public class InMemoryStorage implements StorageFactory {
+/**
+ * An in-memory storage factory to use for a quick start.
+ *
+ * <p>This storage factory is not eligible to use in a production environment.
+ *
+ * <p>For the production scenarios consider using
+ * <a href="https://github.com/SpineEventEngine/gcloud-java/">Spine library for
+ * Google Cloud Datastore</a>.
+ */
+public final class QuickStartStorageFactory implements StorageFactory {
 
-    private final InMemoryStorageFactory factory = InMemoryStorageFactory.newInstance();
+    private final InMemoryStorageFactory delegate = InMemoryStorageFactory.newInstance();
 
     @Override
-    public <I> AggregateStorage<I> createAggregateStorage(ContextSpec context,
-                                                          Class<? extends Aggregate<I, ?, ?>> aggregateClass) {
-        return factory.createAggregateStorage(context, aggregateClass);
+    public <I> AggregateStorage<I>
+    createAggregateStorage(ContextSpec ctx, Class<? extends Aggregate<I, ?, ?>> aggregateCls) {
+        return delegate.createAggregateStorage(ctx, aggregateCls);
     }
 
     @Override
-    public <I> RecordStorage<I> createRecordStorage(ContextSpec context,
-                                                    Class<? extends Entity<I, ?>> entityClass) {
-        return factory.createRecordStorage(context, entityClass);
+    public <I> RecordStorage<I>
+    createRecordStorage(ContextSpec ctx, Class<? extends Entity<I, ?>> entityCls) {
+        return delegate.createRecordStorage(ctx, entityCls);
     }
 
     @Override
-    public <I> ProjectionStorage<I> createProjectionStorage(ContextSpec context,
-                                                            Class<? extends Projection<I, ?, ?>> projectionClass) {
-        return factory.createProjectionStorage(context, projectionClass);
+    public <I> ProjectionStorage<I>
+    createProjectionStorage(ContextSpec ctx, Class<? extends Projection<I, ?, ?>> projectionCls) {
+        return delegate.createProjectionStorage(ctx, projectionCls);
     }
 
     @Override
     public InboxStorage createInboxStorage(boolean multitenant) {
-        return factory.createInboxStorage(multitenant);
+        return delegate.createInboxStorage(multitenant);
     }
 
     @Override
-    public void close() throws Exception {
-        factory.close();
+    public void close() {
+        delegate.close();
     }
 }

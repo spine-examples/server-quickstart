@@ -20,7 +20,7 @@
 
 package io.spine.quickstart;
 
-import io.spine.quickstart.server.InMemoryStorage;
+import io.spine.quickstart.server.QuickStartStorageFactory;
 import io.spine.quickstart.task.TaskAggregate;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
@@ -61,9 +61,18 @@ public final class TasksContext {
     private TasksContext() {
     }
 
+    /**
+     * Creates an instance of "Tasks" {@code BoundedContext} and configures the
+     * {@linkplain io.spine.server.ServerEnvironment server environment} with in-memory
+     * implementations of storage and transport.
+     *
+     * <p>In a real-life the server environment should be configured with the reference to
+     * the truly persistent storage factory of choice.
+     */
     private static BoundedContext createContext() {
+
         ServerEnvironment serverEnvironment = ServerEnvironment.instance();
-        serverEnvironment.configureStorage(new InMemoryStorage());
+        serverEnvironment.configureStorage(new QuickStartStorageFactory());
         serverEnvironment.configureTransport(InMemoryTransportFactory.newInstance());
 
         BoundedContext context = BoundedContext
