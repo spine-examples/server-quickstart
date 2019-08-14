@@ -19,9 +19,9 @@
  */
 package io.spine.quickstart.task;
 
-import io.spine.quickstart.tasks.CreateTask;
-import io.spine.quickstart.tasks.Task;
-import io.spine.quickstart.tasks.TaskCreated;
+import io.spine.quickstart.tasks.command.CreateTask;
+import io.spine.quickstart.tasks.task.Task;
+import io.spine.quickstart.tasks.event.TaskCreated;
 import io.spine.quickstart.tasks.TaskId;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;

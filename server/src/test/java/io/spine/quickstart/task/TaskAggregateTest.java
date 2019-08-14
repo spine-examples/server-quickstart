@@ -20,9 +20,9 @@
 
 package io.spine.quickstart.task;
 
-import io.spine.quickstart.tasks.CreateTask;
-import io.spine.quickstart.tasks.Task;
-import io.spine.quickstart.tasks.TaskCreated;
+import io.spine.quickstart.tasks.command.CreateTask;
+import io.spine.quickstart.tasks.task.Task;
+import io.spine.quickstart.tasks.event.TaskCreated;
 import io.spine.quickstart.tasks.TaskId;
 import io.spine.server.DefaultRepository;
 import io.spine.testing.server.blackbox.BlackBoxBoundedContext;
@@ -42,7 +42,7 @@ class TaskAggregateTest {
                 .newBuilder()
                 .setValue(newUuid())
                 .build();
-        String taskTitle = "Learn Domain Driven Design.";
+        String taskTitle = "Learn Domain-driven Design.";
         CreateTask command = CreateTask
                 .newBuilder()
                 .setId(taskId)

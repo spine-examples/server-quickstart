@@ -31,8 +31,8 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
-import io.spine.quickstart.tasks.CreateTask;
-import io.spine.quickstart.tasks.Task;
+import io.spine.quickstart.tasks.command.CreateTask;
+import io.spine.quickstart.tasks.task.Task;
 import io.spine.quickstart.tasks.TaskId;
 import io.spine.string.Stringifiers;
 
