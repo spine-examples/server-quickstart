@@ -19,11 +19,10 @@
  */
 package io.spine.quickstart.task;
 
-import io.spine.quickstart.CreateTask;
-import io.spine.quickstart.Task;
-import io.spine.quickstart.TaskCreated;
-import io.spine.quickstart.TaskId;
-import io.spine.quickstart.TaskVBuilder;
+import io.spine.quickstart.tasks.CreateTask;
+import io.spine.quickstart.tasks.Task;
+import io.spine.quickstart.tasks.TaskCreated;
+import io.spine.quickstart.tasks.TaskId;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;
@@ -33,7 +32,7 @@ import io.spine.server.command.Assign;
  *
  * <p>Within this small example it only handles a single command and emits one event.
  */
-public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
+public final class TaskAggregate extends Aggregate<TaskId, Task, Task.Builder> {
 
     TaskAggregate(TaskId id) {
         super(id);
@@ -42,10 +41,10 @@ public final class TaskAggregate extends Aggregate<TaskId, Task, TaskVBuilder> {
     @Assign
     TaskCreated handle(CreateTask cmd) {
         TaskCreated result = TaskCreated
-                .vBuilder()
+                .newBuilder()
                 .setTitle(cmd.getTitle())
                 .setId(cmd.getId())
-                .build();
+                .vBuild();
         return result;
     }
 

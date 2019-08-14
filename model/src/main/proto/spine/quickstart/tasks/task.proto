@@ -20,22 +20,22 @@
 
 syntax = "proto3";
 
-package spine.quickstart;
+package spine.quickstart.tasks;
 
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.io";
-option java_package = "io.spine.quickstart";
+option java_package = "io.spine.quickstart.tasks";
 option java_outer_classname = "TaskProto";
 option java_multiple_files = true;
 option java_generate_equals_and_hash = true;
 
-import "spine/quickstart/identifiers.proto";
+import "spine/quickstart/tasks/identifiers.proto";
 
 // Defines a state for `Task` aggregate.
 //
 message Task {
-    option (entity) = {kind: AGGREGATE visibility: QUERY};
+    option (entity) = {kind: AGGREGATE visibility: FULL};
 
     // An ID of the task.
     //

@@ -56,7 +56,7 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
  * Experiment with the model. Create a new command type in `commands.proto`
 ```proto
 message AssignDueDate {
-    TaskId task_id = 1;
+    TaskId task = 1;
     spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true, (when).in = FUTURE];
 }
 ```
@@ -66,7 +66,7 @@ additional steps to use it in your domain.
  * Create a new event type in `events.proto`:
 ```proto
 message DueDateAssigned {
-    TaskId task_id = 1;
+    TaskId task = 1;
     spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true];
 }
 ```
@@ -97,11 +97,11 @@ gradlew.bat clean build
 ```java
 @Assign
 DueDateAssigned handle(AssignDueDate command) {
-    return DueDateAssignedVBuilder
+    return DueDateAssigned
             .newBuilder()
             .setTaskId(command.getTaskId())
             .setDueDate(command.getDueDate())
-            .build();
+            .vBuild();
 }
 ```
  * Apply the emitted event:
@@ -113,11 +113,11 @@ private void on(DueDateAssigned event) {
 ```
  * In `ClientApp`, extend the `main()` method. Post another command:
 ```java
-AssignDueDate dueDateCommand = AssignDueDateVBuilder
+AssignDueDate dueDateCommand = AssignDueDate
         .newBuilder()
         .setTaskId(taskId)
         .setDueDate(LocalDates.of(2038, JANUARY, 19))
-        .build();
+        .vBuild();
 commandService.post(requestFactory.command()
                                   .create(dueDateCommand));
 ```

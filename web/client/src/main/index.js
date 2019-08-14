@@ -22,9 +22,9 @@ import * as uuid from 'uuid';
 import {init} from 'spine-web';
 import {Type} from 'spine-web/client/typed-message';
 import {ActorProvider} from 'spine-web/client/actor-request-factory';
-import {CreateTask} from "../../generated/main/js/spine/quickstart/commands_pb"
-import {Task} from "../../generated/main/js/spine/quickstart/task_pb"
-import {TaskId} from "../../generated/main/js/spine/quickstart/identifiers_pb"
+import {CreateTask} from "../../generated/main/js/spine/quickstart/tasks/commands_pb"
+import {Task} from "../../generated/main/js/spine/quickstart/tasks/task_pb"
+import {TaskId} from "../../generated/main/js/spine/quickstart/tasks/identifiers_pb"
 
 import * as spineTypes from 'spine-web/proto/index';
 import * as types from '../../generated/main/js/index';
@@ -84,9 +84,8 @@ class TaskController {
     renderTasksIn(viewContainer) {
         const targetType = Type.forClass(Task);
         console.log("Subscribing to updates of " + targetType.url().value());
-        this._client.subscribeToEntities({
-            ofType: targetType
-        }).then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
+        let tasks = this._client.newTopic().select(Task).build();
+        this._client.subscribeTo(tasks).then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
             itemAdded.subscribe(
                 item => TaskController._renderNewTask(viewContainer, item)
             );
@@ -98,8 +97,8 @@ class TaskController {
     }
 
     static _render(task) {
-        return "<a id='" + task.getId().getValue() + "'><div class='task'>" +
-            task.getTitle() + "</div></a>";
+        return "<a id='" + task.getId().getValue() + "'><li class='task'>" +
+            task.getTitle() + "</li></a>";
     }
 }
 

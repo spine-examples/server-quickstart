@@ -19,8 +19,18 @@
  */
 
 plugins {
-    id 'io.spine.tools.gradle.bootstrap' version '1.0.0-pre7' apply false
+    id 'io.spine.tools.gradle.bootstrap' version '1.0.1' apply false
     id 'net.ltgt.errorprone' version '0.6' apply false
+}
+
+final def scripts = [
+        version         : "$rootDir/version.gradle",
+        jacoco          : "$rootDir/gradle/jacoco.gradle",
+        staticAnalysis  : "$rootDir/gradle/static-analysis.gradle"
+]
+
+allprojects {
+    apply from: "$scripts.version"
 }
 
 subprojects {
@@ -40,13 +50,13 @@ subprojects {
         targetCompatibility = 1.8
 
         dependencies {
-            errorprone deps.build.errorProneCore
-            errorproneJavac deps.build.errorProneJavac
+            errorprone "com.google.errorprone:error_prone_core:$deps.versions.errorProne"
+            errorproneJavac "com.google.errorprone:javac:$deps.versions.errorProneJavac"
 
-            implementation deps.build.guava
-            implementation deps.build.checkerAnnotations
+            implementation "com.google.guava:guava:$deps.versions.guava"
+            implementation "org.checkerframework:checker-qual:$deps.versions.checkerFramework"
 
-            runtimeOnly "org.slf4j:slf4j-jdk14:$deps.versions.slf4j"
+            runtimeOnly "com.google.flogger:flogger:$deps.versions.flogger"
         }
     }
     
