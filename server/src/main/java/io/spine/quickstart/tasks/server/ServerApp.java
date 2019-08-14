@@ -17,10 +17,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.server;
+package io.spine.quickstart.tasks.server;
 
 import com.google.common.flogger.FluentLogger;
-import io.spine.quickstart.TasksContext;
 import io.spine.server.CommandService;
 import io.spine.server.QueryService;
 import io.spine.server.transport.GrpcContainer;
@@ -35,7 +34,7 @@ import java.util.logging.Level;
  *
  * <p>Also uses a simple gRPC client to connect to the server-side and illustrate the workflow.
  */
-public class ServerApp {
+public final class ServerApp {
 
     private static final FluentLogger log = FluentLogger.forEnclosingClass();
 

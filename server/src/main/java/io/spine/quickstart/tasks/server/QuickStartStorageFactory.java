@@ -18,7 +18,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.server;
+package io.spine.quickstart.tasks.server;
 
 import io.spine.server.ContextSpec;
 import io.spine.server.aggregate.Aggregate;
@@ -40,7 +40,7 @@ import io.spine.server.storage.memory.InMemoryStorageFactory;
  * <a href="https://github.com/SpineEventEngine/gcloud-java/">Spine library for
  * Google Cloud Datastore</a>.
  */
-public final class QuickStartStorageFactory implements StorageFactory {
+final class QuickStartStorageFactory implements StorageFactory {
 
     private final InMemoryStorageFactory delegate = InMemoryStorageFactory.newInstance();
 

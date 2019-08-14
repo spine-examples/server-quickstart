@@ -18,17 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.quickstart.tasks.web;
+
+import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
+
+import javax.servlet.annotation.WebServlet;
+
 /**
- * This package declares the web API of the {@code Tasks} context.
+ * {@code Tasks} context {@code /subscription/cancel} servlet.
  *
- * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
- * context.
+ * <p>This is a part of the system's subscription web API. Handles the subscription cancelling
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionCancelServlet
+ * @see ServletBridges
  */
+@WebServlet("/subscription/cancel")
+public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
 
-@CheckReturnValue
-@ParametersAreNonnullByDefault
-package io.spine.quickstart.web;
+    private static final long serialVersionUID = 0L;
 
-import com.google.errorprone.annotations.CheckReturnValue;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+    public TasksSubscriptionCancelServlet() {
+        super(ServletBridges.subscription());
+    }
+}

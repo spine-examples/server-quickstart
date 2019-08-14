@@ -18,28 +18,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.web;
-
-import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
-
-import javax.servlet.annotation.WebServlet;
-
 /**
- * {@code Tasks} context {@code /subscription/keep-up} servlet.
+ * This package declares the web API of the {@code Tasks} context.
  *
- * <p>This is a part of the system's subscription web API. Handles the subscription keep-up
- * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
- *
- * @see SubscriptionKeepUpServlet
- * @see io.spine.quickstart.web.ServletBridges
+ * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
+ * context.
  */
 
-@WebServlet("/subscription/keep-up")
-public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.quickstart.tasks.web;
 
-    private static final long serialVersionUID = 0L;
+import com.google.errorprone.annotations.CheckReturnValue;
 
-    public TasksSubscriptionKeepUpServlet() {
-        super(ServletBridges.subscription());
-    }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

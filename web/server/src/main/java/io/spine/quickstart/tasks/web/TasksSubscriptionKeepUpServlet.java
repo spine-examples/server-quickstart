@@ -17,40 +17,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.task;
 
-import io.spine.quickstart.tasks.command.CreateTask;
-import io.spine.quickstart.tasks.task.Task;
-import io.spine.quickstart.tasks.event.TaskCreated;
-import io.spine.quickstart.tasks.TaskId;
-import io.spine.server.aggregate.Aggregate;
-import io.spine.server.aggregate.Apply;
-import io.spine.server.command.Assign;
+package io.spine.quickstart.tasks.web;
+
+import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
+
+import javax.servlet.annotation.WebServlet;
 
 /**
- * Definition of the {@code Task} aggregate.
+ * {@code Tasks} context {@code /subscription/keep-up} servlet.
  *
- * <p>Within this small example it only handles a single command and emits one event.
+ * <p>This is a part of the system's subscription web API. Handles the subscription keep-up
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionKeepUpServlet
+ * @see ServletBridges
  */
-public final class TaskAggregate extends Aggregate<TaskId, Task, Task.Builder> {
 
-    TaskAggregate(TaskId id) {
-        super(id);
-    }
+@WebServlet("/subscription/keep-up")
+public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
 
-    @Assign
-    TaskCreated handle(CreateTask cmd) {
-        TaskCreated result = TaskCreated
-                .newBuilder()
-                .setTitle(cmd.getTitle())
-                .setId(cmd.getId())
-                .vBuild();
-        return result;
-    }
+    private static final long serialVersionUID = 0L;
 
-    @Apply
-    private void on(TaskCreated event) {
-        builder().setId(event.getId())
-                 .setTitle(event.getTitle());
+    public TasksSubscriptionKeepUpServlet() {
+        super(ServletBridges.subscription());
     }
 }

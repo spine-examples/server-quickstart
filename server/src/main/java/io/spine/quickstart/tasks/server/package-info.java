@@ -18,28 +18,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.web;
-
-import io.spine.quickstart.TasksContext;
-import io.spine.web.command.CommandServlet;
-
-import javax.servlet.annotation.WebServlet;
-
 /**
- * {@code Tasks} context command servlet.
- *
- * <p>Handles the commands {@code POST}ed by the client by dispatching them to
- * the {@link io.spine.server.CommandService}.
- *
- * @see CommandServlet
- * @see io.spine.quickstart.web.ServletBridges
+ * This package contains server classes and interfaces of the {@code Tasks} Bounded Context.
  */
-@WebServlet("/command")
-public final class TasksCommandServlet extends CommandServlet {
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+@BoundedContext(TasksContext.NAME)
+package io.spine.quickstart.tasks.server;
 
-    private static final long serialVersionUID = 0L;
+import com.google.errorprone.annotations.CheckReturnValue;
+import io.spine.core.BoundedContext;
 
-    public TasksCommandServlet() {
-        super(TasksContext.commandService());
-    }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

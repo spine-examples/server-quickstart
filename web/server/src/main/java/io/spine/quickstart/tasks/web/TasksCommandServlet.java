@@ -18,13 +18,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.quickstart.tasks.web;
+
+import io.spine.quickstart.tasks.server.TasksContext;
+import io.spine.web.command.CommandServlet;
+
+import javax.servlet.annotation.WebServlet;
+
 /**
- * This package defines the Task aggregate.
+ * {@code Tasks} context command servlet.
+ *
+ * <p>Handles the commands {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.server.CommandService}.
+ *
+ * @see CommandServlet
+ * @see ServletBridges
  */
-@CheckReturnValue
-@ParametersAreNonnullByDefault
-package io.spine.quickstart.task;
+@WebServlet("/command")
+public final class TasksCommandServlet extends CommandServlet {
 
-import com.google.errorprone.annotations.CheckReturnValue;
+    private static final long serialVersionUID = 0L;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+    public TasksCommandServlet() {
+        super(TasksContext.commandService());
+    }
+}

@@ -18,9 +18,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.web;
+package io.spine.quickstart.tasks.web;
 
-import io.spine.quickstart.TasksContext;
+import io.spine.quickstart.tasks.server.TasksContext;
 import io.spine.web.firebase.query.FirebaseQueryBridge;
 import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
 import io.spine.web.query.QueryBridge;

@@ -18,21 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.quickstart.tasks.web;
+
+import io.spine.web.query.QueryServlet;
+
+import javax.servlet.annotation.WebServlet;
+
 /**
- * Defines the Spine Quickstart application.
+ * {@code Tasks} context query servlet.
  *
- * <p>The application contains a single bounded context called {@code Tasks}. This package is
- * the root for the {@code Tasks} definitions.
+ * <p>Handles the queries {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.web.firebase.query.FirebaseQueryBridge}.
+ *
+ * @see QueryServlet
+ * @see ServletBridges
  */
+@WebServlet("/query")
+public final class TasksQueryServlet extends QueryServlet {
 
-@BoundedContext(NAME)
-@CheckReturnValue
-@ParametersAreNonnullByDefault
-package io.spine.quickstart;
+    private static final long serialVersionUID = 0L;
 
-import com.google.errorprone.annotations.CheckReturnValue;
-import io.spine.core.BoundedContext;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import static io.spine.quickstart.TasksContext.NAME;
+    public TasksQueryServlet() {
+        super(ServletBridges.query());
+    }
+}

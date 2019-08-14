@@ -17,28 +17,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package io.spine.quickstart.tasks.server.task;
 
-package io.spine.quickstart.web;
-
-import io.spine.web.subscription.servlet.SubscribeServlet;
-
-import javax.servlet.annotation.WebServlet;
+import io.spine.quickstart.tasks.command.CreateTask;
+import io.spine.quickstart.tasks.task.Task;
+import io.spine.quickstart.tasks.event.TaskCreated;
+import io.spine.quickstart.tasks.TaskId;
+import io.spine.server.aggregate.Aggregate;
+import io.spine.server.aggregate.Apply;
+import io.spine.server.command.Assign;
 
 /**
- * {@code Tasks} context {@code /subscribe} servlet.
+ * Definition of the {@code Task} aggregate.
  *
- * <p>This is a part of the system's subscription web API. Handles the subscriptions created by
- * the client via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
- *
- * @see SubscribeServlet
- * @see io.spine.quickstart.web.ServletBridges
+ * <p>Within this small example it only handles a single command and emits one event.
  */
-@WebServlet("/subscription/create")
-public final class TasksSubscribeServlet extends SubscribeServlet {
+public final class TaskAggregate extends Aggregate<TaskId, Task, Task.Builder> {
 
-    private static final long serialVersionUID = 0L;
+    TaskAggregate(TaskId id) {
+        super(id);
+    }
 
-    public TasksSubscribeServlet() {
-        super(ServletBridges.subscription());
+    @Assign
+    TaskCreated handle(CreateTask cmd) {
+        TaskCreated result = TaskCreated
+                .newBuilder()
+                .setTitle(cmd.getTitle())
+                .setId(cmd.getId())
+                .vBuild();
+        return result;
+    }
+
+    @Apply
+    private void on(TaskCreated event) {
+        builder().setId(event.getId())
+                 .setTitle(event.getTitle());
     }
 }
