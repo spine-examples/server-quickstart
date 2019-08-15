@@ -34,7 +34,7 @@ In order to contemplate the web modules in action, follow these steps:
     - install the module dependencies via `npm install`;
     - assemble a single JavaScript artifact via `npm run build`.
  2. In the root directory, launch the server with `./gradlew :web:runServer`.
- 3. Open the [main page](./client/app/index.html) in the browser.
+ 3. Navigate to `localhost:8080` in the browser.
  
 Note that the process started in the step 2 will end only when the server is shut down.
 
