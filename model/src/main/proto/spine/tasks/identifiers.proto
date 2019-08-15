@@ -31,10 +31,8 @@ option java_multiple_files = true;
 option java_generate_equals_and_hash = true;
 
 // An ID of a task.
-//
 message TaskId {
 
     // String representation of UUID.
-    //
-    string value = 1;
+    string uuid = 1;
 }

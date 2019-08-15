@@ -29,7 +29,6 @@ import io.spine.testing.server.blackbox.BlackBoxBoundedContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.base.Identifier.newUuid;
 import static io.spine.testing.server.blackbox.verify.state.VerifyState.exactlyOne;
 
 @DisplayName("TaskAggregate should")
@@ -38,10 +37,7 @@ class TaskAggregateTest {
     @Test
     @DisplayName("emmit TaskCreated event on CreateTask command and change state")
     void handleCreateTask() {
-        TaskId taskId = TaskId
-                .newBuilder()
-                .setValue(newUuid())
-                .build();
+        TaskId taskId = TaskId.generate();
         String taskTitle = "Learn Domain-driven Design.";
         CreateTask command = CreateTask
                 .newBuilder()

@@ -32,17 +32,13 @@ option java_generate_equals_and_hash = true;
 
 import "spine/tasks/identifiers.proto";
 
-// Defines a state for `Task` aggregate.
-//
+// A state of the `Task` Aggregate.
 message Task {
     option (entity) = {kind: AGGREGATE visibility: FULL};
 
     // An ID of the task.
-    //
     TaskId id = 1;
 
-
     // A title of the task.
-    //
     string title = 2 [(required) = true];
 }

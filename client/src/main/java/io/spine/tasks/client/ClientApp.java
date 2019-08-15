@@ -31,10 +31,10 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
+import io.spine.string.Stringifiers;
+import io.spine.tasks.Task;
 import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
-import io.spine.tasks.Task;
-import io.spine.string.Stringifiers;
 
 import java.util.logging.Level;
 
@@ -97,10 +97,17 @@ public class ClientApp {
                 .newBuilder()
                 .setActor(whoIsCalling())
                 .build();
-        TaskId taskId = TaskId
-                .newBuilder()
-                .setValue(newUuid())
-                .vBuild();
+
+        /*
+         * Generate a new task ID.
+         *
+         * For the Protobuf messages consisting of a single field named {@code uuid}
+         * the framework automatically creates the {@code generate()} method.
+         *
+         * This factory method uses a randomly generated UUID value to create a new instance
+         * of the Protobuf message.
+         */
+        TaskId taskId = TaskId.generate();
         CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
         Command cmd = requestFactory.command()
                                     .create(createTask);
