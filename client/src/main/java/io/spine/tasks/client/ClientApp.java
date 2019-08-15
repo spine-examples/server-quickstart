@@ -31,9 +31,9 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
-import io.spine.quickstart.tasks.TaskId;
-import io.spine.quickstart.tasks.command.CreateTask;
-import io.spine.quickstart.tasks.task.Task;
+import io.spine.tasks.TaskId;
+import io.spine.tasks.command.CreateTask;
+import io.spine.tasks.Task;
 import io.spine.string.Stringifiers;
 
 import java.util.logging.Level;

@@ -37,7 +37,7 @@ See the `TaskAggregate` which handles the `CreateTask` command and applies the p
    * exposes the `BoundedContext` instance to the outer world through a set of gRPC services,
    provided by the framework.
 
-See `io.spine.quickstart.tasks.server.ServerApp` for implementation. 
+See `io.spine.tasks.server.ServerApp` for implementation. 
 
 Run `ServerApp.main()` to start the server.
 

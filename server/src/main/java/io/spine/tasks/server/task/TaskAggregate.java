@@ -17,12 +17,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.tasks.server.task;
+package io.spine.tasks.server.task;
 
-import io.spine.quickstart.tasks.command.CreateTask;
-import io.spine.quickstart.tasks.task.Task;
-import io.spine.quickstart.tasks.event.TaskCreated;
-import io.spine.quickstart.tasks.TaskId;
+import io.spine.tasks.command.CreateTask;
+import io.spine.tasks.Task;
+import io.spine.tasks.event.TaskCreated;
+import io.spine.tasks.TaskId;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;

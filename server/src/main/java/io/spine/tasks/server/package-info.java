@@ -19,15 +19,14 @@
  */
 
 /**
- * This package defines the Task aggregate.
- */
-/**
- * This package defines the {@link io.spine.quickstart.tasks.task.Task Task} Aggregate.
+ * This package contains server classes and interfaces of the {@code Tasks} Bounded Context.
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
-package io.spine.quickstart.tasks.server.task;
+@BoundedContext(TasksContext.NAME)
+package io.spine.tasks.server;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import io.spine.core.BoundedContext;
 
 import javax.annotation.ParametersAreNonnullByDefault;

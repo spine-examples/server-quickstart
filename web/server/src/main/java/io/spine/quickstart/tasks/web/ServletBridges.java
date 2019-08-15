@@ -20,7 +20,7 @@
 
 package io.spine.quickstart.tasks.web;
 
-import io.spine.quickstart.tasks.server.TasksContext;
+import io.spine.tasks.server.TasksContext;
 import io.spine.web.firebase.query.FirebaseQueryBridge;
 import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
 import io.spine.web.query.QueryBridge;

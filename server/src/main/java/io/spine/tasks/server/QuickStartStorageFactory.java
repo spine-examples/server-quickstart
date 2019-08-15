@@ -18,7 +18,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.server;
+package io.spine.tasks.server;
 
 import io.spine.server.ContextSpec;
 import io.spine.server.aggregate.Aggregate;

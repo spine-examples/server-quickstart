@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, TeamDev. All rights reserved.
+ * Copyright 2018, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -18,15 +18,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This package contains server classes and interfaces of the {@code Tasks} Bounded Context.
- */
-@CheckReturnValue
-@ParametersAreNonnullByDefault
-@BoundedContext(TasksContext.NAME)
-package io.spine.quickstart.tasks.server;
+syntax = "proto3";
 
-import com.google.errorprone.annotations.CheckReturnValue;
-import io.spine.core.BoundedContext;
+package spine.tasks;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import "spine/options.proto";
+
+option (type_url_prefix) = "type.spine.io";
+option java_package = "io.spine.tasks";
+option java_outer_classname = "IdentifiersProto";
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+// An ID of a task.
+//
+message TaskId {
+
+    // String representation of UUID.
+    //
+    string value = 1;
+}

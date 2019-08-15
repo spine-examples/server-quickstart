@@ -17,7 +17,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.tasks.server;
+package io.spine.tasks.server;
 
 import com.google.common.flogger.FluentLogger;
 import io.spine.server.CommandService;

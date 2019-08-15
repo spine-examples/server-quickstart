@@ -18,9 +18,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.server;
+package io.spine.tasks.server;
 
-import io.spine.quickstart.tasks.server.task.TaskAggregate;
+import io.spine.tasks.server.task.TaskAggregate;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
 import io.spine.server.DefaultRepository;
