@@ -18,17 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.tasks.web;
+
+import io.spine.web.subscription.servlet.SubscribeServlet;
+
+import javax.servlet.annotation.WebServlet;
+
 /**
- * This package declares the web API of the {@code Tasks} context.
+ * {@code Tasks} context {@code /subscribe} servlet.
  *
- * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
- * context.
+ * <p>This is a part of the system's subscription web API. Handles the subscriptions created by
+ * the client via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscribeServlet
+ * @see ServletBridges
  */
+@WebServlet("/subscription/create")
+public final class TasksSubscribeServlet extends SubscribeServlet {
 
-@CheckReturnValue
-@ParametersAreNonnullByDefault
-package io.spine.quickstart.tasks.web;
+    private static final long serialVersionUID = 0L;
 
-import com.google.errorprone.annotations.CheckReturnValue;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+    public TasksSubscribeServlet() {
+        super(ServletBridges.subscription());
+    }
+}

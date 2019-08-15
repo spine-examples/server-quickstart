@@ -18,27 +18,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.web;
+package io.spine.tasks.web;
 
-import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
-
-import javax.servlet.annotation.WebServlet;
+import io.spine.tasks.server.TasksContext;
+import io.spine.web.firebase.query.FirebaseQueryBridge;
+import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
+import io.spine.web.query.QueryBridge;
+import io.spine.web.subscription.SubscriptionBridge;
 
 /**
- * {@code Tasks} context {@code /subscription/cancel} servlet.
- *
- * <p>This is a part of the system's subscription web API. Handles the subscription cancelling
- * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
- *
- * @see SubscriptionCancelServlet
- * @see ServletBridges
+ * A factory of the bridges between the servlet API and the {@code Tasks} context.
  */
-@WebServlet("/subscription/cancel")
-public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
+final class ServletBridges {
 
-    private static final long serialVersionUID = 0L;
+    /**
+     * Prevents the utility class instantiation.
+     */
+    private ServletBridges() {
+    }
 
-    public TasksSubscriptionCancelServlet() {
-        super(ServletBridges.subscription());
+    static SubscriptionBridge subscription() {
+        return FirebaseSubscriptionBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setSubscriptionService(TasksContext.subscriptionService())
+                .build();
+    }
+
+    static QueryBridge query() {
+        return FirebaseQueryBridge
+                .newBuilder()
+                .setFirebaseClient(Firebase.client())
+                .setQueryService(TasksContext.queryService())
+                .build();
     }
 }

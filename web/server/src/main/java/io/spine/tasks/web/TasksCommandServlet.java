@@ -18,38 +18,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.web;
+package io.spine.tasks.web;
 
 import io.spine.tasks.server.TasksContext;
-import io.spine.web.firebase.query.FirebaseQueryBridge;
-import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
-import io.spine.web.query.QueryBridge;
-import io.spine.web.subscription.SubscriptionBridge;
+import io.spine.web.command.CommandServlet;
+
+import javax.servlet.annotation.WebServlet;
 
 /**
- * A factory of the bridges between the servlet API and the {@code Tasks} context.
+ * {@code Tasks} context command servlet.
+ *
+ * <p>Handles the commands {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.server.CommandService}.
+ *
+ * @see CommandServlet
+ * @see ServletBridges
  */
-final class ServletBridges {
+@WebServlet("/command")
+public final class TasksCommandServlet extends CommandServlet {
 
-    /**
-     * Prevents the utility class instantiation.
-     */
-    private ServletBridges() {
-    }
+    private static final long serialVersionUID = 0L;
 
-    static SubscriptionBridge subscription() {
-        return FirebaseSubscriptionBridge
-                .newBuilder()
-                .setFirebaseClient(Firebase.client())
-                .setSubscriptionService(TasksContext.subscriptionService())
-                .build();
-    }
-
-    static QueryBridge query() {
-        return FirebaseQueryBridge
-                .newBuilder()
-                .setFirebaseClient(Firebase.client())
-                .setQueryService(TasksContext.queryService())
-                .build();
+    public TasksCommandServlet() {
+        super(TasksContext.commandService());
     }
 }

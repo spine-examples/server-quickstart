@@ -18,27 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.web;
+package io.spine.tasks.web;
 
-import io.spine.web.subscription.servlet.SubscribeServlet;
+import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
 
 import javax.servlet.annotation.WebServlet;
 
 /**
- * {@code Tasks} context {@code /subscribe} servlet.
+ * {@code Tasks} context {@code /subscription/cancel} servlet.
  *
- * <p>This is a part of the system's subscription web API. Handles the subscriptions created by
- * the client via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ * <p>This is a part of the system's subscription web API. Handles the subscription cancelling
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
  *
- * @see SubscribeServlet
+ * @see SubscriptionCancelServlet
  * @see ServletBridges
  */
-@WebServlet("/subscription/create")
-public final class TasksSubscribeServlet extends SubscribeServlet {
+@WebServlet("/subscription/cancel")
+public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
 
     private static final long serialVersionUID = 0L;
 
-    public TasksSubscribeServlet() {
+    public TasksSubscriptionCancelServlet() {
         super(ServletBridges.subscription());
     }
 }

@@ -18,28 +18,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.web;
-
-import io.spine.tasks.server.TasksContext;
-import io.spine.web.command.CommandServlet;
-
-import javax.servlet.annotation.WebServlet;
-
 /**
- * {@code Tasks} context command servlet.
+ * This package declares the web API of the {@code Tasks} context.
  *
- * <p>Handles the commands {@code POST}ed by the client by dispatching them to
- * the {@link io.spine.server.CommandService}.
- *
- * @see CommandServlet
- * @see ServletBridges
+ * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
+ * context.
  */
-@WebServlet("/command")
-public final class TasksCommandServlet extends CommandServlet {
 
-    private static final long serialVersionUID = 0L;
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.tasks.web;
 
-    public TasksCommandServlet() {
-        super(TasksContext.commandService());
-    }
-}
+import com.google.errorprone.annotations.CheckReturnValue;
+
+import javax.annotation.ParametersAreNonnullByDefault;

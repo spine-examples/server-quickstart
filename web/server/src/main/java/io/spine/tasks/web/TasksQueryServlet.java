@@ -18,28 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.quickstart.tasks.web;
+package io.spine.tasks.web;
 
-import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
+import io.spine.web.query.QueryServlet;
 
 import javax.servlet.annotation.WebServlet;
 
 /**
- * {@code Tasks} context {@code /subscription/keep-up} servlet.
+ * {@code Tasks} context query servlet.
  *
- * <p>This is a part of the system's subscription web API. Handles the subscription keep-up
- * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ * <p>Handles the queries {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.web.firebase.query.FirebaseQueryBridge}.
  *
- * @see SubscriptionKeepUpServlet
+ * @see QueryServlet
  * @see ServletBridges
  */
-
-@WebServlet("/subscription/keep-up")
-public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
+@WebServlet("/query")
+public final class TasksQueryServlet extends QueryServlet {
 
     private static final long serialVersionUID = 0L;
 
-    public TasksSubscriptionKeepUpServlet() {
-        super(ServletBridges.subscription());
+    public TasksQueryServlet() {
+        super(ServletBridges.query());
     }
 }
