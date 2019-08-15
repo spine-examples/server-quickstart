@@ -22,7 +22,7 @@
  * This package defines the Task aggregate.
  */
 /**
- * This package defines the {@link io.spine.quickstart.tasks.task.Task Task} Aggregate.
+ * This package defines the {@link io.spine.tasks.Task Task} Aggregate.
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
