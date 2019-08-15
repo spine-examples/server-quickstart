@@ -26,6 +26,7 @@ model/*/.spine/
 # Web-specific files
 web/client/node_modules
 web/client/bundle.js
+web/client/app/bundle.js
 web/client/package-lock.json
 
 # Login details to Maven repository.

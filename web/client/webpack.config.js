@@ -21,7 +21,7 @@
 const config = {
     entry: "./src/main/index.js",
     output: {
-        path: __dirname,
+        path: __dirname + "/app",
         filename: "bundle.js",
         libraryTarget: "this"
     },

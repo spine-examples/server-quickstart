@@ -29,8 +29,12 @@ dependencies {
     implementation "io.spine.gcloud:spine-firebase-web:$deps.versions.spine"
 }
 
+final webResourcesRoot = "${project(':web:client').projectDir}/app"
+
 gretty {
     contextPath = '/'
     loggingLevel = 'ALL'
     fastReload = false
+
+    extraResourceBase webResourcesRoot
 }
