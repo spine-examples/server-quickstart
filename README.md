@@ -47,7 +47,7 @@ Interacts with the gRPC services, exposed by the `server` module:
  * sends commands via `CommandService` stub;
  * sends queries via `QueryService` stub.
 
-See `io.spine.quickstart.client.ClientApp` for implementation.
+See `io.spine.tasks.client.ClientApp` for implementation.
 
 Run `ClientApp.main()` to start the client and see it connecting to the server.
 

@@ -23,7 +23,7 @@
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
-package io.spine.quickstart.client;
+package io.spine.tasks.client;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 

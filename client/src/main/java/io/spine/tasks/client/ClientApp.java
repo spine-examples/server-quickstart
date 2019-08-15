@@ -17,7 +17,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package io.spine.quickstart.client;
+package io.spine.tasks.client;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -31,24 +31,26 @@ import io.spine.client.grpc.QueryServiceGrpc;
 import io.spine.core.Ack;
 import io.spine.core.Command;
 import io.spine.core.UserId;
+import io.spine.quickstart.tasks.TaskId;
 import io.spine.quickstart.tasks.command.CreateTask;
 import io.spine.quickstart.tasks.task.Task;
-import io.spine.quickstart.tasks.TaskId;
 import io.spine.string.Stringifiers;
 
 import java.util.logging.Level;
 
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static io.spine.base.Identifier.newUuid;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
- * A template of a client for Spine-powered server.
+ * A template of a standalone Java client for Spine-powered server.
  *
  * <p>Illustrates a simple flow:
  *
  * <ul>
- *     <li>establishes a connection to the gRPC server;
- *     <li>sends a command to create a task through {@code CommandService};
- *     <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
+ *      <li>establishes a connection to the gRPC server;
+ *      <li>sends a command to create a task through {@code CommandService};
+ *      <li>verifies that the task is created by asking for all tasks via {@code QueryService}.
  * </ul>
  */
 public class ClientApp {
@@ -76,7 +78,7 @@ public class ClientApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         // Connect to the server and init the client-side stubs for gRPC services.
         info("Connecting to the server at {}:{}", HOST, PORT);
@@ -111,7 +113,7 @@ public class ClientApp {
          * to the read-side asynchronously.
          * Therefore some time should pass for the read-side to reflect the changes made.
          */
-        Thread.sleep(100);
+        sleepUninterruptibly(100, MILLISECONDS);
 
         // Create and execute a query.
         Query taskQuery = requestFactory.query()
@@ -121,8 +123,9 @@ public class ClientApp {
         info("A response received: {}", Stringifiers.toString(response));
     }
 
-    private static void info(String msg, Object ...args) {
-        log.at(Level.INFO).log(msg, args);
+    private static void info(String msg, Object... args) {
+        log.at(Level.INFO)
+           .log(msg, args);
     }
 
     /**
