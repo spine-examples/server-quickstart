@@ -18,14 +18,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+/**
+ * This package contains classes and interfaces for the client application sample.
+ */
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.tasks.client;
 
-module.exports = config;
+import com.google.errorprone.annotations.CheckReturnValue;
+
+import javax.annotation.ParametersAreNonnullByDefault;

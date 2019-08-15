@@ -17,15 +17,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package io.spine.tasks.server.task;
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+import io.spine.tasks.command.CreateTask;
+import io.spine.tasks.Task;
+import io.spine.tasks.event.TaskCreated;
+import io.spine.tasks.TaskId;
+import io.spine.server.aggregate.Aggregate;
+import io.spine.server.aggregate.Apply;
+import io.spine.server.command.Assign;
 
-module.exports = config;
+/**
+ * Definition of the {@code Task} aggregate.
+ *
+ * <p>Within this small example it only handles a single command and emits one event.
+ */
+public final class TaskAggregate extends Aggregate<TaskId, Task, Task.Builder> {
+
+    TaskAggregate(TaskId id) {
+        super(id);
+    }
+
+    @Assign
+    TaskCreated handle(CreateTask cmd) {
+        TaskCreated result = TaskCreated
+                .newBuilder()
+                .setTitle(cmd.getTitle())
+                .setId(cmd.getId())
+                .vBuild();
+        return result;
+    }
+
+    @Apply
+    private void on(TaskCreated event) {
+        builder().setId(event.getId())
+                 .setTitle(event.getTitle());
+    }
+}

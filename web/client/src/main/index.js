@@ -22,9 +22,9 @@ import * as uuid from 'uuid';
 import {init} from 'spine-web';
 import {Type} from 'spine-web/client/typed-message';
 import {ActorProvider} from 'spine-web/client/actor-request-factory';
-import {CreateTask} from "../../generated/main/js/spine/quickstart/tasks/commands_pb"
-import {Task} from "../../generated/main/js/spine/quickstart/tasks/task_pb"
-import {TaskId} from "../../generated/main/js/spine/quickstart/tasks/identifiers_pb"
+import {CreateTask} from "../../generated/main/js/spine/tasks/commands_pb"
+import {Task} from "../../generated/main/js/spine/tasks/task_pb"
+import {TaskId} from "../../generated/main/js/spine/tasks/identifiers_pb"
 
 import * as spineTypes from 'spine-web/proto/index';
 import * as types from '../../generated/main/js/index';
@@ -41,7 +41,7 @@ const FIREBASE = firebase.initializeApp({
 /**
  * Backend for the tasks page.
  *
- * Performs queries to the application backend via the Spine web library.
+ * Communicates to the application backend via the Spine web library.
  */
 class TaskController {
 
@@ -62,7 +62,7 @@ class TaskController {
      */
     createTask(title) {
         const id = new TaskId();
-        id.setValue(uuid.v4());
+        id.setUuid(uuid.v4());
         const cmd = new CreateTask();
         cmd.setId(id);
         cmd.setTitle(title);
@@ -97,7 +97,7 @@ class TaskController {
     }
 
     static _render(task) {
-        return "<a id='" + task.getId().getValue() + "'><li class='task'>" +
+        return "<a id='" + task.getId().getUuid() + "'><li class='task'>" +
             task.getTitle() + "</li></a>";
     }
 }

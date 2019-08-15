@@ -22,18 +22,19 @@ plugins {
     id "org.gretty" version "2.3.1"
 }
 
-spine.enableJava()
+spine.enableJava().server()
 
 dependencies {
     implementation project(path: ':server')
     implementation "io.spine.gcloud:spine-firebase-web:$deps.versions.spine"
-
-    implementation "io.spine:spine-client:$deps.versions.spine"
-    implementation "io.spine:spine-server:$deps.versions.spine"
 }
+
+final webResourcesRoot = "${project(':web:client').projectDir}/app"
 
 gretty {
     contextPath = '/'
     loggingLevel = 'ALL'
     fastReload = false
+
+    extraResourceBase webResourcesRoot
 }

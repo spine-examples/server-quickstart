@@ -18,14 +18,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+package io.spine.tasks.web;
 
-module.exports = config;
+import io.spine.web.subscription.servlet.SubscriptionKeepUpServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+/**
+ * {@code Tasks} context {@code /subscription/keep-up} servlet.
+ *
+ * <p>This is a part of the system's subscription web API. Handles the subscription keep-up
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionKeepUpServlet
+ * @see ServletBridges
+ */
+
+@WebServlet("/subscription/keep-up")
+public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    public TasksSubscriptionKeepUpServlet() {
+        super(ServletBridges.subscription());
+    }
+}

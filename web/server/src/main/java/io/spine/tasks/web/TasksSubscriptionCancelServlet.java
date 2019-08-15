@@ -18,14 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+package io.spine.tasks.web;
 
-module.exports = config;
+import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+/**
+ * {@code Tasks} context {@code /subscription/cancel} servlet.
+ *
+ * <p>This is a part of the system's subscription web API. Handles the subscription cancelling
+ * requests via the {@link io.spine.web.firebase.subscription.FirebaseSubscriptionBridge}.
+ *
+ * @see SubscriptionCancelServlet
+ * @see ServletBridges
+ */
+@WebServlet("/subscription/cancel")
+public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    public TasksSubscriptionCancelServlet() {
+        super(ServletBridges.subscription());
+    }
+}

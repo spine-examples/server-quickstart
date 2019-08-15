@@ -18,14 +18,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+/**
+ * This package declares the web API of the {@code Tasks} context.
+ *
+ * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
+ * context.
+ */
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.tasks.web;
 
-module.exports = config;
+import com.google.errorprone.annotations.CheckReturnValue;
+
+import javax.annotation.ParametersAreNonnullByDefault;

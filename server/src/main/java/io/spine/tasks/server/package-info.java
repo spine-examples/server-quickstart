@@ -18,14 +18,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+/**
+ * This package contains server classes and interfaces of the {@code Tasks} Bounded Context.
+ */
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+@BoundedContext(TasksContext.NAME)
+package io.spine.tasks.server;
 
-module.exports = config;
+import com.google.errorprone.annotations.CheckReturnValue;
+import io.spine.core.BoundedContext;
+
+import javax.annotation.ParametersAreNonnullByDefault;

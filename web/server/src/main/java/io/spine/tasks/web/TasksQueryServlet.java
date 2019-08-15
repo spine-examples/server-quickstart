@@ -18,14 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+package io.spine.tasks.web;
 
-module.exports = config;
+import io.spine.web.query.QueryServlet;
+
+import javax.servlet.annotation.WebServlet;
+
+/**
+ * {@code Tasks} context query servlet.
+ *
+ * <p>Handles the queries {@code POST}ed by the client by dispatching them to
+ * the {@link io.spine.web.firebase.query.FirebaseQueryBridge}.
+ *
+ * @see QueryServlet
+ * @see ServletBridges
+ */
+@WebServlet("/query")
+public final class TasksQueryServlet extends QueryServlet {
+
+    private static final long serialVersionUID = 0L;
+
+    public TasksQueryServlet() {
+        super(ServletBridges.query());
+    }
+}

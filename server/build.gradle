@@ -22,7 +22,4 @@ spine.enableJava().server()
 
 dependencies {
     implementation project(path: ':model')
-
-    testImplementation "io.spine:spine-testlib:$deps.versions.spine"
-    testImplementation "io.spine:spine-testutil-server:$deps.versions.spine"
 }

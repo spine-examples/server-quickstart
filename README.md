@@ -6,7 +6,7 @@ A simple example of server application in Spine to get you started.
  * Install JDK 8 or higher.
  * Clone the source code: 
 ```bash
-git clone git@github.com:SpineEventEngine/server-quickstart.git
+git clone git@github.com:spine-examples/server-quickstart.git
 ```
  * Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
 
@@ -37,7 +37,7 @@ See the `TaskAggregate` which handles the `CreateTask` command and applies the p
    * exposes the `BoundedContext` instance to the outer world through a set of gRPC services,
    provided by the framework.
 
-See `io.spine.quickstart.server.ServerApp` for implementation. 
+See `io.spine.tasks.server.ServerApp` for implementation. 
 
 Run `ServerApp.main()` to start the server.
 
@@ -47,7 +47,7 @@ Interacts with the gRPC services, exposed by the `server` module:
  * sends commands via `CommandService` stub;
  * sends queries via `QueryService` stub.
 
-See `io.spine.quickstart.client.ClientApp` for implementation.
+See `io.spine.tasks.client.ClientApp` for implementation.
 
 Run `ClientApp.main()` to start the client and see it connecting to the server.
 

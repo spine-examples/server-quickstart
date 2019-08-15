@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, TeamDev. All rights reserved.
+ * Copyright 2018, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -18,14 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: "./src/main/index.js",
-    output: {
-        path: __dirname + "/app",
-        filename: "bundle.js",
-        libraryTarget: "this"
-    },
-    target: "web"
-};
+syntax = "proto3";
 
-module.exports = config;
+package spine.tasks;
+
+import "spine/options.proto";
+
+option (type_url_prefix) = "type.spine.io";
+option java_package = "io.spine.tasks";
+option java_outer_classname = "TaskProto";
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+import "spine/tasks/identifiers.proto";
+
+// A state of the `Task` Aggregate.
+message Task {
+    option (entity) = {kind: AGGREGATE visibility: FULL};
+
+    // An ID of the task.
+    TaskId id = 1;
+
+    // A title of the task.
+    string title = 2 [(required) = true];
+}
