@@ -24,7 +24,6 @@
  * <p>Declares servlets which adhere to the {@code spine-web} contract and serve the {@code Tasks}
  * context.
  */
-
 @CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.tasks.web;
