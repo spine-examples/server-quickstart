@@ -34,8 +34,8 @@ apply plugin: 'jacoco'
 
 import groovy.io.FileType
 
-// Evaluate this script only after all subprojects were evaluated.
-// Only after that it is possible to say which of the subprojects are Java projects.
+// Evaluate this script only after all sub-projects were evaluated.
+// Only after that it is possible to say which of the sub-projects are Java projects.
 evaluationDependsOnChildren()
 
 final def javaProjects = subprojects.findAll { it.pluginManager.hasPlugin('java') }
@@ -147,7 +147,6 @@ class CodebaseFilter {
         }
     }
 
-    @SuppressWarnings("GroovyAssignabilityCheck")  // a workaround for https://youtrack.jetbrains.com/issue/IDEA-141744
     private LinkedList<String> getGeneratedClassNames() {
         final def sourceFiles = project.files(javaSrcDirs)
         final def generatedSourceFiles = generatedOnly(sourceFiles)
@@ -182,7 +181,6 @@ class CodebaseFilter {
         return generatedClassNames
     }
 
-    @SuppressWarnings("GroovyAssignabilityCheck")  // a workaround for https://youtrack.jetbrains.com/issue/IDEA-141744
     List<FileTree> findNonGeneratedCompiledFiles() {
         println(" - Available source dirs: ")
         final def srcDirs = project.files(javaSrcDirs)
