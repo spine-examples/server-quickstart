@@ -25,8 +25,10 @@ plugins {
 
 final def scripts = [
         version         : "$rootDir/version.gradle",
+        tests           : "$rootDir/gradle/tests.gradle",
         jacoco          : "$rootDir/gradle/jacoco.gradle",
-        staticAnalysis  : "$rootDir/gradle/static-analysis.gradle"
+        staticAnalysis  : "$rootDir/gradle/static-analysis.gradle",
+        idea            : "$rootDir/gradle/idea.gradle"
 ]
 
 allprojects {
@@ -42,12 +44,15 @@ subprojects {
     apply plugin: 'io.spine.tools.gradle.bootstrap'
     
     pluginManager.withPlugin('java') {
+        
         apply plugin: 'net.ltgt.errorprone'
-        apply from: "$rootDir/gradle/pmd/pmd.gradle"
-        apply from: "$rootDir/gradle/tests.gradle"
+        apply plugin: 'jacoco'
+        apply from: "$scripts.tests"
+        apply from: "$scripts.staticAnalysis"
+        apply from: "$scripts.jacoco"
 
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
 
         dependencies {
             errorprone "com.google.errorprone:error_prone_core:$deps.versions.errorProne"
@@ -60,5 +65,5 @@ subprojects {
         }
     }
     
-    apply from: "$rootDir/gradle/idea.gradle"
+    apply from: "$scripts.idea"
 }
