@@ -82,7 +82,6 @@ task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
 }
 
 task build {
-    //noinspection GroovyAssignabilityCheck   — a workaround for https://youtrack.jetbrains.com/issue/IDEA-141744
     dependsOn javaProjects*.build
 
     finalizedBy jacocoRootReport
