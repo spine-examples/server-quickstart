@@ -26,7 +26,7 @@ plugins {
 final def scripts = [
         version         : "$rootDir/version.gradle",
         tests           : "$rootDir/gradle/tests.gradle",
-        jacoco          : "$rootDir/gradle/jacoco.gradle",
+        jacocoCombined  : "$rootDir/gradle/jacoco-combined.gradle",
         staticAnalysis  : "$rootDir/gradle/static-analysis.gradle",
         idea            : "$rootDir/gradle/idea.gradle"
 ]
@@ -40,16 +40,16 @@ subprojects {
         sourcesRootDir = "$projectDir/src"
         generatedRootDir = "$projectDir/generated"
     }
+    apply from: "$scripts.idea"
 
     apply plugin: 'io.spine.tools.gradle.bootstrap'
-    
+
     pluginManager.withPlugin('java') {
-        
         apply plugin: 'net.ltgt.errorprone'
         apply plugin: 'jacoco'
+
         apply from: "$scripts.tests"
         apply from: "$scripts.staticAnalysis"
-        apply from: "$scripts.jacoco"
 
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -64,6 +64,7 @@ subprojects {
             runtimeOnly "com.google.flogger:flogger:$deps.versions.flogger"
         }
     }
-    
-    apply from: "$scripts.idea"
 }
+
+// Composes a combined coverage report on all Java-related modules in the project.
+apply from: "$scripts.jacocoCombined"

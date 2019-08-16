@@ -18,15 +18,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Apply this script to enable JaCoCo test report.
+// Apply this script to enable the combined JaCoCo test report.
 //
-// This task aggregates the XML report results from all Java subprojects.
+// This task combines the XML report results from all Java sub-projects.
 // Inspired by: https://gist.github.com/aalmiray/e6f54aa4b3803be0bcac
+//
+// This task runs after `:build` task.
 
 // Required to grab dependencies for `jacocoRootReport` task.
 repositories {
     jcenter()
 }
+
+apply plugin: 'jacoco'
 
 import groovy.io.FileType
 
@@ -36,10 +40,11 @@ evaluationDependsOnChildren()
 
 final def javaProjects = subprojects.findAll { it.pluginManager.hasPlugin('java') }
 
-// Create an aggregate coverage report across Java modules,
+// Create an combined coverage report across Java modules,
 // excluding the generated content from the coverage stats.
 //
 task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
+
     // It is required to set some default value in order for the task to initialize.
     // This value is overridden in `#doFirst` section.
     additionalSourceDirs = files()
@@ -55,7 +60,7 @@ task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
     onlyIf = {
         true
     }
-    // Handle subprojects after their evaluation, when the task is run.
+    // Handle sub-projects after their evaluation, when the task is run.
     doFirst {
         additionalSourceDirs = CodebaseFilter.nonGeneratedOnly(files(javaProjects.sourceSets.main.java.srcDirs))
         sourceDirectories = CodebaseFilter.nonGeneratedOnly(files(javaProjects.sourceSets.main.java.srcDirs))
@@ -66,7 +71,7 @@ task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
             it.exists()
         })
 
-        println("Starting to compose an aggregate coverage report across modules.")
+        println("Starting to compose a combined coverage report across Java modules.")
 
         final def filter = new CodebaseFilter(project,
                 javaProjects.sourceSets.main.java.srcDirs,
@@ -76,8 +81,11 @@ task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
     }
 }
 
-if (project.tasks.findByName('check')) {
-    check.dependsOn jacocoRootReport
+task build {
+    //noinspection GroovyAssignabilityCheck   — a workaround for https://youtrack.jetbrains.com/issue/IDEA-141744
+    dependsOn javaProjects*.build
+
+    finalizedBy jacocoRootReport
 }
 
 /**
