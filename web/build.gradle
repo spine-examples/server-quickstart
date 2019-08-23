@@ -23,7 +23,6 @@ plugins {
 }
 
 task runEmulator(type: com.github.psxpaul.task.ExecFork) {
-    
     final def clientDir = project(':web:client').projectDir
     workingDir = "$clientDir/node_modules/.bin"
 
@@ -38,8 +37,6 @@ task runEmulator(type: com.github.psxpaul.task.ExecFork) {
     waitForPort = 5000
 }
 
-final def appStart = project(':web:server').getTasksByName('appStart', false)
-
 task runServer {
-    dependsOn runEmulator, appStart
+    dependsOn runEmulator, ':web:server:appStart'
 }

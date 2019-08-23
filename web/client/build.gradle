@@ -24,23 +24,8 @@ dependencies {
     protobuf project(path: ':model')
 }
 
-compileJava.enabled = false
-compileTestJava.enabled = false
-
 configurations.protobuf {
     transitive = false
-}
-
-protobuf {
-    generatedFilesBaseDir = "$projectDir/generated"
-    generateProtoTasks {
-        all().each { final task ->
-            task.generateDescriptorSet = true
-            final String descriptorName = "${project.group}_${project.name}_${project.version}.desc"
-            task.descriptorSetOptions.path = 
-                    "${projectDir}/build/descriptors/${task.sourceSet.name}/${descriptorName}"
-        }
-    }
 }
 
 clean.doFirst {

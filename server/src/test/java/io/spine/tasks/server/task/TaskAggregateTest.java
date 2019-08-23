@@ -35,7 +35,7 @@ import static io.spine.testing.server.blackbox.verify.state.VerifyState.exactlyO
 class TaskAggregateTest {
 
     @Test
-    @DisplayName("emmit TaskCreated event on CreateTask command and change state")
+    @DisplayName("emit TaskCreated event on CreateTask command and change state")
     void handleCreateTask() {
         TaskId taskId = TaskId.generate();
         String taskTitle = "Learn Domain-driven Design.";
