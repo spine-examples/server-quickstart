@@ -76,7 +76,6 @@ dependencies {
  * Create a new event type in `events.proto`:
 ```proto
 import "spine/time/time.proto";
-import "spine/time_options.proto";
 
 // ...
 
@@ -87,6 +86,11 @@ message DueDateAssigned {
 ```
  * Adjust the aggregate state:
 ```proto
+
+import "spine/time/time.proto";
+
+// ...
+
 message Task {
     option (entity).kind = AGGREGATE;
 
