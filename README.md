@@ -55,19 +55,34 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
 
  * Experiment with the model. Create a new command type in `commands.proto`
 ```proto
+import "spine/time/time.proto";
+import "spine/time_options.proto";
+
+// ...
+
 message AssignDueDate {
     TaskId task = 1;
-    spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true, (when).in = FUTURE];
+    spine.time.LocalDate due_date = 2 [(validate) = true, (required) = true, (when).in = FUTURE];
 }
 ```
 Remember to import `LocalDate` via `import "spine/time/time.proto";`. This type is provided by
-the [Spine Time](https://github.com/SpineEventEngine/time) library. You don't have to perform any
-additional steps to use it in your domain.
+the [Spine Time](https://github.com/SpineEventEngine/time) library. Let's add it to the Gradle module by updating the `model/build.gradle`:
+```groovy
+
+dependencies {
+    implementation "io.spine:spine-time:${spine.version()}"
+}
+```
  * Create a new event type in `events.proto`:
 ```proto
+import "spine/time/time.proto";
+import "spine/time_options.proto";
+
+// ...
+
 message DueDateAssigned {
     TaskId task = 1;
-    spine.time.LocalDate due_date = 2 [(valid) = true, (required) = true];
+    spine.time.LocalDate due_date = 2 [(validate) = true, (required) = true];
 }
 ```
  * Adjust the aggregate state:
@@ -82,7 +97,7 @@ message Task {
     string title = 2 [(required) = true];
 
     // The date and time by which this task should be completed.
-    spine.time.LocalDate due_date = 3 [(valid) = true, (required) = false];
+    spine.time.LocalDate due_date = 3 [(validate) = true, (required) = false];
 }
 ```
 Make sure to run a Gradle build after the changing the Protobuf definitions: 
