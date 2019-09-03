@@ -65,6 +65,7 @@ subprojects {
         }
     }
     spine {
+        // Enforce the dependency versions needed by Spine.
         forceDependencies = true
     }
 }
