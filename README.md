@@ -88,7 +88,7 @@ import "spine/time/time.proto";
 // ...
 
 message Task {
-    option (entity).kind = AGGREGATE;
+    option (entity) = {kind: AGGREGATE visibility: FULL};
 
     // An ID of the task.
     TaskId id = 1;
@@ -114,7 +114,7 @@ gradlew.bat clean build
 DueDateAssigned handle(AssignDueDate command) {
     return DueDateAssigned
             .newBuilder()
-            .setTaskId(command.getTaskId())
+            .setTask(command.getTask())
             .setDueDate(command.getDueDate())
             .vBuild();
 }
@@ -130,7 +130,7 @@ private void on(DueDateAssigned event) {
 ```java
 AssignDueDate dueDateCommand = AssignDueDate
         .newBuilder()
-        .setTaskId(taskId)
+        .setTask(taskId)
         .setDueDate(LocalDates.of(2038, JANUARY, 19))
         .vBuild();
 commandService.post(requestFactory.command()
