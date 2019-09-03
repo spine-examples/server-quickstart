@@ -1,6 +1,6 @@
 {
   "name": "quick-client",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Web client of the Quickstart project",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "dependencies": {
     "firebase": "^6.2.0",
     "rxjs": "~6.5.1",
-    "spine-web": "^1.0.1",
+    "spine-web": "^1.0.3",
     "uuid": "latest"
   },
   "devDependencies": {
