@@ -22,4 +22,5 @@ spine.enableJava().server()
 
 dependencies {
     implementation project(path: ':model')
+    runtimeOnly 'io.grpc:grpc-netty:1.22.0'
 }
