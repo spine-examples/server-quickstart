@@ -73,7 +73,7 @@ public final class ServerApp {
                 .addService(queryService)
                 .build();
         container.start();
-        log.at(Level.INFO).log("gRPC server started at {}:{}.", HOST, PORT);
+        log.at(Level.INFO).log("gRPC server started at %s:%d.", HOST, PORT);
 
         container.awaitTermination();
     }
