@@ -63,10 +63,9 @@ subprojects {
 
             runtimeOnly "com.google.flogger:flogger:$deps.versions.flogger"
         }
-
-        spine {
-            forceDependencies = true
-        }
+    }
+    spine {
+        forceDependencies = true
     }
 }
 
