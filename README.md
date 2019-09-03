@@ -66,12 +66,8 @@ message AssignDueDate {
 }
 ```
 Remember to import `LocalDate` via `import "spine/time/time.proto";`. This type is provided by
-the [Spine Time](https://github.com/SpineEventEngine/time) library. Let's add it to the Gradle module by updating the `model/build.gradle`:
-```groovy
-
-dependencies {
-    implementation "io.spine:spine-time:${spine.version()}"
-}
+the [Spine Time](https://github.com/SpineEventEngine/time) library. You don't have to perform any
+additional steps to use it in your domain.
 ```
  * Create a new event type in `events.proto`:
 ```proto
