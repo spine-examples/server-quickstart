@@ -139,7 +139,7 @@ commandService.post(requestFactory.command()
 and log the updated state:
 ```java
 QueryResponse updatedStateResponse = queryService.read(taskQuery);
-log().info("The second response received: {}", Stringifiers.toString(updatedStateResponse));
+info("The second response received: %s", Stringifiers.toString(updatedStateResponse));
 ```
  * Restart the server. Run the client and make sure that the due date is set to the task. 
 
