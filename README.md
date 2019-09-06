@@ -66,13 +66,9 @@ message AssignDueDate {
 }
 ```
 Remember to import `LocalDate` via `import "spine/time/time.proto";`. This type is provided by
-the [Spine Time](https://github.com/SpineEventEngine/time) library. Let's add it to the Gradle module by updating the `model/build.gradle`:
-```groovy
+the [Spine Time](https://github.com/SpineEventEngine/time) library. You don't have to perform any
+additional steps to use it in your domain.
 
-dependencies {
-    implementation "io.spine:spine-time:${spine.version()}"
-}
-```
  * Create a new event type in `events.proto`:
 ```proto
 import "spine/time/time.proto";
@@ -92,7 +88,7 @@ import "spine/time/time.proto";
 // ...
 
 message Task {
-    option (entity).kind = AGGREGATE;
+    option (entity) = {kind: AGGREGATE visibility: FULL};
 
     // An ID of the task.
     TaskId id = 1;
@@ -118,7 +114,7 @@ gradlew.bat clean build
 DueDateAssigned handle(AssignDueDate command) {
     return DueDateAssigned
             .newBuilder()
-            .setTaskId(command.getTaskId())
+            .setTask(command.getTask())
             .setDueDate(command.getDueDate())
             .vBuild();
 }
@@ -134,7 +130,7 @@ private void on(DueDateAssigned event) {
 ```java
 AssignDueDate dueDateCommand = AssignDueDate
         .newBuilder()
-        .setTaskId(taskId)
+        .setTask(taskId)
         .setDueDate(LocalDates.of(2038, JANUARY, 19))
         .vBuild();
 commandService.post(requestFactory.command()
@@ -143,7 +139,7 @@ commandService.post(requestFactory.command()
 and log the updated state:
 ```java
 QueryResponse updatedStateResponse = queryService.read(taskQuery);
-log().info("The second response received: {}", Stringifiers.toString(updatedStateResponse));
+info("The second response received: %s", Stringifiers.toString(updatedStateResponse));
 ```
  * Restart the server. Run the client and make sure that the due date is set to the task. 
 

@@ -81,7 +81,7 @@ public class ClientApp {
     public static void main(String[] args) {
 
         // Connect to the server and init the client-side stubs for gRPC services.
-        info("Connecting to the server at {}:{}", HOST, PORT);
+        info("Connecting to the server at %s:%d.", HOST, PORT);
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
                                                       .usePlaintext()
@@ -112,8 +112,8 @@ public class ClientApp {
         Command cmd = requestFactory.command()
                                     .create(createTask);
         Ack acked = commandService.post(cmd);
-        info("A command has been posted: " + Stringifiers.toString(createTask));
-        info("(command acknowledgement: {})", Stringifiers.toString(acked));
+        info("A command has been posted: %s", Stringifiers.toString(createTask));
+        info("(command acknowledgement: %s)", Stringifiers.toString(acked));
 
         /*
          * Events, reflecting the changes caused by a command, travel from the write-side
@@ -127,12 +127,7 @@ public class ClientApp {
                                         .byIds(Task.class, ImmutableSet.of(taskId));
         info("Reading the task...");
         QueryResponse response = queryService.read(taskQuery);
-        info("A response received: {}", Stringifiers.toString(response));
-    }
-
-    private static void info(String msg, Object... args) {
-        log.at(Level.INFO)
-           .log(msg, args);
+        info("A response received: %s", Stringifiers.toString(response));
     }
 
     /**
@@ -166,5 +161,20 @@ public class ClientApp {
                 .setValue(newUuid())
                 .vBuild();
         return actorId;
+    }
+
+    private static void info(String msg) {
+        log.at(Level.INFO)
+           .log(msg);
+    }
+
+    private static void info(String msg, Object arg1) {
+        log.at(Level.INFO)
+           .log(msg, arg1);
+    }
+
+    private static void info(String msg, Object arg1, Object arg2) {
+        log.at(Level.INFO)
+           .log(msg, arg1, arg2);
     }
 }

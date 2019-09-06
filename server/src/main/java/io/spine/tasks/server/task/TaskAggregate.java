@@ -19,13 +19,13 @@
  */
 package io.spine.tasks.server.task;
 
-import io.spine.tasks.command.CreateTask;
-import io.spine.tasks.Task;
-import io.spine.tasks.event.TaskCreated;
-import io.spine.tasks.TaskId;
 import io.spine.server.aggregate.Aggregate;
 import io.spine.server.aggregate.Apply;
 import io.spine.server.command.Assign;
+import io.spine.tasks.Task;
+import io.spine.tasks.TaskId;
+import io.spine.tasks.command.CreateTask;
+import io.spine.tasks.event.TaskCreated;
 
 /**
  * Definition of the {@code Task} aggregate.
