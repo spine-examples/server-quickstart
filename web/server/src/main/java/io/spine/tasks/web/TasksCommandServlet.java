@@ -34,10 +34,9 @@ import javax.servlet.annotation.WebServlet;
  * @see CommandServlet
  * @see ServletBridges
  */
+@SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/command")
 public final class TasksCommandServlet extends CommandServlet {
-
-    private static final long serialVersionUID = 0L;
 
     public TasksCommandServlet() {
         super(TasksContext.commandService());

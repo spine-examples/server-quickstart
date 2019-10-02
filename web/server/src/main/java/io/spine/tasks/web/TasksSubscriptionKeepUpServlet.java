@@ -33,11 +33,9 @@ import javax.servlet.annotation.WebServlet;
  * @see SubscriptionKeepUpServlet
  * @see ServletBridges
  */
-
+@SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/subscription/keep-up")
 public final class TasksSubscriptionKeepUpServlet extends SubscriptionKeepUpServlet {
-
-    private static final long serialVersionUID = 0L;
 
     public TasksSubscriptionKeepUpServlet() {
         super(ServletBridges.subscription());

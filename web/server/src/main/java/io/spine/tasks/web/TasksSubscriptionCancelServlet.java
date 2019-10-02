@@ -33,10 +33,9 @@ import javax.servlet.annotation.WebServlet;
  * @see SubscriptionCancelServlet
  * @see ServletBridges
  */
+@SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/subscription/cancel")
 public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
-
-    private static final long serialVersionUID = 0L;
 
     public TasksSubscriptionCancelServlet() {
         super(ServletBridges.subscription());
