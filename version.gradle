@@ -22,7 +22,7 @@ final def versions = [
         errorProne       : "2.3.3",
         errorProneJavac  : "9+181-r4173-1", // taken from here: https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts
         guava            : "28.1-jre",
-        netty            : "1.22.0",
+        netty            : "1.24.0",
         checkerFramework : "2.9.0",
         flogger          : "0.4",
         pmd              : "6.16.0",

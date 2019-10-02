@@ -20,14 +20,15 @@
 
 package io.spine.tasks.server;
 
-import io.spine.tasks.server.task.TaskAggregate;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
 import io.spine.server.DefaultRepository;
 import io.spine.server.QueryService;
 import io.spine.server.ServerEnvironment;
 import io.spine.server.SubscriptionService;
+import io.spine.server.storage.memory.InMemoryStorageFactory;
 import io.spine.server.transport.memory.InMemoryTransportFactory;
+import io.spine.tasks.server.task.TaskAggregate;
 
 /**
  * A factory of {@code Tasks} bounded context services.
@@ -71,7 +72,7 @@ public final class TasksContext {
     private static BoundedContext createContext() {
 
         ServerEnvironment serverEnvironment = ServerEnvironment.instance();
-        serverEnvironment.configureStorage(new QuickStartStorageFactory());
+        serverEnvironment.configureStorage(InMemoryStorageFactory.newInstance());
         serverEnvironment.configureTransport(InMemoryTransportFactory.newInstance());
 
         BoundedContext context = BoundedContext

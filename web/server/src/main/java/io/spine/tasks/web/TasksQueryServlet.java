@@ -33,10 +33,9 @@ import javax.servlet.annotation.WebServlet;
  * @see QueryServlet
  * @see ServletBridges
  */
+@SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/query")
 public final class TasksQueryServlet extends QueryServlet {
-
-    private static final long serialVersionUID = 0L;
 
     public TasksQueryServlet() {
         super(ServletBridges.query());
