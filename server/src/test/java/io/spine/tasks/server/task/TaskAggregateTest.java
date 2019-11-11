@@ -26,16 +26,15 @@ import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
 import io.spine.tasks.event.TaskCreated;
 import io.spine.testing.server.blackbox.BlackBoxBoundedContext;
+import io.spine.testing.server.blackbox.SingleTenantBlackBoxContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.testing.server.blackbox.verify.state.VerifyState.exactlyOne;
-
-@DisplayName("TaskAggregate should")
+@DisplayName("`TaskAggregate` should")
 class TaskAggregateTest {
 
     @Test
-    @DisplayName("emit TaskCreated event on CreateTask command and change state")
+    @DisplayName("emit `TaskCreated` event on `CreateTask` command and change state")
     void handleCreateTask() {
         TaskId taskId = TaskId.generate();
         String taskTitle = "Learn Domain-driven Design.";
@@ -49,11 +48,15 @@ class TaskAggregateTest {
                 .setId(taskId)
                 .setTitle(taskTitle)
                 .vBuild();
-        BlackBoxBoundedContext
+        SingleTenantBlackBoxContext context = BlackBoxBoundedContext
                 .singleTenant()
                 .with(DefaultRepository.of(TaskAggregate.class))
-                .receivesCommand(command)
-                .assertEmitted(TaskCreated.class)
-                .assertThat(exactlyOne(expectedState));
+                .receivesCommand(command);
+        context.assertEvents()
+               .withType(TaskCreated.class)
+               .hasSize(1);
+        context.assertEntityWithState(Task.class, taskId)
+               .hasStateThat()
+               .isEqualTo(expectedState);
     }
 }
