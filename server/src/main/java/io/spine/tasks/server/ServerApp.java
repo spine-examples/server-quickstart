@@ -21,8 +21,9 @@ package io.spine.tasks.server;
 
 import com.google.common.flogger.FluentLogger;
 import io.spine.server.CommandService;
+import io.spine.server.GrpcContainer;
 import io.spine.server.QueryService;
-import io.spine.server.transport.GrpcContainer;
+import io.spine.server.SubscriptionService;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -65,12 +66,13 @@ public final class ServerApp {
     public static void main(String[] args) throws IOException {
         CommandService commandService = TasksContext.commandService();
         QueryService queryService = TasksContext.queryService();
+        SubscriptionService subscriptionService = TasksContext.subscriptionService();
 
         GrpcContainer container = GrpcContainer
-                .newBuilder()
-                .setPort(PORT)
+                .atPort(PORT)
                 .addService(commandService)
                 .addService(queryService)
+                .addService(subscriptionService)
                 .build();
         container.start();
         log.at(Level.INFO).log("gRPC server started at %s:%d.", HOST, PORT);
