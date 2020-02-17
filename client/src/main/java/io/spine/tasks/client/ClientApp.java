@@ -109,7 +109,11 @@ public class ClientApp {
                       .onStreamingError(ClientApp::throwProcessingError)
                       .post();
 
-        // Wait for the task creation event to be delivered to the read side.
+        /*
+         * Events, reflecting the changes caused by a command, travel from the write-side
+         * to the read-side asynchronously.
+         * Therefore some time should pass for the read-side to reflect the changes made.
+         */
         taskCreated.await();
 
         // Cancel the event subscriptions.
