@@ -66,10 +66,11 @@ class TaskController {
         const cmd = new CreateTask();
         cmd.setId(id);
         cmd.setTitle(title);
-        this._client.sendCommand(cmd,
-            () => console.log("Command sent."),
-            (err) => console.log("Command errored: " + err),
-            (rej) => console.log("Command rejected: " + rej));
+        this._client.command(cmd)
+                    .onOk(() => console.log("Command sent."))
+                    .onError((err) => console.log("Command errored: " + err))
+                    .onRejection((rej) => console.log("Command rejected: " + rej))
+                    .post();
     }
 
     /**
@@ -84,12 +85,13 @@ class TaskController {
     renderTasksIn(viewContainer) {
         const targetType = Type.forClass(Task);
         console.log("Subscribing to updates of " + targetType.url().value());
-        let tasks = this._client.newTopic().select(Task).build();
-        this._client.subscribeTo(tasks).then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
-            itemAdded.subscribe(
-                item => TaskController._renderNewTask(viewContainer, item)
-            );
-        });
+        this._client.subscribeTo(Task)
+                    .post()
+                    .then(({itemAdded, itemChanged, itemRemoved, unsubscribe}) => {
+                        itemAdded.subscribe(
+                            item => TaskController._renderNewTask(viewContainer, item)
+                        );
+                    });
     }
 
     static _renderNewTask(viewContainer, task) {
