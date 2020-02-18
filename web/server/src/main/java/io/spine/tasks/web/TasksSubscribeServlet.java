@@ -20,6 +20,7 @@
 
 package io.spine.tasks.web;
 
+import io.spine.web.firebase.subscription.FirebaseSubscription;
 import io.spine.web.subscription.servlet.SubscribeServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +36,7 @@ import javax.servlet.annotation.WebServlet;
  */
 @SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/subscription/create")
-public final class TasksSubscribeServlet extends SubscribeServlet {
+public final class TasksSubscribeServlet extends SubscribeServlet<FirebaseSubscription> {
 
     public TasksSubscribeServlet() {
         super(ServletBridges.subscription());

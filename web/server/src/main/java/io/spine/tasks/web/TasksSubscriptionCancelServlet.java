@@ -20,6 +20,7 @@
 
 package io.spine.tasks.web;
 
+import io.spine.core.Response;
 import io.spine.web.subscription.servlet.SubscriptionCancelServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +36,7 @@ import javax.servlet.annotation.WebServlet;
  */
 @SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/subscription/cancel")
-public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet {
+public final class TasksSubscriptionCancelServlet extends SubscriptionCancelServlet<Response> {
 
     public TasksSubscriptionCancelServlet() {
         super(ServletBridges.subscription());

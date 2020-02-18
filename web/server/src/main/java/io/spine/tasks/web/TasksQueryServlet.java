@@ -20,6 +20,7 @@
 
 package io.spine.tasks.web;
 
+import io.spine.web.firebase.query.FirebaseQueryResponse;
 import io.spine.web.query.QueryServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +36,7 @@ import javax.servlet.annotation.WebServlet;
  */
 @SuppressWarnings("serial") // Java serialization is not supported.
 @WebServlet("/query")
-public final class TasksQueryServlet extends QueryServlet {
+public final class TasksQueryServlet extends QueryServlet<FirebaseQueryResponse> {
 
     public TasksQueryServlet() {
         super(ServletBridges.query());
