@@ -19,28 +19,24 @@
  */
 package io.spine.tasks.client;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.spine.client.ActorRequestFactory;
-import io.spine.client.Query;
-import io.spine.client.QueryResponse;
-import io.spine.client.grpc.CommandServiceGrpc;
-import io.spine.client.grpc.QueryServiceGrpc;
-import io.spine.core.Ack;
-import io.spine.core.Command;
+import io.spine.client.Client;
+import io.spine.client.Subscription;
 import io.spine.core.UserId;
-import io.spine.string.Stringifiers;
 import io.spine.tasks.Task;
 import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
+import io.spine.tasks.event.TaskCreated;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static io.spine.base.Identifier.newUuid;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static io.spine.util.Exceptions.newIllegalStateException;
 
 /**
  * A template of a standalone Java client for Spine-powered server.
@@ -78,25 +74,17 @@ public class ClientApp {
      *
      * <p>Uses the hard-coded {@linkplain #HOST host} and {@linkplain #PORT port} for simplicity.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        // Connect to the server and init the client-side stubs for gRPC services.
+        // Connect to the server and init the client instance.
         info("Connecting to the server at %s:%d.", HOST, PORT);
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
                                                       .usePlaintext()
                                                       .build();
-        CommandServiceGrpc.CommandServiceBlockingStub commandService =
-                CommandServiceGrpc.newBlockingStub(channel);
-
-        QueryServiceGrpc.QueryServiceBlockingStub queryService =
-                QueryServiceGrpc.newBlockingStub(channel);
-
-        // Create and post a command.
-        ActorRequestFactory requestFactory = ActorRequestFactory
-                .newBuilder()
-                .setActor(whoIsCalling())
-                .build();
+        Client client = Client.usingChannel(channel)
+                              .build();
+        UserId user = whoIsCalling();
 
         /*
          * Generate a new task ID.
@@ -109,25 +97,34 @@ public class ClientApp {
          */
         TaskId taskId = TaskId.generate();
         CreateTask createTask = newCreateTaskCommand(taskId, "Reset wall clock");
-        Command cmd = requestFactory.command()
-                                    .create(createTask);
-        Ack acked = commandService.post(cmd);
-        info("A command has been posted: %s", Stringifiers.toString(createTask));
-        info("(command acknowledgement: %s)", Stringifiers.toString(acked));
+
+        /*
+         * Send a command to the server and observe the events produced by this command.
+         */
+        CountDownLatch taskCreated = new CountDownLatch(1);
+        ImmutableSet<Subscription> subscriptions =
+                client.onBehalfOf(user)
+                      .command(createTask)
+                      .observe(TaskCreated.class, event -> taskCreated.countDown())
+                      .onStreamingError(ClientApp::throwProcessingError)
+                      .post();
 
         /*
          * Events, reflecting the changes caused by a command, travel from the write-side
          * to the read-side asynchronously.
          * Therefore some time should pass for the read-side to reflect the changes made.
          */
-        sleepUninterruptibly(100, MILLISECONDS);
+        taskCreated.await();
 
-        // Create and execute a query.
-        Query taskQuery = requestFactory.query()
-                                        .byIds(Task.class, ImmutableSet.of(taskId));
+        // Cancel the event subscriptions.
+        subscriptions.forEach(client::cancel);
+
         info("Reading the task...");
-        QueryResponse response = queryService.read(taskQuery);
-        info("A response received: %s", Stringifiers.toString(response));
+        ImmutableList<Task> tasks = client.onBehalfOf(user)
+                                          .select(Task.class)
+                                          .byId(taskId)
+                                          .run();
+        info("A response received: %s", tasks);
     }
 
     /**
@@ -161,6 +158,12 @@ public class ClientApp {
                 .setValue(newUuid())
                 .vBuild();
         return actorId;
+    }
+
+    private static void throwProcessingError(Throwable throwable) {
+        throw newIllegalStateException(
+                throwable, "An error while processing the command result."
+        );
     }
 
     private static void info(String msg) {

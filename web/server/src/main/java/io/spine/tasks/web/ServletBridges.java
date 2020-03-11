@@ -23,8 +23,6 @@ package io.spine.tasks.web;
 import io.spine.tasks.server.TasksContext;
 import io.spine.web.firebase.query.FirebaseQueryBridge;
 import io.spine.web.firebase.subscription.FirebaseSubscriptionBridge;
-import io.spine.web.query.QueryBridge;
-import io.spine.web.subscription.SubscriptionBridge;
 
 /**
  * A factory of the bridges between the servlet API and the {@code Tasks} context.
@@ -37,7 +35,7 @@ final class ServletBridges {
     private ServletBridges() {
     }
 
-    static SubscriptionBridge subscription() {
+    static FirebaseSubscriptionBridge subscription() {
         return FirebaseSubscriptionBridge
                 .newBuilder()
                 .setFirebaseClient(Firebase.client())
@@ -45,7 +43,7 @@ final class ServletBridges {
                 .build();
     }
 
-    static QueryBridge query() {
+    static FirebaseQueryBridge query() {
         return FirebaseQueryBridge
                 .newBuilder()
                 .setFirebaseClient(Firebase.client())
