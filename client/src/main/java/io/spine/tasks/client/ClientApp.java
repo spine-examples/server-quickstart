@@ -162,7 +162,7 @@ public class ClientApp {
 
     private static void throwProcessingError(Throwable throwable) {
         throw newIllegalStateException(
-                throwable, "An error when processing the command result."
+                throwable, "An error while processing the command result."
         );
     }
 
