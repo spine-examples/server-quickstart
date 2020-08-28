@@ -26,7 +26,7 @@ spine.enableJava().server()
 
 dependencies {
     implementation project(path: ':server')
-    implementation "io.spine.gcloud:spine-firebase-web:${spine.version()}"
+    implementation "io.spine.gcloud:spine-firebase-web:${deps.versions.spineWeb}"
 }
 
 final webResourcesRoot = "${project(':web:client').projectDir}/app"
