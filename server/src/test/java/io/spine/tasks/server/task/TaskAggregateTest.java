@@ -20,13 +20,12 @@
 
 package io.spine.tasks.server.task;
 
-import io.spine.server.DefaultRepository;
+import io.spine.server.BoundedContextBuilder;
 import io.spine.tasks.Task;
 import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
 import io.spine.tasks.event.TaskCreated;
-import io.spine.testing.server.blackbox.BlackBoxBoundedContext;
-import io.spine.testing.server.blackbox.SingleTenantBlackBoxContext;
+import io.spine.testing.server.blackbox.BlackBoxContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,14 +47,16 @@ class TaskAggregateTest {
                 .setId(taskId)
                 .setTitle(taskTitle)
                 .vBuild();
-        SingleTenantBlackBoxContext context = BlackBoxBoundedContext
-                .singleTenant()
-                .with(DefaultRepository.of(TaskAggregate.class))
+        BoundedContextBuilder contextBuilder = BoundedContextBuilder
+                .assumingTests()
+                .add(TaskAggregate.class);
+        BlackBoxContext context = BlackBoxContext
+                .from(contextBuilder)
                 .receivesCommand(command);
         context.assertEvents()
                .withType(TaskCreated.class)
                .hasSize(1);
-        context.assertEntityWithState(Task.class, taskId)
+        context.assertEntityWithState(taskId, Task.class)
                .hasStateThat()
                .isEqualTo(expectedState);
     }

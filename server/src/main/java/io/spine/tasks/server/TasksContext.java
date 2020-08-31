@@ -20,9 +20,9 @@
 
 package io.spine.tasks.server;
 
+import io.spine.base.Environment;
 import io.spine.server.BoundedContext;
 import io.spine.server.CommandService;
-import io.spine.server.DefaultRepository;
 import io.spine.server.QueryService;
 import io.spine.server.ServerEnvironment;
 import io.spine.server.SubscriptionService;
@@ -70,14 +70,14 @@ public final class TasksContext {
      * the truly persistent storage factory of choice.
      */
     private static BoundedContext createContext() {
-
         ServerEnvironment serverEnvironment = ServerEnvironment.instance();
-        serverEnvironment.configureStorage(InMemoryStorageFactory.newInstance());
-        serverEnvironment.configureTransport(InMemoryTransportFactory.newInstance());
+        Environment env = Environment.instance();
+        serverEnvironment.use(InMemoryStorageFactory.newInstance(), env.type());
+        serverEnvironment.use(InMemoryTransportFactory.newInstance(), env.type());
 
         BoundedContext context = BoundedContext
                 .singleTenant(NAME)
-                .add(DefaultRepository.of(TaskAggregate.class))
+                .add(TaskAggregate.class)
                 .build();
         return context;
     }

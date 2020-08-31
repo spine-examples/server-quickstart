@@ -117,7 +117,7 @@ public class ClientApp {
         taskCreated.await();
 
         // Cancel the event subscriptions.
-        subscriptions.forEach(client::cancel);
+        subscriptions.forEach(client.subscriptions()::cancel);
 
         info("Reading the task...");
         ImmutableList<Task> tasks = client.onBehalfOf(user)
