@@ -25,12 +25,19 @@ import io.spine.tasks.Task;
 import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
 import io.spine.tasks.event.TaskCreated;
-import io.spine.testing.server.blackbox.BlackBoxContext;
+import io.spine.testing.server.blackbox.ContextAwareTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("`TaskAggregate` should")
-class TaskAggregateTest {
+class TaskAggregateTest extends ContextAwareTest {
+
+    @Override
+    protected BoundedContextBuilder contextBuilder() {
+        return BoundedContextBuilder
+                .assumingTests()
+                .add(TaskAggregate.class);
+    }
 
     @Test
     @DisplayName("emit `TaskCreated` event on `CreateTask` command and change state")
@@ -47,17 +54,12 @@ class TaskAggregateTest {
                 .setId(taskId)
                 .setTitle(taskTitle)
                 .vBuild();
-        BoundedContextBuilder contextBuilder = BoundedContextBuilder
-                .assumingTests()
-                .add(TaskAggregate.class);
-        BlackBoxContext context = BlackBoxContext
-                .from(contextBuilder)
-                .receivesCommand(command);
-        context.assertEvents()
-               .withType(TaskCreated.class)
-               .hasSize(1);
-        context.assertEntityWithState(taskId, Task.class)
-               .hasStateThat()
-               .isEqualTo(expectedState);
+        context().receivesCommand(command);
+        context().assertEvents()
+                 .withType(TaskCreated.class)
+                 .hasSize(1);
+        context().assertEntityWithState(taskId, Task.class)
+                 .hasStateThat()
+                 .isEqualTo(expectedState);
     }
 }
