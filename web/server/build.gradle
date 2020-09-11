@@ -22,10 +22,7 @@ plugins {
     id 'org.gretty' version '3.0.3'
 }
 
-spine.enableJava(){
-    server()
-    firebaseWebServer()
-}
+spine.enableJava().firebaseWebServer()
 
 dependencies {
     implementation project(path: ':server')
