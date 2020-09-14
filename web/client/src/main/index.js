@@ -69,7 +69,7 @@ class TaskController {
         this._client.command(cmd)
                     .onOk(() => console.log("Command sent."))
                     .onError((err) => console.log("Command errored: " + err))
-                    .onRejection((rej) => console.log("Command rejected: " + rej))
+                    .onImmediateRejection((rej) => console.log("Command rejected: " + rej))
                     .post();
     }
 
