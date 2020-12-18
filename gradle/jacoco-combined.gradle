@@ -48,7 +48,7 @@ task jacocoRootReport(dependsOn: javaProjects.test, type: JacocoReport) {
     // It is required to set some default value in order for the task to initialize.
     // This value is overridden in `#doFirst` section.
     additionalSourceDirs.from files()
-    sourceDirectories.from  files()
+    sourceDirectories.from files()
     executionData.from files()
     classDirectories.from files()
 

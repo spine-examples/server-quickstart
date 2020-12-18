@@ -70,10 +70,11 @@ public final class TasksContext {
      * the truly persistent storage factory of choice.
      */
     private static BoundedContext createContext() {
-        ServerEnvironment serverEnvironment = ServerEnvironment.instance();
         Environment env = Environment.instance();
-        serverEnvironment.use(InMemoryStorageFactory.newInstance(), env.type());
-        serverEnvironment.use(InMemoryTransportFactory.newInstance(), env.type());
+        ServerEnvironment
+                .when(env.type())
+                .use(InMemoryStorageFactory.newInstance())
+                .use(InMemoryTransportFactory.newInstance());
 
         BoundedContext context = BoundedContext
                 .singleTenant(NAME)

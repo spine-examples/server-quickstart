@@ -94,6 +94,7 @@ final class Firebase {
     /**
      * Creates a fake {@code AccessToken} suitable for the Firebase RDB emulator.
      */
+    @SuppressWarnings("JdkObsolete") // we're forced to use Date for AccessToken.
     private static AccessToken tokenForEmulator() {
         Date expirationDate = Date.from(Instant.now()
                                                .plus(Duration.of(1, ChronoUnit.DAYS)));

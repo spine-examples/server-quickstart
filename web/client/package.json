@@ -1,6 +1,6 @@
 {
   "name": "quick-client",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Web client of the Quickstart project",
   "repository": {
     "type": "git",
@@ -11,14 +11,14 @@
     "build": "webpack"
   },
   "dependencies": {
-    "firebase": "^7.20.0",
-    "rxjs": "~6.5.1",
-    "spine-web": "^1.6.0",
+    "firebase": "^7.24.0",
+    "rxjs": "~6.5.5",
+    "spine-web": "^1.7.0",
     "uuid": "latest"
   },
   "devDependencies": {
     "firebase-server": "^1.1.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.1"
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   }
 }
