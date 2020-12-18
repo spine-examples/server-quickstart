@@ -32,7 +32,9 @@ import io.spine.tasks.TaskId;
 import io.spine.tasks.command.CreateTask;
 import io.spine.tasks.event.TaskCreated;
 import io.spine.testing.server.blackbox.ContextAwareTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("`TaskAggregate` should")
@@ -45,27 +47,43 @@ class TaskAggregateTest extends ContextAwareTest {
                 .add(TaskAggregate.class);
     }
 
-    @Test
-    @DisplayName("emit `TaskCreated` event on `CreateTask` command and change state")
-    void handleCreateTask() {
-        TaskId taskId = TaskId.generate();
-        String taskTitle = "Learn Domain-driven Design.";
-        CreateTask command = CreateTask
-                .newBuilder()
-                .setId(taskId)
-                .setTitle(taskTitle)
-                .vBuild();
-        Task expectedState = Task
-                .newBuilder()
-                .setId(taskId)
-                .setTitle(taskTitle)
-                .vBuild();
-        context().receivesCommand(command);
-        context().assertEvents()
-                 .withType(TaskCreated.class)
-                 .hasSize(1);
-        context().assertEntityWithState(taskId, Task.class)
-                 .hasStateThat()
-                 .isEqualTo(expectedState);
+    @Nested
+    @DisplayName("handle a `Task` creation")
+    class TaskCreation {
+
+        private static final String taskTitle = "Learn Domain-driven Design.";
+        private final TaskId taskId = TaskId.generate();
+
+        @BeforeEach
+        void createTask() {
+            CreateTask command = CreateTask
+                    .newBuilder()
+                    .setId(taskId)
+                    .setTitle(taskTitle)
+                    .vBuild();
+            context().receivesCommand(command);
+        }
+
+        @Test
+        @DisplayName("emitting `TaskCreated` event")
+        void emitEvent() {
+            TaskCreated expected = TaskCreated
+                    .newBuilder()
+                    .setId(taskId)
+                    .setTitle(taskTitle)
+                    .vBuild();
+            context().assertEvent(expected);
+        }
+
+        @Test
+        @DisplayName("modifying the `Task` state")
+        void modifyState() {
+            Task expected = Task
+                    .newBuilder()
+                    .setId(taskId)
+                    .setTitle(taskTitle)
+                    .vBuild();
+            context().assertState(taskId, expected);
+        }
     }
 }
