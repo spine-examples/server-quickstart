@@ -6,9 +6,11 @@ A simple example of server application in Spine to get you started.
 
 * Install JDK 8 or higher.
 * Clone the source code: 
+  
     ```bash
     git clone git@github.com:spine-examples/server-quickstart.git
     ```
+  
 * Run `./gradlew clean build` (or `gradlew.bat clean build` on Windows) in the project root folder.
 
 ## Structure
@@ -164,8 +166,8 @@ Run `ClientApp.main()` to start the client and see it connecting to the server.
 * Restart the server. Run the client and make sure that the due date is set to the task. 
 
 ## Further Reading
-* [Core Spine concepts](https://spine.io/docs/guides/concepts.html)
-* [Domain model definition](https://spine.io/docs/guides/model-definition.html)
+* [Core Spine concepts](https://spine.io/docs/introduction/concepts.html)
+* [Naming Conventions](https://spine.io/docs/introduction/naming-conventions.html)
 * [Java Web server implementation](https://github.com/SpineEventEngine/web)
 * [JavaScript client library](https://www.npmjs.com/package/spine-web)
 * [An example project with a bigger model](https://github.com/SpineEventEngine/todo-list)
