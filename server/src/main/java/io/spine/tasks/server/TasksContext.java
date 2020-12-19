@@ -1,5 +1,11 @@
 /*
- * Copyright 2019, TeamDev. All rights reserved.
+ * Copyright 2020, TeamDev. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -70,10 +76,11 @@ public final class TasksContext {
      * the truly persistent storage factory of choice.
      */
     private static BoundedContext createContext() {
-        ServerEnvironment serverEnvironment = ServerEnvironment.instance();
         Environment env = Environment.instance();
-        serverEnvironment.use(InMemoryStorageFactory.newInstance(), env.type());
-        serverEnvironment.use(InMemoryTransportFactory.newInstance(), env.type());
+        ServerEnvironment
+                .when(env.type())
+                .use(InMemoryStorageFactory.newInstance())
+                .use(InMemoryTransportFactory.newInstance());
 
         BoundedContext context = BoundedContext
                 .singleTenant(NAME)
