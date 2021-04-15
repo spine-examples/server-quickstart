@@ -25,7 +25,7 @@
  */
 
 plugins {
-    id 'com.github.psxpaul.execfork' version '0.1.13'
+    id 'com.github.psxpaul.execfork' version '0.1.15'
 }
 
 task runEmulator(type: com.github.psxpaul.task.ExecFork) {
