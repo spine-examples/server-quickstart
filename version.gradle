@@ -27,14 +27,14 @@
 final def versions = [
         errorProne      : "2.4.0",
         errorProneJavac : "9+181-r4173-1", // taken from here: https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts
-        guava           : "30.0-jre",
+        guava           : "31.0.1-jre",
         netty           : "1.28.1",
-        checkerFramework: "3.7.1",
-        flogger         : "0.5.1",
-        pmd             : "6.24.0",
+        checkerFramework: "3.21.0",
+        pmd             : "6.41.0",
+        javaxAnnotations: "1.3.2",
 
-        junit5          : "5.7.0",
-        junitPlatform   : "1.7.0"
+        junit5          : "5.8.1",
+        junitPlatform   : "1.8.1"
 ]
 
 ext {
